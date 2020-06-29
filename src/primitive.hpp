@@ -7,8 +7,8 @@
 class Primitive {
     public:
         Surface* surface;
-        virtual Vector3 intersect(Ray ray);
-        virtual Vector3 normal(Vector3 point);
+        virtual Vector3 intersect(Ray ray) {};
+        virtual Vector3 normal(Vector3 point) {};
 };
 
 #endif
