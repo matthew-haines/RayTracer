@@ -103,3 +103,8 @@ void Vector3::normalize() {
     y /= magnitude;
     z /= magnitude;
 }
+
+Vector3 Vector3::normalized() {
+    double magnitude = length();
+    return Vector3(x / magnitude, y / magnitude, z / magnitude);
+}

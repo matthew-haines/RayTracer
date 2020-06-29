@@ -7,10 +7,10 @@ class Sphere: Primitive {
     private:
         Vector3 center;
         double radius;
+        double radius2;
     public:
         Sphere(Vector3 center, double radius);
-        Vector3 intersect(Ray ray);
-        Vector3 normal();
+        double intersect(Ray ray, Vector3 *intersectPoint, Vector3 *normal);
 };
 
 #endif

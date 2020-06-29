@@ -40,3 +40,16 @@
 
 # Acceleration
 - Make a BVH
+
+# Basic Algorithm
+raytrace(ray):
+    for object in objects:
+        if intersect_dist < min_dist:
+            min_dist := intersect_dist
+            min_obj := object
+        
+    if min_dist != inf:
+        return spectrum(refract_ray, reflect_ray, diffuse_func)
+
+for ray in rays:
+    pixel := to_rgb(raytrace(ray))

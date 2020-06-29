@@ -27,6 +27,7 @@ class Vector3 {
         Vector3 cross(Vector3 vec);
         double length();
         void normalize();
+        Vector3 normalized();
 };
 
 #endif

@@ -1,32 +1,22 @@
-TARGET_EXEC ?= tracer
+CXX := g++
 
-BUILD_DIR ?= build
-SRC_DIRS ?= src
+SRCDIR := src
+OBJDIR := obj
+BINDIR := bin
+TARGET := tracer
+CPPFLAGS := -c
+LDLIBS := -lm
 
-SRCS := $(shell find $(SRC_DIRS) -name *.cpp)
-OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
-DEPS := $(OBJS:.o=.d)
+SOURCES :=  $(wildcard $(SRCDIR)/*.cpp)
+OBJECTS := $(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o,$(SOURCES))
 
-INC_DIRS := $(shell find $(SRC_DIRS) -type d)
-INC_FLAGS := $(addprefix -I,$(INC_DIRS))
+$(BINDIR)/$(TARGET): $(OBJECTS)
+	$(CXX) -o $@ $+ $(LDLIBS)
 
-CPPFLAGS ?= $(INC_FLAGS) -MMD -MP
-LDFLAGS := -lm
+$(OBJECTS): $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
+	$(CXX) $(CPPFLAGS) -o $@ $^
 
-$(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
-	$(CXX) $(OBJS) -o $@ $(LDFLAGS)
-
-# c++ source
-$(BUILD_DIR)/%.cpp.o: %.cpp
-	$(MKDIR_P) $(dir $@)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
-
-
-.PHONY: clean
+.PHONY: build clean
 
 clean:
-	$(RM) -r $(BUILD_DIR)
-
--include $(DEPS)
-
-MKDIR_P ?= mkdir -p
+	rm -f $(OBJDIR)/*
