@@ -32,3 +32,7 @@ Color operator+(Color a, Color b) {
     Color c = a;
     return c += b;
 }
+
+char ColorToChar(double color) {
+    return (char)(std::min(color, 1.0) * 255);
+}

@@ -1,5 +1,6 @@
 #ifndef VECTOR3_HPP
 #define VECTOR3_HPP
+#include "matrix3.hpp"
 
 class Vector3 {
     public:
@@ -29,5 +30,7 @@ class Vector3 {
         void normalize();
         Vector3 normalized();
 };
+
+Vector3 operator*(Matrix3 mat, Vector3 vec);
 
 #endif

@@ -64,7 +64,7 @@ Color RayTrace(Ray ray, int depth, Surface medium) {
         }
         if (depth < MAX_DEPTH) {
             // Specular Reflection
-            Ray reflectionRay = {closestIntersect, closestNormal * 2 + ray.direction};
+            Ray reflectionRay = {closestIntersect, ray.direction - closestNormal * 2.0 * ray.direction.dot(closestNormal)};
             color += RayTrace(reflectionRay, depth + 1, medium) * closestPrimitive->surface->specular_coefficient;
             // Specular Refraction 
             double relativeRefraction = closestPrimitive->surface->refraction_index / medium.refraction_index;
