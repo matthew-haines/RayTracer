@@ -1,5 +1,6 @@
 #ifndef VECTOR3_HPP
 #define VECTOR3_HPP
+#include "matrix3.hpp"
 
 class Vector3 {
     public:
@@ -30,5 +31,6 @@ Vector3 operator-(Vector3 a, double b);
 Vector3 operator*(Vector3 a, double b);
 Vector3 operator/(Vector3 a, double b);
 bool operator==(Vector3 a, Vector3 b);
+Vector3 operator*(Matrix3 a, Vector3 b);
 
 #endif
