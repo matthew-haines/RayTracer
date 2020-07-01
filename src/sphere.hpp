@@ -3,7 +3,7 @@
 #include "primitive.hpp"
 #include "vector3.hpp"
 
-class Sphere: Primitive {
+class Sphere: public Primitive {
     private:
         Vector3 center;
         double radius;

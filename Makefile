@@ -4,7 +4,7 @@ SRCDIR := src
 OBJDIR := obj
 BINDIR := bin
 TARGET := tracer
-CPPFLAGS := -c
+CPPFLAGS := -c -g
 LDLIBS := -lm
 
 SOURCES :=  $(wildcard $(SRCDIR)/*.cpp)

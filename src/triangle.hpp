@@ -3,7 +3,7 @@
 #include "primitive.hpp"
 #include "vector3.hpp"
 
-class Triangle: Primitive {
+class Triangle: public Primitive {
     private:
         Vector3 v0, v1, v2;
     public:

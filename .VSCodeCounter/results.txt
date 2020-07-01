@@ -1,12 +1,12 @@
-Date : 2020-06-29 17:06:48
+Date : 2020-06-30 13:48:53
 Directory : /home/matthew/Projects/raytracing
-Total : 19 files,  494 codes, 10 comments, 100 blanks, all 604 lines
+Total : 23 files,  5750 codes, 2240 comments, 1052 blanks, all 9042 lines
 
 Languages
 +----------+------------+------------+------------+------------+------------+
 | language | files      | code       | comment    | blank      | total      |
 +----------+------------+------------+------------+------------+------------+
-| C++      |         17 |        437 |         10 |         80 |        527 |
+| C++      |         21 |      5,693 |      2,240 |      1,032 |      8,965 |
 | Markdown |          1 |         41 |          0 |         14 |         55 |
 | Makefile |          1 |         16 |          0 |          6 |         22 |
 +----------+------------+------------+------------+------------+------------+
@@ -15,8 +15,8 @@ Directories
 +----------------------------------------------------------------------+------------+------------+------------+------------+------------+
 | path                                                                 | files      | code       | comment    | blank      | total      |
 +----------------------------------------------------------------------+------------+------------+------------+------------+------------+
-| .                                                                    |         19 |        494 |         10 |        100 |        604 |
-| src                                                                  |         15 |        342 |          6 |         66 |        414 |
+| .                                                                    |         23 |      5,750 |      2,240 |      1,052 |      9,042 |
+| src                                                                  |         19 |      5,598 |      2,236 |      1,018 |      8,852 |
 | tests                                                                |          2 |         95 |          4 |         14 |        113 |
 +----------------------------------------------------------------------+------------+------------+------------+------------+------------+
 
@@ -26,22 +26,26 @@ Files
 +----------------------------------------------------------------------+----------+------------+------------+------------+------------+
 | /home/matthew/Projects/raytracing/Makefile                           | Makefile |         16 |          0 |          6 |         22 |
 | /home/matthew/Projects/raytracing/architecture.md                    | Markdown |         41 |          0 |         14 |         55 |
-| /home/matthew/Projects/raytracing/src/camera.hpp                     | C++      |          7 |          0 |          4 |         11 |
-| /home/matthew/Projects/raytracing/src/color.cpp                      | C++      |         28 |          0 |          6 |         34 |
-| /home/matthew/Projects/raytracing/src/color.hpp                      | C++      |         14 |          0 |          3 |         17 |
+| /home/matthew/Projects/raytracing/src/camera.hpp                     | C++      |         11 |          0 |          3 |         14 |
+| /home/matthew/Projects/raytracing/src/color.cpp                      | C++      |         31 |          0 |          7 |         38 |
+| /home/matthew/Projects/raytracing/src/color.hpp                      | C++      |         17 |          0 |          4 |         21 |
 | /home/matthew/Projects/raytracing/src/constants.hpp                  | C++      |          4 |          0 |          3 |          7 |
+| /home/matthew/Projects/raytracing/src/lodepng.cpp                    | C++      |      4,750 |        841 |        820 |      6,411 |
+| /home/matthew/Projects/raytracing/src/lodepng.h                      | C++      |        431 |      1,389 |        126 |      1,946 |
+| /home/matthew/Projects/raytracing/src/perspective_camera.cpp         | C++      |         46 |          0 |          3 |         49 |
+| /home/matthew/Projects/raytracing/src/perspective_camera.hpp         | C++      |         18 |          0 |          2 |         20 |
 | /home/matthew/Projects/raytracing/src/point_light.hpp                | C++      |          9 |          0 |          2 |         11 |
 | /home/matthew/Projects/raytracing/src/primitive.hpp                  | C++      |         11 |          0 |          2 |         13 |
 | /home/matthew/Projects/raytracing/src/ray.hpp                        | C++      |          7 |          0 |          2 |          9 |
 | /home/matthew/Projects/raytracing/src/sphere.cpp                     | C++      |         29 |          2 |          2 |         33 |
 | /home/matthew/Projects/raytracing/src/sphere.hpp                     | C++      |         14 |          0 |          2 |         16 |
 | /home/matthew/Projects/raytracing/src/surface.hpp                    | C++      |          8 |          0 |          2 |         10 |
-| /home/matthew/Projects/raytracing/src/tracer.cpp                     | C++      |         74 |          4 |          7 |         85 |
+| /home/matthew/Projects/raytracing/src/tracer.cpp                     | C++      |         75 |          4 |          7 |         86 |
 | /home/matthew/Projects/raytracing/src/triangle.cpp                   | C++      |          6 |          0 |          4 |         10 |
 | /home/matthew/Projects/raytracing/src/triangle.hpp                   | C++      |         12 |          0 |          3 |         15 |
 | /home/matthew/Projects/raytracing/src/vector3.cpp                    | C++      |         88 |          0 |         22 |        110 |
 | /home/matthew/Projects/raytracing/src/vector3.hpp                    | C++      |         31 |          0 |          2 |         33 |
 | /home/matthew/Projects/raytracing/tests/vector3_eigen_speed_test.cpp | C++      |         79 |          4 |         11 |         94 |
 | /home/matthew/Projects/raytracing/tests/vector3_test.cpp             | C++      |         16 |          0 |          3 |         19 |
-| Total                                                                |          |        494 |         10 |        100 |        604 |
+| Total                                                                |          |      5,750 |      2,240 |      1,052 |      9,042 |
 +----------------------------------------------------------------------+----------+------------+------------+------------+------------+

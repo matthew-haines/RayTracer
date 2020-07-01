@@ -2,6 +2,7 @@
 #include "perspective_camera.hpp"
 #include "vector3.hpp"
 #include "lodepng.h"
+#include "surface.hpp"
 #include <math.h>
 #include <iostream>
 #include <functional>
@@ -14,18 +15,19 @@ PerspectiveCamera::PerspectiveCamera(int width, int height, double fov, Vector3 
     for (int row = 0; row < height; row++) {
         rays[row] = new Ray[width];
         for (int column = 0; column < width; column++) {
-            Ray ray = {Vector3(0.0, 0.0, 0.0), Vector3(1.0, (stepSize - maxWidth)/2 + column * stepSize, (maxHeight-stepSize)/2 - row * stepSize)};
+            Ray ray = {Vector3(0.0, 0.0, 0.0), Vector3(1.0, (stepSize - maxWidth)/2 + column * stepSize, (maxHeight-stepSize)/2 - row * stepSize).normalized()};
             rays[row][column] = ray;
         }
     }
 }
 
-void PerspectiveCamera::generate(std::function<Color(Ray, int)> raytrace) {
+void PerspectiveCamera::generate(std::function<Color(Ray, int, Surface)> raytrace, Surface medium) {
     colors = new Color*[height];
     for (int row = 0; row < height; row ++) {
         colors[row] = new Color[width];
         for (int column = 0; column < width; column++) {
-            colors[row][column] = raytrace(rays[row][column], 4); 
+            Color result = raytrace(rays[row][column], 1, medium); 
+            colors[row][column] = result;
         }
     }
 }
@@ -34,7 +36,7 @@ void PerspectiveCamera::write(char *filename) {
     std::vector<unsigned char> buffer(width * height * 4);
     for (int row = 0; row < height; row ++) {
         for (int column = 0; column < width; column++) {
-            int baseIndex = width * row + column;
+            int baseIndex = 4 * width * row + column * 4;
             Color color = colors[row][column];
             buffer[baseIndex] = ColorToChar(color.r);
             buffer[baseIndex+1] = ColorToChar(color.g);
@@ -43,7 +45,7 @@ void PerspectiveCamera::write(char *filename) {
         }
     }
     unsigned error = lodepng::encode(filename, buffer, width, height);
-    if (!error) {
+    if (error) {
         std::cout << "Encoding error: " << error << ": " << lodepng_error_text(error) << std::endl;
     }
 }
