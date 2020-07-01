@@ -1,9 +1,9 @@
 #ifndef CAMAERA_HPP
 #define CAMAERA_HPP
-#include <functional>
 #include "color.hpp"
 #include "surface.hpp"
 #include "ray.hpp"
+#include <functional>
 
 class Camera {
     public:

@@ -7,7 +7,7 @@ Sphere::Sphere(Vector3 center, double radius): center(center), radius(radius) {
     radius2 = radius * radius;
 }
 
-double Sphere::intersect(Ray ray, Vector3 *intersectPoint, Vector3 *normal) {
+double Sphere::intersect(Ray ray, Vector3 *intersect, Vector3 *normal) {
     Vector3 distance = center - ray.origin;
     double distance2 = distance.dot(distance);
     double lengthToClosest = distance.dot(ray.direction);
@@ -27,7 +27,7 @@ double Sphere::intersect(Ray ray, Vector3 *intersectPoint, Vector3 *normal) {
         // Ray inside sphere
         intersectDistance = lengthToClosest + sqrt(halfChordDistance2);
     }
-    *intersectPoint = ray.direction * intersectDistance + ray.origin;
-    *normal = (*intersectPoint - center) / radius;
+    *intersect = ray.direction * intersectDistance + ray.origin;
+    *normal = (*intersect - center) / radius;
     return intersectDistance;
 };

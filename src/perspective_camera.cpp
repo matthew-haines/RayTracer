@@ -1,8 +1,8 @@
-#include "color.hpp"
 #include "perspective_camera.hpp"
+#include "color.hpp"
 #include "vector3.hpp"
-#include "lodepng.h"
 #include "surface.hpp"
+#include "lodepng.h"
 #include <math.h>
 #include <iostream>
 #include <functional>

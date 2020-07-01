@@ -1,7 +1,3 @@
-#include <iostream>
-#include <vector>
-#include <limits>
-#include <math.h>
 #include "primitive.hpp"
 #include "vector3.hpp"
 #include "sphere.hpp"
@@ -10,6 +6,10 @@
 #include "color.hpp"
 #include "constants.hpp"
 #include "perspective_camera.hpp"
+#include <iostream>
+#include <vector>
+#include <limits>
+#include <math.h>
 
 #define MAX_DEPTH 16
 

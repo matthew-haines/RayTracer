@@ -1,5 +1,5 @@
 #include "matrix3.hpp"
-#include "math.h"
+#include <math.h>
 
 Matrix3::Matrix3(double x11, double x12, double x13, double x21, double x22, double x23, double x31, double x32, double x33) : x11(x11), x12(x12), x13(x13), x21(x21), x22(x22), x23(x23), x31(x31), x32(x32), x33(x33) {};
 
