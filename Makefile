@@ -5,7 +5,7 @@ OBJDIR := obj
 BINDIR := bin
 TARGET := tracer
 CPPFLAGS := -c -g
-LDLIBS := -lm
+LDLIBS := -lm -lpthread
 
 SOURCES :=  $(wildcard $(SRCDIR)/*.cpp)
 OBJECTS := $(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o,$(SOURCES))

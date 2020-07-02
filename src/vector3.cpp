@@ -2,7 +2,7 @@
 #include "matrix3.hpp"
 #include <math.h>
 
-Vector3::Vector3(double x, double y, double z): x(x), y(y), z(y) {}
+Vector3::Vector3(double x, double y, double z): x(x), y(y), z(z) {}
 
 Vector3& Vector3::operator+=(Vector3 vec) {
     x += vec.x;

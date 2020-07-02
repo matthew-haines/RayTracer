@@ -2,6 +2,7 @@
 #include "naive_intersector.hpp"
 #include "ray.hpp"
 #include "primitive.hpp"
+#include "constants.hpp"
 #include <limits>
 #include <vector>
 
@@ -13,7 +14,7 @@ double NaiveIntersector::getIntersect(Ray ray, Vector3 *intersect, Vector3 *norm
     Vector3 tempIntersect, tempNormal;
     for (Primitive* primitive : primitives) {
         double distance = primitive->intersect(ray, &tempIntersect, &tempNormal);
-        if (distance < closestDistance) {
+        if (distance > -epsilon && distance < closestDistance) {
             *intersect = tempIntersect;
             *normal = tempNormal;
             closestDistance = distance;
