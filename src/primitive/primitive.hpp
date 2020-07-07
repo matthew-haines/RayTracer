@@ -1,8 +1,8 @@
 #ifndef PRIMITIVE_HPP
 #define PRIMITIVE_HPP
-#include "material.hpp"
-#include "vector3.hpp"
-#include "ray.hpp"
+#include "../material.hpp"
+#include "../vector3.hpp"
+#include "../ray.hpp"
 
 class Primitive {
     public:

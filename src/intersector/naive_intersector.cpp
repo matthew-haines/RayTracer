@@ -1,8 +1,8 @@
-#include "vector3.hpp"
+#include "../vector3.hpp"
 #include "naive_intersector.hpp"
-#include "ray.hpp"
-#include "primitive.hpp"
-#include "constants.hpp"
+#include "../ray.hpp"
+#include "../primitive/primitive.hpp"
+#include "../constants.hpp"
 #include <limits>
 #include <vector>
 

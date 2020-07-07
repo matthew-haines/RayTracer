@@ -1,7 +1,7 @@
 #include "sphere.hpp"
-#include "ray.hpp"
-#include "math.h"
-#include "constants.hpp"
+#include "../ray.hpp"
+#include "../constants.hpp"
+#include <math.h>
 
 Sphere::Sphere(Vector3 center, double radius): center(center), radius(radius) {
     radius2 = radius * radius;

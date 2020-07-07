@@ -1,7 +1,7 @@
 #ifndef TRIANGLE_HPP
 #define TRIANGLE_HPP
 #include "primitive.hpp"
-#include "vector3.hpp"
+#include "../vector3.hpp"
 
 class Triangle: public Primitive {
     private:

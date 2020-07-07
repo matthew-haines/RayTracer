@@ -1,11 +1,11 @@
 #ifndef ADVANCED_LIGHTING_MODEL_HPP
 #define ADVANCED_LIGHTING_MODEL_HPP
 #include "lighting_model.hpp"
-#include "intersector.hpp"
+#include "../intersector/intersector.hpp"
 #include "point_light.hpp"
-#include "ray.hpp"
-#include "material.hpp"
-#include "vector3.hpp"
+#include "../ray.hpp"
+#include "../material.hpp"
+#include "../vector3.hpp"
 #include <vector>
 
 class AdvancedLightingModel: public LightingModel {

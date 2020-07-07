@@ -27,4 +27,4 @@ $(LIBOBJECTS): $(OBJDIR)/%.o: $(LIBDIR)/%.cpp
 .PHONY: build clean
 
 clean:
-	rm -f $(OBJDIR)/*
+	rm -rf $(OBJDIR)/*

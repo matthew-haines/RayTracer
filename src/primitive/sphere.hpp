@@ -1,7 +1,7 @@
 #ifndef SPHERE_HPP
 #define SPHERE_HPP
 #include "primitive.hpp"
-#include "vector3.hpp"
+#include "../vector3.hpp"
 
 class Sphere: public Primitive {
     private:

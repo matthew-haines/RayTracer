@@ -2,12 +2,12 @@
 #define SIMPLE_LIGHTING_MODEL_HPP
 #include "lighting_model.hpp"
 #include "point_light.hpp"
-#include "ray.hpp"
-#include "material.hpp"
-#include "primitive.hpp"
-#include "vector3.hpp"
-#include "intersector.hpp"
-#include "constants.hpp"
+#include "../ray.hpp"
+#include "../material.hpp"
+#include "../primitive/primitive.hpp"
+#include "../vector3.hpp"
+#include "../intersector/intersector.hpp"
+#include "../constants.hpp"
 #include <math.h>
 #include <vector>
 

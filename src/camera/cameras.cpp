@@ -1,7 +1,7 @@
 #include "cameras.hpp"
-#include "vector3.hpp"
-#include "matrix3.hpp"
-#include "ray.hpp"
+#include "../vector3.hpp"
+#include "../matrix3.hpp"
+#include "../ray.hpp"
 #include <math.h>
 #include <vector>
 

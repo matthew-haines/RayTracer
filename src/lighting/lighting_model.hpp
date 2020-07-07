@@ -1,7 +1,7 @@
 #ifndef LIGHTING_MODEL_HPP
 #define LIGHTING_MODEL_HPP
-#include "ray.hpp"
-#include "vector3.hpp"
+#include "../ray.hpp"
+#include "../vector3.hpp"
 
 class LightingModel {
     public:

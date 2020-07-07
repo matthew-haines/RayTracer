@@ -1,7 +1,7 @@
 #ifndef INTERSECTOR_HPP
 #define INTERSECTOR_HPP
-#include "primitive.hpp"
-#include "ray.hpp"
+#include "../primitive/primitive.hpp"
+#include "../ray.hpp"
 #include <vector>
 
 class Intersector {

@@ -1,8 +1,8 @@
 #ifndef NAIVE_INTERSECTOR_HPP
 #define NAIVE_INTERSECTOR_HPP
 #include "intersector.hpp"
-#include "ray.hpp"
-#include "primitive.hpp"
+#include "../ray.hpp"
+#include "../primitive/primitive.hpp"
 #include <vector>
 
 class NaiveIntersector: public Intersector {

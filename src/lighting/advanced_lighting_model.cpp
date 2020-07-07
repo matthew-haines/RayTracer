@@ -1,8 +1,8 @@
 #include "advanced_lighting_model.hpp"
-#include "helpers.hpp"
-#include "intersector.hpp"
-#include "ray.hpp"
-#include "material.hpp"
+#include "../helpers.hpp"
+#include "../intersector/intersector.hpp"
+#include "../ray.hpp"
+#include "../material.hpp"
 #include <algorithm>
 #include <math.h>
 #include <vector>
