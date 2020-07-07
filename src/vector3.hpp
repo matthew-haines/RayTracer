@@ -7,6 +7,7 @@ class Vector3 {
         double x, y, z;
         Vector3() = default;
         Vector3(double x, double y, double z);
+        Vector3(double x);
         Vector3& operator+=(Vector3 vec);         
         Vector3& operator-=(Vector3 vec);
         Vector3& operator*=(Vector3 vec);
@@ -32,5 +33,8 @@ Vector3 operator*(Vector3 a, double b);
 Vector3 operator/(Vector3 a, double b);
 bool operator==(Vector3 a, Vector3 b);
 Vector3 operator*(Matrix3 a, Vector3 b);
+
+Vector3 mix(Vector3 x, Vector3 y, double a);
+char ColorToChar(double color);
 
 #endif
