@@ -35,6 +35,7 @@ Vector3 operator-(Vector3& v);
 bool operator==(Vector3 a, Vector3 b);
 Vector3 operator*(Matrix3 a, Vector3 b);
 Vector3 SphericalToCartesian(Vector3 vec);
+Vector3 CartesianToSpherical(Vector3 vec);
 
 char ColorToChar(double color);
 

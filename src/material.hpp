@@ -18,6 +18,7 @@ typedef struct material {
     double clearcoat;
     double clearcoatGloss;
     Vector3 color;
+    material(): emission(0.0), metallic(0.0), subsurface(0.0), specular(0.5), roughness(0.5), specularTint(0.0), sheen(0.0), sheenTint(0.5), clearcoat(0.0), clearcoatGloss(1.0) {};
 } Material;
 
 #endif

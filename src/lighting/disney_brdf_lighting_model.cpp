@@ -4,10 +4,11 @@
 #include "../ray.hpp"
 #include "../material.hpp"
 #include "../matrix3.hpp"
+#include "../constants.hpp"
 #include <algorithm>
 #include <math.h>
 
-DisneyBRDFLightingModel::DisneyBRDFLightingModel(Vector3 ambient, Material *medium, Intersector *intersector, std::vector<PointLight> lights, int maxDepth=4): ambient(ambient), medium(medium), intersector(intersector), lights(lights), maxDepth(maxDepth) {
+DisneyBRDFLightingModel::DisneyBRDFLightingModel(Vector3 ambient, Material *medium, Intersector *intersector, int maxDepth=4): ambient(ambient), medium(medium), intersector(intersector), maxDepth(maxDepth) {
     std::random_device rd;
     gen = std::mt19937(rd());
     dis = std::uniform_real_distribution<>(0.0, M_PI);
@@ -82,14 +83,15 @@ Vector3 DisneyBRDFLightingModel::Evaluate(Ray ray, int depth) {
     if (distance == -1) {
         return ambient;
     }
-    double zRotation = atan(normal.y / normal.x);
-    double yRotation = atan(normal.z / Vector3(normal.x, normal.y, 0.0).length());
+    Vector3 sphericalNormal = CartesianToSpherical(normal);
     Ray newRay;
-    newRay.direction = Matrix3(0.0, yRotation, zRotation) * SphericalToCartesian(Vector3(1.0, dis(gen), dis(gen)-M_PI));
-    newRay.origin = intersect;
-    Vector3 color = primitive->material->emission;
+    Vector3 unrotated(1.0, dis(gen)-M_PI_2, dis(gen)-M_PI_2);
+    newRay.direction = SphericalToCartesian(Vector3(1.0, unrotated.y + sphericalNormal.y, unrotated.z + sphericalNormal.z));
+    newRay.origin = intersect + normal * epsilon;
+    Vector3 color = primitive->material->emission * primitive->material->color;
     if (depth < maxDepth) {
-        color += BRDF(newRay.direction, -ray.direction, normal, primitive->material) * Evaluate(newRay, depth+1);
+        Vector3 brdf = BRDF(newRay.direction, -ray.direction, normal, primitive->material);
+        color += brdf * Evaluate(newRay, depth+1);
     }
     return color;
 }

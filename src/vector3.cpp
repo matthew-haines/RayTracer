@@ -10,24 +10,28 @@ Vector3& Vector3::operator+=(Vector3 vec) {
     x += vec.x;
     y += vec.y;
     z += vec.z;
+    return *this;
 }
 
 Vector3& Vector3::operator-=(Vector3 vec) {
     x -= vec.x;
     y -= vec.y;
     z -= vec.z;
+    return *this;
 }
 
 Vector3& Vector3::operator*=(Vector3 vec) {
     x *= vec.x;
     y *= vec.y;
     z *= vec.z;
+    return *this;
 }
 
 Vector3& Vector3::operator/=(Vector3 vec) {
     x /= vec.x;
     y /= vec.y;
     z /= vec.z;
+    return *this;
 }
 
 Vector3 operator+(Vector3 a, Vector3 b) {
@@ -54,24 +58,28 @@ Vector3& Vector3::operator+=(double a) {
     x += a;
     y += a;
     z += a;
+    return *this;
 }
 
 Vector3& Vector3::operator-=(double a) {
     x -= a;
     y -= a;
     z -= a;
+    return *this;
 }
 
 Vector3& Vector3::operator*=(double a) {
     x *= a;
     y *= a;
     z *= a;
+    return *this;
 }
 
 Vector3& Vector3::operator/=(double a) {
     x /= a;
     y /= a;
     z /= a;
+    return *this;
 }
 
 Vector3 operator+(Vector3 a, double b) {
@@ -131,8 +139,13 @@ Vector3 operator*(Matrix3 a, Vector3 b) {
 }
 
 Vector3 SphericalToCartesian(Vector3 vec) {
-    // (r, z angle, x angle)
-    return Vector3(vec.x * sin(vec.z) * cos(vec.y), vec.x * sin(vec.z) * sin(vec.y), vec.x * cos(vec.z));
+    // (r, inclination, azimuth)
+    return Vector3(vec.x * sin(vec.y) * cos(vec.z), vec.x * sin(vec.y) * sin(vec.z), vec.x * cos(vec.y));
+}
+
+Vector3 CartesianToSpherical(Vector3 vec) {
+    // (r, inclination, azimuth)
+    return Vector3(vec.length(), atan2(sqrt(vec.x * vec.x + vec.y * vec.y), vec.z), atan2(vec.y, vec.x));
 }
 
 char ColorToChar(double color) {

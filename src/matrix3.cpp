@@ -26,6 +26,7 @@ Matrix3& Matrix3::operator*=(Matrix3 b) {
     x31 = x31 * b.x11 + x32 * b.x21 + x33 * b.x31;
     x32 = x31 * b.x12 + x32 * b.x22 + x33 * b.x32;
     x33 = x31 * b.x13 + x32 * b.x23 + x33 * b.x33;
+    return *this;
 }
 
 Matrix3 operator*(Matrix3 a, Matrix3 b) {

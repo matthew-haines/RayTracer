@@ -1,9 +1,11 @@
 #include "vector3.hpp"
 #include "ray.hpp"
 #include "primitive/sphere.hpp"
+#include "primitive/plane.hpp"
 #include "material.hpp"
 #include "camera/cameras.hpp"
 #include "lighting/simple_lighting_model.hpp"
+#include "lighting/disney_brdf_lighting_model.hpp"
 #include "lighting/point_light.hpp"
 #include "intersector/naive_intersector.hpp"
 #include "constants.hpp"
@@ -15,40 +17,70 @@
 #include <chrono>
 #include <vector>
 
-Vector3 ambient(0.1, 0.1, 0.1);
-Material matte;
-Material vacuum;
+Vector3 ambient(0.0);
+int samples = 100;
+int completedPixels = 0;
+int totalPixels;
 
-void RenderRange(int start, int stop, SimpleLightingModel *lightingModel, std::vector<Ray> *rays, std::vector<unsigned char> *buffer) {
+void RenderRange(int start, int stop, LightingModel *lightingModel, std::vector<Ray> *rays, std::vector<unsigned char> *buffer) {
     int bufferIndex = 4 * start;
     for (int i = start; i < stop; i++) {
-        Vector3 result = lightingModel->Evaluate((*rays)[i], 0);
+        Vector3 result = (0.0);
+        for (int j = 0; j < samples; j++) {
+            result += lightingModel->Evaluate((*rays)[i], 0);
+        }
+        result /= samples;
         // gamma correct all colors that were in linspace throughout processing
-        (*buffer)[bufferIndex] = ColorToChar(pow(result.x, 2.2)); // r
-        (*buffer)[++bufferIndex] = ColorToChar(pow(result.y, 2.2)); // g
-        (*buffer)[++bufferIndex] = ColorToChar(pow(result.z, 2.2)); // b
+        (*buffer)[bufferIndex] = ColorToChar(pow(result.x, 1/2.2)); // r
+        (*buffer)[++bufferIndex] = ColorToChar(pow(result.y, 1/2.2)); // g
+        (*buffer)[++bufferIndex] = ColorToChar(pow(result.z, 1/2.2)); // b
         (*buffer)[++bufferIndex] = 255;
         bufferIndex++;
+        completedPixels++;
+        if (completedPixels % (totalPixels / 100) == 0) {
+            std::cout << "\r" << 100 * completedPixels / totalPixels << "\%" << std::flush;
+        }
     }
 }
 
 int main() {
     int threads=8;
-    int width=1000, height=1000;
+    int width=500, height=500;
+    totalPixels = width * height;
 
     std::cout << "Generating Data Structures" << std::endl;
-
-    std::vector<PointLight> lights; 
-    lights.push_back({Vector3(0.0, 1.0, 4.0), Vector3(1.0, 1.0, 1.0)});
     
     std::vector<Primitive*> primitives;
-    Sphere sphere(Vector3(6.0, 0.0, 0.0), 1.0);
-    sphere.material = &matte;
+
+    Material *light = new Material();
+    light->emission = 2.0;
+    light->color = Vector3(1.0);
+    Material *red = new Material();
+    red->color = Vector3(1.0, 0.0, 0.0);
+    Material *green = new Material();
+    green->color = Vector3(0.0, 1.0, 0.0);
+    Material *white = new Material();
+    white->color = Vector3(1.0);
+    Material *vacuum = new Material();
+
+    Sphere sphere(Vector3(4.0, 0.0, 0.0), 1.0, light);
+    Plane front(Vector3(1.0, 0.0, 0.0), 2.0, white);
+    Plane back(Vector3(-1.0, 0.0, 0.0), 6.0, white);
+    Plane bottom(Vector3(0.0, 0.0, 1.0), 4.0, white);
+    Plane top(Vector3(0.0, 0.0, -1.0), 4.0, white);
+    Plane left(Vector3(0.0, -1.0, 0.0), 4.0, red);
+    Plane right(Vector3(0.0, 1.0, 0.0), 4.0, green);
     primitives.push_back(&sphere);
+    primitives.push_back(&front);
+    primitives.push_back(&back);
+    primitives.push_back(&bottom);
+    primitives.push_back(&top);
+    primitives.push_back(&left);
+    primitives.push_back(&right);
 
     NaiveIntersector intersector(primitives);
-    SimpleLightingModel lightingModel(ambient, &vacuum, &intersector, lights, 4);
-    std::vector<Ray> rays = PerspectiveCamera(width, height, M_PI / 3, Vector3(1, 0, 0));
+    DisneyBRDFLightingModel lightingModel(ambient, vacuum, &intersector, 4);
+    std::vector<Ray> rays = PerspectiveCamera(width, height, M_PI_2, Vector3(1, 0, 0));
 
     std::vector<unsigned char> buffer(width * height * 4);
 
