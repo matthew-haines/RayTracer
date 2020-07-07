@@ -6,4 +6,4 @@ obj/*
 a.out
 *.png
 .swp
-.txt
+*.txt
