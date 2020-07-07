@@ -118,12 +118,21 @@ Vector3 Vector3::normalized() {
     return Vector3(x / magnitude, y / magnitude, z / magnitude);
 }
 
+Vector3 operator-(Vector3& v) {
+    return Vector3(-v.x, -v.y, -v.z);
+}
+
 bool operator==(Vector3 a, Vector3 b) {
     return (a.x == b.x) && (a.y == b.y) && (a.z == b.z);
 }
 
 Vector3 operator*(Matrix3 a, Vector3 b) {
     return Vector3(a.x11 * b.x + a.x12 * b.y + a.x13 * b.z, a.x21 * b.x + a.x22 * b.y + a.x23 * b.z, a.x31 * b.x + a.x32 * b.y + a.x33 * b.z);
+}
+
+Vector3 SphericalToCartesian(Vector3 vec) {
+    // (r, z angle, x angle)
+    return Vector3(vec.x * sin(vec.z) * cos(vec.y), vec.x * sin(vec.z) * sin(vec.y), vec.x * cos(vec.z));
 }
 
 char ColorToChar(double color) {

@@ -1,5 +1,5 @@
-#ifndef ADVANCED_LIGHTING_MODEL_HPP
-#define ADVANCED_LIGHTING_MODEL_HPP
+#ifndef DISNEY_BRDF_LIGHTING_MODEL_HPP
+#define DISNEY_BRDF_LIGHTING_MODEL_HPP
 #include "lighting_model.hpp"
 #include "../intersector/intersector.hpp"
 #include "point_light.hpp"
@@ -7,21 +7,24 @@
 #include "../material.hpp"
 #include "../vector3.hpp"
 #include <vector>
+#include <random>
 
-class AdvancedLightingModel: public LightingModel {
+class DisneyBRDFLightingModel: public LightingModel {
     private:
         Vector3 ambient;
         Material *medium;
         Intersector *intersector;
         std::vector<PointLight> lights;
         int maxDepth;
+        std::mt19937 gen;
+        std::uniform_real_distribution<> dis;
         double SchlickFresnel(double u);
         double GTR1(double NdotH, double a);
         double GTR2(double NdotH, double a);
         double SmithG_GGX(double NdotV, double alphaG);
         Vector3 BRDF(Vector3 L, Vector3 V, Vector3 N, Material *material);
     public:
-        AdvancedLightingModel(Vector3 ambient, Material *medium, Intersector *intersector, std::vector<PointLight> lights, int maxDepth);
+        DisneyBRDFLightingModel(Vector3 ambient, Material *medium, Intersector *intersector, std::vector<PointLight> lights, int maxDepth);
         Vector3 Evaluate(Ray ray, int depth);
 };
 

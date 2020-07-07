@@ -1,9 +1,8 @@
 #include "sphere.hpp"
-#include "../ray.hpp"
 #include "../constants.hpp"
 #include <math.h>
 
-Sphere::Sphere(Vector3 center, double radius): center(center), radius(radius) {
+Sphere::Sphere(Vector3 center, double radius, Material *material): center(center), radius(radius), Primitive(material) {
     radius2 = radius * radius;
 }
 

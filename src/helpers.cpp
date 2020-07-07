@@ -1,4 +1,5 @@
 #include "helpers.hpp"
+#include <stdlib.h>
 
 template <typename T>
 T mix(T x, T y, double a) {

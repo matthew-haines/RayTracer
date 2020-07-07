@@ -1,4 +1,4 @@
-#include "advanced_lighting_model.hpp"
+#include "disney_bsdf_lighting_model.hpp"
 #include "../helpers.hpp"
 #include "../intersector/intersector.hpp"
 #include "../ray.hpp"
@@ -7,31 +7,31 @@
 #include <math.h>
 #include <vector>
 
-AdvancedLightingModel::AdvancedLightingModel(Vector3 ambient, Material *medium, Intersector *intersector, std::vector<PointLight> lights, int maxDepth=4): ambient(ambient), medium(medium), intersector(intersector), lights(lights), maxDepth(maxDepth) {}
+DisneyBSDFLightingModel::DisneyBSDFLightingModel(Vector3 ambient, Material *medium, Intersector *intersector, std::vector<PointLight> lights, int maxDepth=4): ambient(ambient), medium(medium), intersector(intersector), lights(lights), maxDepth(maxDepth) {}
 
-double AdvancedLightingModel::SchlickFresnel(double theta) {
+double DisneyBSDFLightingModel::SchlickFresnel(double theta) {
     double m = std::clamp(1.0 - theta, 0.0, 1.0);
     return m * m * m * m * m;
 }
 
-double AdvancedLightingModel::GTR1(double NdotH, double a) {
+double DisneyBSDFLightingModel::GTR1(double NdotH, double a) {
     double a2 = a * a;
     return (a2 - 1.0) / (M_PI * log(a2) * (1.0 + (a2 - 1.0) * NdotH * NdotH)); // Make sure this log should be ln
 }
 
-double AdvancedLightingModel::GTR2(double NdotH, double a) {
+double DisneyBSDFLightingModel::GTR2(double NdotH, double a) {
     double a2 = a * a;
     double denom = 1.0 + (a2 - 1.0) * NdotH * NdotH;
     return a2 / (M_PI * denom * denom);
 }
 
-double AdvancedLightingModel::SmithG_GGX(double NdotV, double alphaG) {
+double DisneyBSDFLightingModel::SmithG_GGX(double NdotV, double alphaG) {
     float a = alphaG * alphaG;
     float b = NdotV * NdotV;
     return 1.0 / (NdotV + sqrt(a + b - a * b));
 }
 
-Vector3 AdvancedLightingModel::BRDF(Vector3 L, Vector3 V, Vector3 N, Material *material) {
+Vector3 DisneyBSDFLightingModel::BRDF(Vector3 L, Vector3 V, Vector3 N, Material *material) {
     // Disney's BRDF
     double NdotL = N.dot(L);
     double NdotV = N.dot(V);
@@ -71,6 +71,6 @@ Vector3 AdvancedLightingModel::BRDF(Vector3 L, Vector3 V, Vector3 N, Material *m
     return ((1/M_PI) * mix(Fd, ss, material->subsurface) * material->color + Fsheen) * (1.0 - material->metallic) + (Gs * Fs * Ds + 0.25 * material->clearcoat * Gr * Fr * Dr);
 }
 
-Vector3 AdvancedLightingModel::Evaluate(Ray ray, int depth) {
+Vector3 DisneyBSDFLightingModel::Evaluate(Ray ray, int depth) {
     
 }
