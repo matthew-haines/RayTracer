@@ -5,3 +5,5 @@ obj/*
 .DS_Store
 a.out
 *.png
+.swp
+.txt

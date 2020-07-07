@@ -1,0 +1,6 @@
+- Replace Schlich approximation for Fresnel equations with the actual equations.
+- BSDF = BRDF + BTDF
+- Multiply refraction result by sqrt(surface_color), produces correct albedo.
+- Add volumetric absorption, need length of path in solid. (Beer-lambert)
+- Simple refactor of directional diffuse (Fd)
+

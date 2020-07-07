@@ -8,7 +8,7 @@
 #include "naive_intersector.hpp"
 #include "constants.hpp"
 #include "primitive.hpp"
-#include "lodepng.h"
+#include "../lib/lodepng/lodepng.h"
 #include <math.h>
 #include <iostream>
 #include <thread>
@@ -16,8 +16,8 @@
 #include <vector>
 
 Vector3 ambient(0.1, 0.1, 0.1);
-Material matte = {0.8, 0.1, 0.0, 1.3, Vector3(0.5, 0.25, 0.25)};
-Material vacuum = {0.0, 0.0, 0.0, 1.0, {0.0, 0.0, 0.0}};
+Material matte;
+Material vacuum;
 
 void RenderRange(int start, int stop, SimpleLightingModel *lightingModel, std::vector<Ray> *rays, std::vector<unsigned char> *buffer) {
     int bufferIndex = 4 * start;

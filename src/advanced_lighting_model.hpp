@@ -21,7 +21,7 @@ class AdvancedLightingModel: public LightingModel {
         double SmithG_GGX(double NdotV, double alphaG);
         Vector3 BRDF(Vector3 L, Vector3 V, Vector3 N, Material *material);
     public:
-        AdvancedLightingModel(Vector3 ambient, Material *medium, Intersector *intersector, std::vector<PointLight> lights, int maxDepth=4);
+        AdvancedLightingModel(Vector3 ambient, Material *medium, Intersector *intersector, std::vector<PointLight> lights, int maxDepth);
         Vector3 Evaluate(Ray ray, int depth);
 };
 
