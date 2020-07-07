@@ -34,7 +34,6 @@ Vector3 operator/(Vector3 a, double b);
 bool operator==(Vector3 a, Vector3 b);
 Vector3 operator*(Matrix3 a, Vector3 b);
 
-Vector3 mix(Vector3 x, Vector3 y, double a);
 char ColorToChar(double color);
 
 #endif

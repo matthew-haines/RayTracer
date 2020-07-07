@@ -126,10 +126,6 @@ Vector3 operator*(Matrix3 a, Vector3 b) {
     return Vector3(a.x11 * b.x + a.x12 * b.y + a.x13 * b.z, a.x21 * b.x + a.x22 * b.y + a.x23 * b.z, a.x31 * b.x + a.x32 * b.y + a.x33 * b.z);
 }
 
-Vector3 mix(Vector3 x, Vector3 y, double a) {
-    return x * (1. - a) + y * a;
-}
-
 char ColorToChar(double color) {
     return (char)(std::min(color, 1.0) * 255);
 }
