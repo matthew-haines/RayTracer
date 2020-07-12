@@ -73,7 +73,7 @@ Vector3 DisneyBRDFLightingModel::BRDF(Vector3 L, Vector3 V, Vector3 N, Material 
     double Fr = mix(0.04, 1.0, FH);
     double Gr = SmithG_GGX(NdotL, 0.25) * SmithG_GGX(NdotV, 0.25);
 
-    return ((1/M_PI) * mix(Fd, ss, material->subsurface) * material->color + Fsheen) * (1.0 - material->metallic) + (Gs * Fs * Ds + 0.25 * material->clearcoat * Gr * Fr * Dr);
+    return ((1/M_PI) * mix(Fd, ss, material->subsurface) * material->color + Fsheen) * (1.0 - material->metallic) + (Gs * Fs * Ds + 0.25 * material->clearcoat * Gr * Fr * Dr) * NdotL;
 }
 
 Vector3 DisneyBRDFLightingModel::Evaluate(Ray ray, int depth) {

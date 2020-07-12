@@ -10,15 +10,17 @@
 #include "intersector/naive_intersector.hpp"
 #include "constants.hpp"
 #include "primitive/primitive.hpp"
+#include "helpers.hpp"
 #include "../lib/lodepng/lodepng.h"
 #include <math.h>
 #include <iostream>
 #include <thread>
 #include <chrono>
 #include <vector>
+#include <random>
 
 Vector3 ambient(0.0);
-int samples = 100;
+int samples = 8000;
 int completedPixels = 0;
 int totalPixels;
 
@@ -44,6 +46,7 @@ void RenderRange(int start, int stop, LightingModel *lightingModel, std::vector<
 }
 
 int main() {
+    // These are required by literally everything
     int threads=8;
     int width=500, height=500;
     totalPixels = width * height;
@@ -53,8 +56,18 @@ int main() {
     std::vector<Primitive*> primitives;
 
     Material *light = new Material();
-    light->emission = 2.0;
+    light->emission = 8.0;
     light->color = Vector3(1.0);
+    light->specular = 1.0;
+    light->clearcoat = 1.0;
+    Material *metal = new Material();
+    metal->metallic = 0.8;
+    metal->sheen = 0.5;
+    metal->color = Vector3(0.8, 0.8, 0.8);
+    Material *reflect = new Material();
+    reflect->metallic = 1.0;
+    reflect->color = Vector3(1.0, 1.0, 1.0);
+    reflect->roughness = 0.0;
     Material *red = new Material();
     red->color = Vector3(1.0, 0.0, 0.0);
     Material *green = new Material();
@@ -63,7 +76,9 @@ int main() {
     white->color = Vector3(1.0);
     Material *vacuum = new Material();
 
-    Sphere sphere(Vector3(4.0, 0.0, 0.0), 1.0, light);
+    Sphere sphere(Vector3(4.9, 0.0, 2.5), 1.0, light);
+    Sphere sphere2(Vector3(4.0, 1.5, -1.5), 0.75, metal);
+    Sphere sphere3(Vector3(4.0, -1.5, -1.5), 0.75, reflect);
     Plane front(Vector3(1.0, 0.0, 0.0), 2.0, white);
     Plane back(Vector3(-1.0, 0.0, 0.0), 6.0, white);
     Plane bottom(Vector3(0.0, 0.0, 1.0), 4.0, white);
@@ -71,6 +86,8 @@ int main() {
     Plane left(Vector3(0.0, -1.0, 0.0), 4.0, red);
     Plane right(Vector3(0.0, 1.0, 0.0), 4.0, green);
     primitives.push_back(&sphere);
+    primitives.push_back(&sphere2);
+    primitives.push_back(&sphere3);
     primitives.push_back(&front);
     primitives.push_back(&back);
     primitives.push_back(&bottom);
@@ -98,7 +115,7 @@ int main() {
 
     auto stop = std::chrono::high_resolution_clock::now();
 
-    std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count() << " ms" << std::endl;
+    std::cout << std::endl << std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count() << " ms" << std::endl;
 
     std::cout << "Writing" << std::endl;
 

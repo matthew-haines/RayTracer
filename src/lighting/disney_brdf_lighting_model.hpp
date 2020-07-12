@@ -5,7 +5,6 @@
 #include "../ray.hpp"
 #include "../material.hpp"
 #include "../vector3.hpp"
-#include <vector>
 #include <random>
 
 class DisneyBRDFLightingModel: public LightingModel {
