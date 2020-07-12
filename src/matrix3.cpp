@@ -20,7 +20,7 @@ Matrix3 Matrix3::createEulerRotationMatrix(double xRotation, double yRotation, d
 }
 
 Matrix3 Matrix3::createSSCrossMatrix(Vector3 v) {
-    return Matrix3(0., -v.z, v.y, v.z, 0., -v.x, -v.y, v.x, 0.)
+    return Matrix3(0., -v.z, v.y, v.z, 0., -v.x, -v.y, v.x, 0.);
 }
 
 Matrix3 Matrix3::createRotationToVectorMatrix(Vector3 initial, Vector3 final) {
