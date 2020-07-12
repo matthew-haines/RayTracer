@@ -3,7 +3,7 @@
 #include "lighting_model.hpp"
 #include "point_light.hpp"
 #include "../ray.hpp"
-#include "../material.hpp"
+#include "../material/material.hpp"
 #include "../primitive/primitive.hpp"
 #include "../vector3.hpp"
 #include "../intersector/intersector.hpp"
@@ -13,13 +13,10 @@
 
 class SimpleLightingModel: public LightingModel {
     private:
-        Vector3 ambient;
         Material *medium;
-        Intersector *intersector;
         std::vector<PointLight> lights;
-        int maxDepth;
     public:
-        SimpleLightingModel(Vector3 ambient, Material *medium, Intersector *intersector, std::vector<PointLight> lights, int maxDepth);
+        SimpleLightingModel(Vector3 ambient, Intersector *intersector, int maxDepth, std::vector<PointLight> lights, Material *medium);
         Vector3 Evaluate(Ray ray, int depth);
 };
 

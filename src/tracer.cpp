@@ -2,7 +2,7 @@
 #include "ray.hpp"
 #include "primitive/sphere.hpp"
 #include "primitive/plane.hpp"
-#include "material.hpp"
+#include "material/material.hpp"
 #include "camera/cameras.hpp"
 #include "lighting/simple_lighting_model.hpp"
 #include "lighting/disney_brdf_lighting_model.hpp"
@@ -96,7 +96,7 @@ int main() {
     primitives.push_back(&right);
 
     NaiveIntersector intersector(primitives);
-    DisneyBRDFLightingModel lightingModel(ambient, vacuum, &intersector, 4);
+    DisneyBRDFLightingModel lightingModel(ambient, &intersector, 4);
     std::vector<Ray> rays = PerspectiveCamera(width, height, M_PI_2, Vector3(1, 0, 0));
 
     std::vector<unsigned char> buffer(width * height * 4);

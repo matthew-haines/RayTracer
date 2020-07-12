@@ -1,5 +1,6 @@
 #ifndef MATERIAL_HPP 
 #define MATERIAL_HPP
+#include "bxdf.hpp"
 #include "vector3.hpp"
 
 typedef struct material {
@@ -21,7 +22,9 @@ typedef struct material {
     double clearcoatGloss;
     // for custom
     double ggx_alpha;
+    BxDF* bxdf;
     Vector3 color;
+
     material(): emission(0.0), metallic(0.0), subsurface(0.0), specular(0.5), roughness(0.5), specularTint(0.0), sheen(0.0), sheenTint(0.5), clearcoat(0.0), clearcoatGloss(1.0) {};
 } Material;
 

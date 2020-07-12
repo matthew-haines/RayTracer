@@ -2,12 +2,12 @@
 #include "../helpers.hpp"
 #include "../intersector/intersector.hpp"
 #include "../ray.hpp"
-#include "../material.hpp"
+#include "../material/material.hpp"
 #include <algorithm>
 #include <math.h>
 #include <vector>
 
-DisneyBSDFLightingModel::DisneyBSDFLightingModel(Vector3 ambient, Material *medium, Intersector *intersector, std::vector<PointLight> lights, int maxDepth=4): ambient(ambient), medium(medium), intersector(intersector), lights(lights), maxDepth(maxDepth) {}
+DisneyBSDFLightingModel::DisneyBSDFLightingModel(Vector3 ambient, Intersector *intersector, int maxDepth): LightingModel(ambient, intersector, maxDepth)  {}
 
 double DisneyBSDFLightingModel::SchlickFresnel(double theta) {
     double m = std::clamp(1.0 - theta, 0.0, 1.0);

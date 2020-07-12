@@ -1,7 +1,7 @@
 #include "simple_lighting_model.hpp"
 #include "point_light.hpp"
 #include "../ray.hpp"
-#include "../material.hpp"
+#include "../material/material.hpp"
 #include "../primitive/primitive.hpp"
 #include "../vector3.hpp"
 #include "../intersector/intersector.hpp"
@@ -9,7 +9,7 @@
 #include <math.h>
 #include <vector>
 
-SimpleLightingModel::SimpleLightingModel(Vector3 ambient, Material *medium, Intersector *intersector, std::vector<PointLight> lights, int maxDepth=4): ambient(ambient), medium(medium), intersector(intersector), lights(lights), maxDepth(maxDepth) {}
+SimpleLightingModel::SimpleLightingModel(Vector3 ambient, Intersector *intersector, int maxDepth, std::vector<PointLight> lights, Material *medium): LightingModel(ambient, intersector, maxDepth), lights(lights), medium(medium) {}
 
 Vector3 SimpleLightingModel::Evaluate(Ray ray, int depth) {
     Vector3 intersect, normal;

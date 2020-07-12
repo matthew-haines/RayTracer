@@ -3,7 +3,7 @@
 #include "../matrix3.hpp"
 #include <math.h>
 
-AdvancedLightingModel::AdvancedLightingModel(Vector3 ambient, Material *medium, Intersector *intersector, int maxDepth): ambient(ambient), medium(medium), intersector(intersector), maxDepth(maxDepth) {
+AdvancedLightingModel::AdvancedLightingModel(Vector3 ambient, Intersector *intersector, int maxDepth): LightingModel(ambient, intersector, maxDepth) {
     std::random_device rd;
     gen = std::mt19937(rd());
     dis = std::uniform_real_distribution<>(0.0, 1.0);

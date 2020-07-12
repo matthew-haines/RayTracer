@@ -3,16 +3,12 @@
 #include "lighting_model.hpp"
 #include "../intersector/intersector.hpp"
 #include "../ray.hpp"
-#include "../material.hpp"
+#include "../material/material.hpp"
 #include "../vector3.hpp"
 #include <random>
 
 class DisneyBRDFLightingModel: public LightingModel {
     private:
-        Vector3 ambient;
-        Material *medium;
-        Intersector *intersector;
-        int maxDepth;
         std::mt19937 gen;
         std::uniform_real_distribution<> dis;
         double SchlickFresnel(double u);
@@ -21,7 +17,7 @@ class DisneyBRDFLightingModel: public LightingModel {
         double SmithG_GGX(double NdotV, double alphaG);
         Vector3 BRDF(Vector3 L, Vector3 V, Vector3 N, Material *material);
     public:
-        DisneyBRDFLightingModel(Vector3 ambient, Material *medium, Intersector *intersector, int maxDepth);
+        DisneyBRDFLightingModel(Vector3 ambient, Intersector *intersector, int maxDepth);
         Vector3 Evaluate(Ray ray, int depth);
 };
 

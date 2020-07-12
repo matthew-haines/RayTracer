@@ -2,13 +2,13 @@
 #include "../helpers.hpp"
 #include "../intersector/intersector.hpp"
 #include "../ray.hpp"
-#include "../material.hpp"
+#include "../material/material.hpp"
 #include "../matrix3.hpp"
 #include "../constants.hpp"
 #include <algorithm>
 #include <math.h>
 
-DisneyBRDFLightingModel::DisneyBRDFLightingModel(Vector3 ambient, Material *medium, Intersector *intersector, int maxDepth=4): ambient(ambient), medium(medium), intersector(intersector), maxDepth(maxDepth) {
+DisneyBRDFLightingModel::DisneyBRDFLightingModel(Vector3 ambient, Intersector *intersector, int maxDepth=4): LightingModel(ambient, intersector, maxDepth) {
     std::random_device rd;
     gen = std::mt19937(rd());
     dis = std::uniform_real_distribution<>(0.0, M_PI);
