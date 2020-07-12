@@ -1,8 +1,6 @@
 #ifndef ADVANCED_LIGHTING_MODEL_HPP
 #define ADVANCED_LIGHTING_MODEL_HPP
 #include "lighting_model.hpp"
-#include "../material/material.hpp"
-#include "../intersector/intersector.hpp"
 #include <random>
 
 class AdvancedLightingModel: public LightingModel {

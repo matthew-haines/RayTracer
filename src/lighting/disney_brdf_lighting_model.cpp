@@ -2,7 +2,6 @@
 #include "../helpers.hpp"
 #include "../intersector/intersector.hpp"
 #include "../ray.hpp"
-#include "../material/material.hpp"
 #include "../matrix3.hpp"
 #include "../constants.hpp"
 #include <algorithm>

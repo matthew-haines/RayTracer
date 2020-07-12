@@ -1,10 +1,9 @@
 #ifndef DISNEY_BRDF_LIGHTING_MODEL_HPP
 #define DISNEY_BRDF_LIGHTING_MODEL_HPP
 #include "lighting_model.hpp"
-#include "../intersector/intersector.hpp"
+#include "../vector3.hpp"
 #include "../ray.hpp"
 #include "../material/material.hpp"
-#include "../vector3.hpp"
 #include <random>
 
 class DisneyBRDFLightingModel: public LightingModel {

@@ -1,8 +1,8 @@
-#include "importance_sampling_model.hpp"
+#include "uniform_sampling_model.hpp"
 
-ImportanceSamplingModel::ImportanceSamplingModel(Vector3 ambient, Intersector *intersector, int maxDepth): LightingModel(ambient, intersector, maxDepth) {}
+UniformSamplingModel::UniformSamplingModel(Vector3 ambient, Intersector *intersector, int maxDepth): LightingModel(ambient, intersector, maxDepth) {}
 
-Vector3 ImportanceSamplingModel::Evaluate(Ray ray, int depth) {
+Vector3 UniformSamplingModel::Evaluate(Ray ray, int depth) {
     Vector3 intersect, normal;
     Primitive *primitive;
     double distance = intersector->getIntersect(ray, &intersect, &normal, &primitive);
@@ -14,7 +14,7 @@ Vector3 ImportanceSamplingModel::Evaluate(Ray ray, int depth) {
         Ray newRay;
         newRay.origin = intersect + 0.001 * normal;
         double probability;
-        Vector3 bxdf = primitive->material->bxdf->Evaluate(ray.direction, normal, newRay.direction, probability, true);
+        Vector3 bxdf = primitive->material->bxdf->Evaluate(ray.direction, normal, newRay.direction, probability, false);
         color += primitive->material->color * bxdf * Evaluate(newRay, depth+1) / probability * normal.dot(newRay.direction);
     }
     color += primitive->material->emission;

@@ -72,5 +72,5 @@ Vector3 DisneyBSDFLightingModel::BRDF(Vector3 L, Vector3 V, Vector3 N, Material 
 }
 
 Vector3 DisneyBSDFLightingModel::Evaluate(Ray ray, int depth) {
-    
+    return ambient;
 }

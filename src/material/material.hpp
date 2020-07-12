@@ -1,7 +1,7 @@
 #ifndef MATERIAL_HPP 
 #define MATERIAL_HPP
 #include "bxdf.hpp"
-#include "vector3.hpp"
+#include "../vector3.hpp"
 
 typedef struct material {
     // for simple (should probably find a different way to do this eventually)

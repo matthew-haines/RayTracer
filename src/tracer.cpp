@@ -4,9 +4,11 @@
 #include "primitive/plane.hpp"
 #include "material/material.hpp"
 #include "camera/cameras.hpp"
-#include "lighting/simple_lighting_model.hpp"
-#include "lighting/disney_brdf_lighting_model.hpp"
-#include "lighting/point_light.hpp"
+#include "lighting/uniform_sampling_model.hpp"
+#include "lighting/importance_sampling_model.hpp"
+#include "material/lambertian_brdf.hpp"
+#include "material/perfect_specular_brdf.hpp"
+#include "lighting/lighting_model.hpp"
 #include "intersector/naive_intersector.hpp"
 #include "constants.hpp"
 #include "primitive/primitive.hpp"
@@ -20,7 +22,7 @@
 #include <random>
 
 Vector3 ambient(0.0);
-int samples = 8000;
+int samples = 10000;
 int completedPixels = 0;
 int totalPixels;
 
@@ -29,7 +31,7 @@ void RenderRange(int start, int stop, LightingModel *lightingModel, std::vector<
     for (int i = start; i < stop; i++) {
         Vector3 result = (0.0);
         for (int j = 0; j < samples; j++) {
-            result += lightingModel->Evaluate((*rays)[i], 0);
+            result += lightingModel->Evaluate((*rays)[i], 1);
         }
         result /= samples;
         // gamma correct all colors that were in linspace throughout processing
@@ -55,33 +57,35 @@ int main() {
     
     std::vector<Primitive*> primitives;
 
+    LambertianBRDF lambertian = LambertianBRDF(0.50);
+    PerfectSpecularBRDF specular = PerfectSpecularBRDF();
+
     Material *light = new Material();
     light->emission = 8.0;
     light->color = Vector3(1.0);
-    light->specular = 1.0;
-    light->clearcoat = 1.0;
-    Material *metal = new Material();
-    metal->metallic = 0.8;
-    metal->sheen = 0.5;
-    metal->color = Vector3(0.8, 0.8, 0.8);
+    light->bxdf = &lambertian;
+    Material *diffuse = new Material();
+    diffuse->color = Vector3(0.8, 0.8, 0.8);
+    diffuse->bxdf = &lambertian;
     Material *reflect = new Material();
-    reflect->metallic = 1.0;
     reflect->color = Vector3(1.0, 1.0, 1.0);
-    reflect->roughness = 0.0;
+    reflect->bxdf = &specular;
     Material *red = new Material();
     red->color = Vector3(1.0, 0.0, 0.0);
+    red->bxdf = &lambertian;
     Material *green = new Material();
     green->color = Vector3(0.0, 1.0, 0.0);
+    green->bxdf = &lambertian;
     Material *white = new Material();
     white->color = Vector3(1.0);
-    Material *vacuum = new Material();
+    white->bxdf = &lambertian;
 
     Sphere sphere(Vector3(4.9, 0.0, 2.5), 1.0, light);
-    Sphere sphere2(Vector3(4.0, 1.5, -1.5), 0.75, metal);
+    Sphere sphere2(Vector3(4.0, 1.5, -1.5), 0.75, diffuse);
     Sphere sphere3(Vector3(4.0, -1.5, -1.5), 0.75, reflect);
     Plane front(Vector3(1.0, 0.0, 0.0), 2.0, white);
     Plane back(Vector3(-1.0, 0.0, 0.0), 6.0, white);
-    Plane bottom(Vector3(0.0, 0.0, 1.0), 4.0, white);
+    Plane bottom(Vector3(0.0, 0.0, 1.0), 4.0, reflect);
     Plane top(Vector3(0.0, 0.0, -1.0), 4.0, white);
     Plane left(Vector3(0.0, -1.0, 0.0), 4.0, red);
     Plane right(Vector3(0.0, 1.0, 0.0), 4.0, green);
@@ -96,7 +100,7 @@ int main() {
     primitives.push_back(&right);
 
     NaiveIntersector intersector(primitives);
-    DisneyBRDFLightingModel lightingModel(ambient, &intersector, 4);
+    ImportanceSamplingModel model(ambient, &intersector, 6);
     std::vector<Ray> rays = PerspectiveCamera(width, height, M_PI_2, Vector3(1, 0, 0));
 
     std::vector<unsigned char> buffer(width * height * 4);
@@ -107,9 +111,9 @@ int main() {
     int block = width * height / threads;
     std::vector<std::thread> threadpool;
     for (int i = 0; i < threads; i++) {
-        threadpool.emplace_back(RenderRange, i * block, i == (threads-1) ? width * height : (i + 1) * block, &lightingModel, &rays, &buffer);
+        threadpool.emplace_back(RenderRange, i * block, i == (threads-1) ? width * height : (i + 1) * block, &model, &rays, &buffer);
     }
-    for (int i = 0; i < threadpool.size(); i++) {
+    for (unsigned int i = 0; i < threadpool.size(); i++) {
         threadpool[i].join();
     }
 

@@ -2,7 +2,7 @@
 #include "../constants.hpp"
 #include <math.h>
 
-Sphere::Sphere(Vector3 center, double radius, Material *material): center(center), radius(radius), Primitive(material) {
+Sphere::Sphere(Vector3 center, double radius, Material *material): Primitive(material), center(center), radius(radius) {
     radius2 = radius * radius;
 }
 

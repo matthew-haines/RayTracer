@@ -8,7 +8,7 @@
 std::vector<Ray> PerspectiveCamera(int width, int height, double fov, Vector3 direction) {
     double zRotation = atan(direction.y / direction.x);
     double yRotation = atan(direction.z / Vector3(direction.x, direction.y, 0.0).length());
-    Matrix3 rotation(0.0, yRotation, zRotation);
+    Matrix3 rotation = Matrix3::createEulerRotationMatrix(0.0, yRotation, zRotation);
     std::vector<Ray> rays(height * width);    
     double maxWidth = 2 * sqrt(1 / pow(cos(fov/2), 2) - 1);
     double stepSize = maxWidth / width;

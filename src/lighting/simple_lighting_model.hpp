@@ -13,8 +13,8 @@
 
 class SimpleLightingModel: public LightingModel {
     private:
-        Material *medium;
         std::vector<PointLight> lights;
+        Material *medium;
     public:
         SimpleLightingModel(Vector3 ambient, Intersector *intersector, int maxDepth, std::vector<PointLight> lights, Material *medium);
         Vector3 Evaluate(Ray ray, int depth);

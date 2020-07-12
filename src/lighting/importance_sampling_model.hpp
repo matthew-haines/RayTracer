@@ -3,8 +3,9 @@
 #include "lighting_model.hpp"
 
 class ImportanceSamplingModel: public LightingModel {
-    ImportanceSamplingModel();
-    Vector3 Evaluate(Ray ray, int depth);
+    public:
+        ImportanceSamplingModel(Vector3 ambient, Intersector *intersector, int maxDepth);
+        Vector3 Evaluate(Ray ray, int depth);
 };
 
 #endif

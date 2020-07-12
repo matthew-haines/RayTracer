@@ -63,7 +63,6 @@ Vector3 AdvancedLightingModel::Evaluate(Ray ray, int depth) {
     double IdotM = ray.direction.dot(-m); // may need to remove this negative I have literally no idea
 
     Ray newRay;
-    newRay.origin;
 
     double fresnel = Fresnel(IdotM, relativeRefraction);
     if (r3 <= fresnel) {
