@@ -6,13 +6,13 @@
 #include <limits>
 #include <vector>
 
-NaiveIntersector::NaiveIntersector(std::vector<Primitive*> primitives): primitives(primitives) {};
+NaiveIntersector::NaiveIntersector(Scene* scene): scene(scene) {};
 
 double NaiveIntersector::getIntersect(Ray ray, Vector3 *intersect, Vector3 *normal, Primitive **primitive) {
     double closestDistance = std::numeric_limits<double>::max();
     Primitive* closestPrimitive;
     Vector3 tempIntersect, tempNormal;
-    for (Primitive* primitive : primitives) {
+    for (Primitive* primitive : scene->primitives) {
         double distance = primitive->intersect(ray, &tempIntersect, &tempNormal);
         if (distance > -epsilon && distance < closestDistance) {
             *intersect = tempIntersect;
@@ -33,7 +33,7 @@ double NaiveIntersector::getIntersect(Ray ray, Vector3 *intersect, Vector3 *norm
 bool NaiveIntersector::getShadowIntersect(Ray ray, double maxDistance) {
     // returns false if point light is blocked, else returns true
     Vector3 intersect, normal;
-    for (Primitive* primitive : primitives) {
+    for (Primitive* primitive : scene->primitives) {
         double distance = primitive->intersect(ray, &intersect, &normal);
         if (distance != -1) {
             if (distance < maxDistance) return false;

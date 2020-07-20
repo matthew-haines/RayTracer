@@ -1,0 +1,26 @@
+{
+    "materials": [
+        {
+            "name": "Mirror",
+            "color": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "emission": 1.0,
+            "bxdf": "PerfectSpecularBRDF"
+        }
+    ],
+    "objects": [
+        {
+            "type": "Sphere",
+            "material": "Mirror",
+            "center": [
+                1.0,
+                2.0,
+                3.0
+            ],
+            "radius": 1.0
+        }
+    ]
+}

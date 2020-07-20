@@ -7,6 +7,7 @@
 #include "lighting/uniform_sampling_model.hpp"
 #include "lighting/importance_sampling_model.hpp"
 #include "material/lambertian_brdf.hpp"
+#include "scene.hpp"
 #include "material/perfect_specular_brdf.hpp"
 #include "lighting/lighting_model.hpp"
 #include "intersector/naive_intersector.hpp"
@@ -89,17 +90,19 @@ int main() {
     Plane top(Vector3(0.0, 0.0, -1.0), 4.0, white);
     Plane left(Vector3(0.0, -1.0, 0.0), 4.0, red);
     Plane right(Vector3(0.0, 1.0, 0.0), 4.0, green);
-    primitives.push_back(&sphere);
-    primitives.push_back(&sphere2);
-    primitives.push_back(&sphere3);
-    primitives.push_back(&front);
-    primitives.push_back(&back);
-    primitives.push_back(&bottom);
-    primitives.push_back(&top);
-    primitives.push_back(&left);
-    primitives.push_back(&right);
 
-    NaiveIntersector intersector(primitives);
+    Scene scene;
+    scene.Insert(&sphere);
+    scene.Insert(&sphere2);
+    scene.Insert(&sphere3);
+    scene.Insert(&front);
+    scene.Insert(&back);
+    scene.Insert(&bottom);
+    scene.Insert(&top);
+    scene.Insert(&left);
+    scene.Insert(&right);
+
+    NaiveIntersector intersector(&scene);
     ImportanceSamplingModel model(ambient, &intersector, 6);
     std::vector<Ray> rays = PerspectiveCamera(width, height, M_PI_2, Vector3(1, 0, 0));
 
