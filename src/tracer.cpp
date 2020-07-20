@@ -18,15 +18,30 @@
 #include "../lib/lodepng/lodepng.h"
 #include <math.h>
 #include <iostream>
+#include <string>
 #include <thread>
 #include <chrono>
 #include <vector>
 #include <random>
+#include <getopt.h>
 
 Vector3 ambient(0.0);
 int samples = 100;
-int completedPixels = 0;
+int threads = 8;
+int width = 500, height = 500;
 int totalPixels;
+int completedPixels = 0;
+std::string infilename;
+std::string outfilename("out.png");
+
+static struct option long_options[] = {
+    {"input", required_argument, 0, 'i'},
+    {"threads", required_argument, 0, 't'},
+    {"width", required_argument, 0, 'w'},
+    {"height", required_argument, 0, 'h'},
+    {"size", required_argument, 0, 's'},
+    {"count", required_argument, 0, 'c'}
+};
 
 void RenderRange(int start, int stop, LightingModel *lightingModel, std::vector<Ray> *rays, std::vector<unsigned char> *buffer) {
     int bufferIndex = 4 * start;
@@ -49,60 +64,48 @@ void RenderRange(int start, int stop, LightingModel *lightingModel, std::vector<
     }
 }
 
-int main() {
-    // These are required by literally everything
-    int threads=8;
-    int width=500, height=500;
-    totalPixels = width * height;
+int main(int argc, char *argv[]) {
+    while (true) {
+        int index;
+        int c = getopt_long(argc, argv, "i:t:w:h:s:c:", long_options, &index);
+        if (c == -1) break;
+        switch (c) {
+            case 'i':
+                infilename = optarg;
+                break;
+
+            case 't':
+                threads = atoi(optarg);
+                break;
+            
+            case 'w':
+                width = atoi(optarg);
+                break;
+            
+            case 'h':
+                height = atoi(optarg);
+                break;
+
+            case 's': 
+                width = atoi(optarg);
+                height = width;
+                break;
+            
+            case 'c':
+                samples = atoi(optarg);
+                break;
+        }
+    }
+
+    if (optind < argc) {
+        outfilename = argv[optind];
+    }
+
+    totalPixels = width * height;    
 
     std::cout << "Generating Data Structures" << std::endl;
     
-    /*std::vector<Primitive*> primitives;
-
-    LambertianBRDF lambertian = LambertianBRDF(0.50);
-    PerfectSpecularBRDF specular = PerfectSpecularBRDF();
-
-    Material *light = new Material();
-    light->emission = 8.0;
-    light->color = Vector3(1.0);
-    light->bxdf = &lambertian;
-    Material *diffuse = new Material();
-    diffuse->color = Vector3(0.8, 0.8, 0.8);
-    diffuse->bxdf = &lambertian;
-    Material *reflect = new Material();
-    reflect->color = Vector3(1.0, 1.0, 1.0);
-    reflect->bxdf = &specular;
-    Material *red = new Material();
-    red->color = Vector3(1.0, 0.0, 0.0);
-    red->bxdf = &lambertian;
-    Material *green = new Material();
-    green->color = Vector3(0.0, 1.0, 0.0);
-    green->bxdf = &lambertian;
-    Material *white = new Material();
-    white->color = Vector3(1.0);
-    white->bxdf = &lambertian;
-
-    Sphere sphere(Vector3(4.9, 0.0, 2.5), 1.0, light);
-    Sphere sphere2(Vector3(4.0, 1.5, -1.5), 0.75, diffuse);
-    Sphere sphere3(Vector3(4.0, -1.5, -1.5), 0.75, reflect);
-    Plane front(Vector3(1.0, 0.0, 0.0), 2.0, white);
-    Plane back(Vector3(-1.0, 0.0, 0.0), 6.0, white);
-    Plane bottom(Vector3(0.0, 0.0, 1.0), 4.0, reflect);
-    Plane top(Vector3(0.0, 0.0, -1.0), 4.0, white);
-    Plane left(Vector3(0.0, -1.0, 0.0), 4.0, red);
-    Plane right(Vector3(0.0, 1.0, 0.0), 4.0, green);
-
-    Scene scene;
-    scene.Insert(&sphere);
-    scene.Insert(&sphere2);
-    scene.Insert(&sphere3);
-    scene.Insert(&front);
-    scene.Insert(&back);
-    scene.Insert(&bottom);
-    scene.Insert(&top);
-    scene.Insert(&left);
-    scene.Insert(&right);*/
-    Scene scene = ParseSceneFromFile("scenes/cornell_box_with_spheres.json");
+    Scene scene = ParseSceneFromFile(infilename);
 
     NaiveIntersector intersector(&scene);
     ImportanceSamplingModel model(ambient, &intersector, 6);
@@ -128,7 +131,7 @@ int main() {
 
     std::cout << "Writing" << std::endl;
 
-    unsigned error = lodepng::encode("out.png", buffer, width, height);
+    unsigned error = lodepng::encode(outfilename, buffer, width, height);
     if (error) {
         std::cout << "Encoding error: " << error << ": " << lodepng_error_text(error) << std::endl;
     }
