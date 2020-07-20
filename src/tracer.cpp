@@ -12,6 +12,7 @@
 #include "lighting/lighting_model.hpp"
 #include "intersector/naive_intersector.hpp"
 #include "constants.hpp"
+#include "reader/reader.hpp"
 #include "primitive/primitive.hpp"
 #include "helpers.hpp"
 #include "../lib/lodepng/lodepng.h"
@@ -23,7 +24,7 @@
 #include <random>
 
 Vector3 ambient(0.0);
-int samples = 10000;
+int samples = 100;
 int completedPixels = 0;
 int totalPixels;
 
@@ -56,7 +57,7 @@ int main() {
 
     std::cout << "Generating Data Structures" << std::endl;
     
-    std::vector<Primitive*> primitives;
+    /*std::vector<Primitive*> primitives;
 
     LambertianBRDF lambertian = LambertianBRDF(0.50);
     PerfectSpecularBRDF specular = PerfectSpecularBRDF();
@@ -100,7 +101,8 @@ int main() {
     scene.Insert(&bottom);
     scene.Insert(&top);
     scene.Insert(&left);
-    scene.Insert(&right);
+    scene.Insert(&right);*/
+    Scene scene = ParseSceneFromFile("scenes/cornell_box_with_spheres.json");
 
     NaiveIntersector intersector(&scene);
     ImportanceSamplingModel model(ambient, &intersector, 6);

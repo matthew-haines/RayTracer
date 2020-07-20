@@ -1,4 +1,20 @@
 {
+    "bxdfs": [
+        {
+            "name": "MirrorBRDF",
+            "type": "PerfectSpecularBRDF",
+            "params": {
+
+            }
+        },
+        {
+            "name": "LambertianBRDF",
+            "type": "LambertianBRDF",
+            "params": {
+                "albedo": 1.0
+            }
+        }
+    ],
     "materials": [
         {
             "name": "Mirror",
@@ -8,7 +24,7 @@
                 1.0
             ],
             "emission": 1.0,
-            "bxdf": "PerfectSpecularBRDF"
+            "bxdf": "MirrorBRDF"
         }
     ],
     "objects": [

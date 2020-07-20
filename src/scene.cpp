@@ -12,6 +12,7 @@ void Scene::Insert(std::variant<Primitive*, ComplexPrimitive*> object) {
         if (primitive->material->emission != 0.) {
             lights.push_back(primitive);
         }
+        primitives.push_back(primitive);
     }
     else {
         ComplexPrimitive* complexPrimitive = std::get<ComplexPrimitive*>(object);
