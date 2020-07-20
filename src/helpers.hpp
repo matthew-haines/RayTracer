@@ -18,6 +18,8 @@ T square(T x) {
 
 double sign(double x);
 
+char ColorToChar(double color);
+
 struct UniformSampleHemisphere {
     static Vector3 sample(double u1, double u2);
     static double pdf(Vector3 v);

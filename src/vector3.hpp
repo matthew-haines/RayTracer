@@ -37,6 +37,4 @@ Vector3 operator*(Matrix3 a, Vector3 b);
 Vector3 SphericalToCartesian(Vector3 vec);
 Vector3 CartesianToSpherical(Vector3 vec);
 
-char ColorToChar(double color);
-
 #endif

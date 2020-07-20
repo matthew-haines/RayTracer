@@ -15,6 +15,10 @@ double sign(double x) {
     }
 }
 
+char ColorToChar(double color) {
+    return (char)(std::min(color, 1.0) * 255);
+}
+
 Vector3 UniformSampleHemisphere::sample(double u1, double u2) {
     // Hemisphere around (0, 0, 1)
     double z = u1;

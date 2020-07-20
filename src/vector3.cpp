@@ -147,7 +147,3 @@ Vector3 CartesianToSpherical(Vector3 vec) {
     // (r, inclination, azimuth)
     return Vector3(vec.length(), atan2(sqrt(vec.x * vec.x + vec.y * vec.y), vec.z), atan2(vec.y, vec.x));
 }
-
-char ColorToChar(double color) {
-    return (char)(std::min(color, 1.0) * 255);
-}
