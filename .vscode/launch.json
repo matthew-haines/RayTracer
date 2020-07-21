@@ -24,6 +24,15 @@
             ],
             "preLaunchTask": "build",
             "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "(lldb) launch ",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/tracer",
+            "args": ["--input=scenes/example.json"],
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "build",
         }
     ]
 }

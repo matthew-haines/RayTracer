@@ -97,6 +97,11 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    if (infilename.empty()) {
+        std::cout << "No input scene file" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
     if (optind < argc) {
         outfilename = argv[optind];
     }

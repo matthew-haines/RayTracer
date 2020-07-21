@@ -1,11 +1,11 @@
-CXX := c++
+CXX := clang++
 
 SRCDIR := src
 LIBDIR := lib
 OBJDIR := obj
 BINDIR := bin
 TARGET := tracer
-CPPFLAGS := -c -g -std=c++17 -Wall -Wno-maybe-uninitialized -O
+CPPFLAGS := -c -g -std=c++17 -Wall -O
 LDLIBS := -lm -lpthread
 
 SOURCES :=  $(shell find $(SRCDIR) -name "*.cpp")
