@@ -121,7 +121,7 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < threads; i++) {
         threadpool.emplace_back(RenderRange, i * block, i == (threads-1) ? width * height : (i + 1) * block, &model, &rays, &buffer);
     }
-    for (unsigned int i = 0; i < threadpool.size(); i++) {
+    for (std::size_t i = 0; i < threadpool.size(); i++) {
         threadpool[i].join();
     }
 

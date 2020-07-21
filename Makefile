@@ -1,4 +1,4 @@
-CXX := g++
+CXX := c++
 
 SRCDIR := src
 LIBDIR := lib
