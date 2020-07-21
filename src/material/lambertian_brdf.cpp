@@ -12,8 +12,7 @@ Vector3 LambertianBRDF::Evaluate(Vector3 in, Vector3 normal, Vector3& out, doubl
         out = rotation * CosineSampleHemisphere::sample(u1, u2);
         NdotL = normal.dot(out);
         probability = CosineSampleHemisphere::pdf(NdotL);
-    }
-    else {
+    } else {
         out = rotation * UniformSampleHemisphere::sample(u1, u2);
         probability = UniformSampleHemisphere::pdf(out);
     }

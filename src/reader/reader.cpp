@@ -32,9 +32,10 @@ Scene ParseSceneFromFile(std::string filename) {
         std::string type = bxdf_json->at("type").get<std::string>();
         if (type == "LambertianBRDF") {
             bxdf = new LambertianBRDF(bxdf_json->at("params").at("albedo").get<double>());
-        }
-        else if (type == "PerfectSpecularBRDF") {
+        } else if (type == "PerfectSpecularBRDF") {
             bxdf = new PerfectSpecularBRDF();
+        } else {
+            throw "BxDF doesn't exist";
         }
         bxdfs[name] = bxdf;
     }
@@ -54,23 +55,24 @@ Scene ParseSceneFromFile(std::string filename) {
     }
 
     Scene scene;
-    json primitives_json = j.at("objects");
-    for (json::iterator primitive_json = primitives_json.begin(); primitive_json != primitives_json.end(); ++primitive_json) {
-        Primitive *primitive;
-        std::string type = primitive_json->at("type").get<std::string>();
+    json objects_json = j.at("objects");
+    for (json::iterator object_json = objects_json.begin(); object_json != objects_json.end(); ++object_json) {
+        Primitive *object;
+        std::string type = object_json->at("type").get<std::string>();
         if (type == "Sphere") {
-            Vector3 center = primitive_json->at("center").get<Vector3>();
-            double radius = primitive_json->at("radius").get<double>();
-            Material *material = materials[primitive_json->at("material").get<std::string>()];
-            primitive = new Sphere(center, radius, material);
+            Vector3 center = object_json->at("center").get<Vector3>();
+            double radius = object_json->at("radius").get<double>();
+            Material *material = materials[object_json->at("material").get<std::string>()];
+            object = new Sphere(center, radius, material);
+        } else if (type == "Plane") {
+            Vector3 normal = object_json->at("normal").get<Vector3>();
+            double d = object_json->at("d").get<double>();
+            Material *material = materials[object_json->at("material").get<std::string>()];
+            object = new Plane(normal, d, material);
+        } else {
+            throw "Object type doesn't exist";
         }
-        else if (type == "Plane") {
-            Vector3 normal = primitive_json->at("normal").get<Vector3>();
-            double d = primitive_json->at("d").get<double>();
-            Material *material = materials[primitive_json->at("material").get<std::string>()];
-            primitive = new Plane(normal, d, material);
-        }
-        scene.Insert(primitive);
+        scene.Insert(object);
     }
 
     return scene;

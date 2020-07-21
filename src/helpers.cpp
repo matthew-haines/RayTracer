@@ -6,11 +6,9 @@
 double sign(double x) {
     if (x > 0) {
         return 1;
-    }
-    else if (x == 0) {
+    } else if (x == 0) {
         return 0;
-    }
-    else {
+    } else {
         return -1;
     }
 }
@@ -43,8 +41,7 @@ Vector2 ConcentricSampleDisk::sample(double u1, double u2) {
     if (std::abs(u1) > std::abs(u2)) {
         r = u1;
         theta = M_PI_4 * (u2 / u1);
-    }
-    else {
+    } else {
         r = u2;
         theta = M_PI_2 - M_PI_4 * (u1 / u2);
     }

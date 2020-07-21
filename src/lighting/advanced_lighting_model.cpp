@@ -22,8 +22,9 @@ double AdvancedLightingModel::Fresnel(double IdotM, double relativeIndex) {
 
 double AdvancedLightingModel::SmithG(Vector3 v, Vector3 m, Vector3 n, double alpha2) {
     double VdotN = v.dot(n);
-    if (v.dot(m) / VdotN <= 0.) return 0.;
-    else {
+    if (v.dot(m) / VdotN <= 0.) {
+        return 0.;
+    } else {
         return 2. / (1 + sqrt(1. + alpha2 * square(tan(acos(VdotN)))));
     }
 }
@@ -55,8 +56,7 @@ Vector3 AdvancedLightingModel::Evaluate(Ray ray, int depth) {
     double probability;
     if (MdotN <= 0.0) {
         probability = 0.0;
-    }
-    else {
+    } else {
         probability = alpha2 / (M_PI * square(square(cos(theta))) * square((alpha2 + square(tan(theta)))));
     }
 
@@ -69,8 +69,7 @@ Vector3 AdvancedLightingModel::Evaluate(Ray ray, int depth) {
         // reflect
         newRay.direction = 2 * abs(IdotM) * m + ray.direction;
         newRay.origin = intersect + normal * 0.001;
-    }
-    else {
+    } else {
         // transmit
         newRay.direction = (relativeRefraction * IdotM - sign(IdotN) * sqrt(1 + square(relativeRefraction) * (square(IdotM) - 1.))) * m + relativeRefraction * ray.direction;
         newRay.origin = intersect - normal * 0.001;

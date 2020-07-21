@@ -46,8 +46,7 @@ Vector3 SimpleLightingModel::Evaluate(Ray ray, int depth) {
             double c1 = ray.direction.dot(normal);
             if (c1 < 0.0) {
                 relativeRefraction = medium->refraction_index / primitive->material->refraction_index;
-            }
-            else {
+            } else {
                 relativeRefraction = primitive->material->refraction_index / medium->refraction_index;
             }
             double c22 = 1.0 - relativeRefraction * relativeRefraction * (1.0 - c1 * c1);

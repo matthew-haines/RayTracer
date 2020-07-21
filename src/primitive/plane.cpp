@@ -1,7 +1,7 @@
 #include "plane.hpp"
 #include "../constants.hpp"
 
-Plane::Plane(Vector3 planeNormal, double d, Material *material, bool polygon, std::vector<Vector3> *points, bool oneSided): Primitive(material), planeNormal(planeNormal), d(d), polygon(polygon), points(points), oneSided(oneSided) {};
+Plane::Plane(Vector3 planeNormal, double d, Material *material, bool oneSided): Primitive(material), planeNormal(planeNormal), d(d),  oneSided(oneSided) {};
 
 double Plane::intersect(Ray ray, Vector3 *intersect, Vector3 *normal) {
    double vd = planeNormal.dot(ray.direction);
@@ -15,8 +15,5 @@ double Plane::intersect(Ray ray, Vector3 *intersect, Vector3 *normal) {
     }
     *intersect = t * ray.direction + ray.origin;
     *normal = vd ? planeNormal : -planeNormal;
-    if (polygon) {
-        
-    }
     return t;
 }

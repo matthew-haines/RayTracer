@@ -13,8 +13,7 @@ void Scene::Insert(std::variant<Primitive*, ComplexPrimitive*> object) {
             lights.push_back(primitive);
         }
         primitives.push_back(primitive);
-    }
-    else {
+    } else {
         ComplexPrimitive* complexPrimitive = std::get<ComplexPrimitive*>(object);
         primitives.insert(primitives.end(), complexPrimitive->primitives.begin(), complexPrimitive->primitives.end());
         for (Primitive* primitive : complexPrimitive->primitives) {

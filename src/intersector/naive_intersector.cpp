@@ -23,8 +23,7 @@ double NaiveIntersector::getIntersect(Ray ray, Vector3 *intersect, Vector3 *norm
     }
     if (closestDistance == std::numeric_limits<double>::max()) {
         return -1;
-    }
-    else {
+    } else {
         *primitive = closestPrimitive;
         return closestDistance;
     }

@@ -21,8 +21,7 @@ double Sphere::intersect(Ray ray, Vector3 *intersect, Vector3 *normal) {
     if (distance2 > radius2) {
         // Ray outside sphere
         intersectDistance = lengthToClosest - sqrt(halfChordDistance2);
-    }
-    else {
+    } else {
         // Ray inside sphere
         intersectDistance = lengthToClosest + sqrt(halfChordDistance2);
     }
