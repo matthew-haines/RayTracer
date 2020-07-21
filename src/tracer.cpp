@@ -27,7 +27,7 @@
 
 Vector3 ambient(0.0);
 int samples = 100;
-int threads = 8;
+int threads = 0;
 int width = 500, height = 500;
 int totalPixels;
 int completedPixels = 0;
@@ -104,6 +104,10 @@ int main(int argc, char *argv[]) {
 
     if (optind < argc) {
         outfilename = argv[optind];
+    }
+
+    if (threads == 0) {
+        threads = std::thread::hardware_concurrency();
     }
 
     totalPixels = width * height;    
