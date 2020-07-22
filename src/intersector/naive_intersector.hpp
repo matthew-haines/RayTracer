@@ -11,7 +11,7 @@ class NaiveIntersector: public Intersector {
         Scene* scene;
     public:
         NaiveIntersector(Scene* scene);
-        double getIntersect(Ray ray, Vector3 *intersect, Vector3 *normal, Primitive **primitive);
+        bool getIntersect(Ray ray, Intersection& intersection);
         bool getShadowIntersect(Ray ray, double maxDistance);
 };
 

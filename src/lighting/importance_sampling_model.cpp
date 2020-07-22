@@ -1,12 +1,11 @@
 #include "importance_sampling_model.hpp"
+#include "../intersection.hpp"
 
 ImportanceSamplingModel::ImportanceSamplingModel(Vector3 ambient, Intersector *intersector, int maxDepth): LightingModel(ambient, intersector, maxDepth) {}
 
 Vector3 ImportanceSamplingModel::Evaluate(Ray ray, int depth) {
-    Vector3 intersect, normal;
-    Primitive *primitive;
-    double distance = intersector->getIntersect(ray, &intersect, &normal, &primitive);
-    if (distance == -1) {
+    Intersection intersection;
+    if(!intersector->getIntersect(ray, intersection)) {
         return ambient;
     }
     Vector3 color(0., 0., 0.);

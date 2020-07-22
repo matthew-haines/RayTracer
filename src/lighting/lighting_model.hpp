@@ -3,15 +3,16 @@
 #include "../vector3.hpp"
 #include "../ray.hpp"
 #include "../intersector/intersector.hpp"
+#include <vector>
 
 class LightingModel {
     protected:
         Vector3 ambient;
-        Intersector *intersector;
+        Intersector &intersector;
         int maxDepth;
     public:
-        LightingModel(Vector3 ambient, Intersector *intersector, int maxDepth): ambient(ambient), intersector(intersector), maxDepth(maxDepth) {};
-        virtual Vector3 Evaluate(Ray ray, int depth)=0;
+        LightingModel(Intersector &intersector, int maxDepth, Vector3 ambient: intersector(intersector), maxDepth(maxDepth), ambient(ambient) {};
+        virtual std::vector<Vector3>& Render(std::vector<Ray> &rays, int threads)=0;
 };
 
 #endif

@@ -3,6 +3,7 @@
 #include "vector2.hpp"
 #include "vector3.hpp"
 #include <cmath>
+#include <functional>
 #include <random>
 
 // Need to define these in header
@@ -34,5 +35,7 @@ struct CosineSampleHemisphere {
     static Vector3 sample(double u1, double u2);
     static double pdf(double cosTheta);
 };
+
+void ParallelizeLoop(int threads, std::function<void(int)> func, int range);
 
 #endif

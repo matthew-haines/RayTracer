@@ -8,24 +8,25 @@
 
 NaiveIntersector::NaiveIntersector(Scene* scene): scene(scene) {};
 
-double NaiveIntersector::getIntersect(Ray ray, Vector3 *intersect, Vector3 *normal, Primitive **primitive) {
+bool NaiveIntersector::getIntersect(Ray ray, Intersection& intersection) {
     double closestDistance = std::numeric_limits<double>::max();
     Primitive* closestPrimitive;
     Vector3 tempIntersect, tempNormal;
     for (Primitive* primitive : scene->primitives) {
         double distance = primitive->intersect(ray, &tempIntersect, &tempNormal);
         if (distance > -epsilon && distance < closestDistance) {
-            *intersect = tempIntersect;
-            *normal = tempNormal;
+            intersection.intersect = tempIntersect;
+            intersection.normal = tempNormal;
             closestDistance = distance;
             closestPrimitive = primitive;
         }
     }
     if (closestDistance == std::numeric_limits<double>::max()) {
-        return -1;
+        return false;
     } else {
-        *primitive = closestPrimitive;
-        return closestDistance;
+        intersection.distance = closestDistance;
+        intersection.primitive = closestPrimitive;
+        return true;
     }
 }
 

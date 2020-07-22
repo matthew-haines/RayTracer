@@ -2,6 +2,7 @@
     "files.associations": {
         "*.tcc": "cpp",
         "system_error": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "functional": "cpp"
     }
 }

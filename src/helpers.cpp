@@ -2,6 +2,8 @@
 #include "vector3.hpp"
 #include "vector2.hpp"
 #include <cmath>
+#include <thread>
+#include <vector>
 
 double sign(double x) {
     if (x > 0) {
@@ -58,6 +60,28 @@ Vector3 CosineSampleHemisphere::sample(double u1, double u2) {
     double z = std::sqrt(std::max(0., 1. - square(diskMapping.x) - square(diskMapping.y)));
     return Vector3(diskMapping.x, diskMapping.y, z);
 }
+
 double CosineSampleHemisphere::pdf(double cosTheta) {
     return cosTheta / M_PI;
+}
+
+void ParallelizeLoop(int threads, std::function<void(int)> func, int range) {
+    // Takes threads and function to apply at each iteration of loop, function takes index
+    std::vector<std::thread> threadpool;
+
+    int blockSize = range / threads;
+
+    auto Process = [func](int start, int stop) {
+        for (int i = start; i < stop; ++i) {
+            func(i);
+        }
+    };
+
+    for (int i = 0; i < threads; ++i) {
+        threadpool.emplace_back(Process, i * blockSize, i == (threads-1) ? range : (i + 1) * blockSize);
+    }
+
+    for (auto& thread : threadpool) {
+        thread.join();
+    }
 }
