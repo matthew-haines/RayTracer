@@ -62,7 +62,7 @@ Vector3 CosineSampleHemisphere::sample(double u1, double u2) {
 }
 
 double CosineSampleHemisphere::pdf(double cosTheta) {
-    return cosTheta / M_PI;
+    return (cosTheta / M_PI);
 }
 
 void ParallelizeLoop(int threads, std::function<void(int)> func, int range) {

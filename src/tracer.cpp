@@ -4,11 +4,10 @@
 #include "primitive/plane.hpp"
 #include "material/material.hpp"
 #include "camera/cameras.hpp"
-#include "lighting/uniform_sampling_model.hpp"
-#include "lighting/importance_sampling_model.hpp"
 #include "material/lambertian_brdf.hpp"
 #include "scene.hpp"
 #include "material/perfect_specular_brdf.hpp"
+#include "lighting/pathtracer.hpp"
 #include "lighting/lighting_model.hpp"
 #include "intersector/naive_intersector.hpp"
 #include "constants.hpp"
@@ -16,7 +15,7 @@
 #include "primitive/primitive.hpp"
 #include "helpers.hpp"
 #include "../lib/lodepng/lodepng.h"
-#include <math.h>
+#include <cmath>
 #include <iostream>
 #include <string>
 #include <thread>
@@ -28,7 +27,7 @@
 Vector3 ambient(0.0);
 int samples = 100;
 int threads = 0;
-int width = 500, height = 500;
+int width = 100, height = 100;
 int totalPixels;
 int completedPixels = 0;
 std::string infilename;
@@ -42,27 +41,6 @@ static struct option long_options[] = {
     {"size", required_argument, 0, 's'},
     {"count", required_argument, 0, 'c'}
 };
-
-void RenderRange(int start, int stop, LightingModel *lightingModel, std::vector<Ray> *rays, std::vector<unsigned char> *buffer) {
-    int bufferIndex = 4 * start;
-    for (int i = start; i < stop; i++) {
-        Vector3 result = (0.0);
-        for (int j = 0; j < samples; j++) {
-            result += lightingModel->Evaluate((*rays)[i], 1);
-        }
-        result /= samples;
-        // gamma correct all colors that were in linspace throughout processing
-        (*buffer)[bufferIndex] = ColorToChar(pow(result.x, 1/2.2)); // r
-        (*buffer)[++bufferIndex] = ColorToChar(pow(result.y, 1/2.2)); // g
-        (*buffer)[++bufferIndex] = ColorToChar(pow(result.z, 1/2.2)); // b
-        (*buffer)[++bufferIndex] = 255;
-        bufferIndex++;
-        completedPixels++;
-        if (completedPixels % (totalPixels / 100) == 0) {
-            std::cout << "\r" << 100 * completedPixels / totalPixels << "\%" << std::flush;
-        }
-    }
-}
 
 int main(int argc, char *argv[]) {
     while (true) {
@@ -117,22 +95,25 @@ int main(int argc, char *argv[]) {
     Scene scene = ParseSceneFromFile(infilename);
 
     NaiveIntersector intersector(&scene);
-    ImportanceSamplingModel model(ambient, &intersector, 6);
+    PathTracer model(intersector, 4);
     std::vector<Ray> rays = PerspectiveCamera(width, height, M_PI_2, Vector3(1, 0, 0));
 
-    std::vector<unsigned char> buffer(width * height * 4);
+    std::vector<unsigned char> buffer(totalPixels * 4);
 
     std::cout << "Rendering" << std::endl;
     auto start = std::chrono::high_resolution_clock::now();
 
-    int block = width * height / threads;
-    std::vector<std::thread> threadpool;
-    for (int i = 0; i < threads; i++) {
-        threadpool.emplace_back(RenderRange, i * block, i == (threads-1) ? width * height : (i + 1) * block, &model, &rays, &buffer);
-    }
-    for (std::size_t i = 0; i < threadpool.size(); i++) {
-        threadpool[i].join();
-    }
+    std::vector<Vector3> result = model.Render(rays, threads, samples);
+
+    std::function<void(int)> charConv = [&buffer, &result](int index) {
+        int baseIndex = index * 4;
+        buffer[baseIndex] = ColorToChar(std::pow(result[index].x, 1/2.2));
+        buffer[++baseIndex] = ColorToChar(std::pow(result[index].y, 1/2.2));
+        buffer[++baseIndex] = ColorToChar(std::pow(result[index].z, 1/2.2));
+        buffer[++baseIndex] = 255;
+    };
+
+    ParallelizeLoop(threads, charConv, totalPixels);
 
     auto stop = std::chrono::high_resolution_clock::now();
 

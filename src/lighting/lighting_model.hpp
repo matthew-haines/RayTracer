@@ -7,12 +7,12 @@
 
 class LightingModel {
     protected:
-        Vector3 ambient;
-        Intersector &intersector;
+        Intersector& intersector;
         int maxDepth;
+        Vector3 ambient;
     public:
-        LightingModel(Intersector &intersector, int maxDepth, Vector3 ambient: intersector(intersector), maxDepth(maxDepth), ambient(ambient) {};
-        virtual std::vector<Vector3>& Render(std::vector<Ray> &rays, int threads)=0;
+        LightingModel(Intersector& intersector, int maxDepth, Vector3 ambient): intersector(intersector), maxDepth(maxDepth), ambient(ambient) {};
+        virtual std::vector<Vector3> Render(std::vector<Ray> &rays, int threads, int samples)=0;
 };
 
 #endif
