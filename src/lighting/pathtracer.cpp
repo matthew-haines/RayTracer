@@ -1,9 +1,8 @@
 #include "pathtracer.hpp"
 #include "../helpers.hpp"
 #include <functional>
-#include <thread>
 
-PathTracer::PathTracer(Intersector& intersector, int maxDepth, Vector3 ambient): LightingModel(intersector, maxDepth, ambient) {};
+PathTracer::PathTracer(Intersector& intersector, int maxDepth, Vector3 ambient): LightingModel(intersector, maxDepth, ambient) {}
 
 std::vector<Vector3> PathTracer::Render(std::vector<Ray>& rays, int threads, int samples) {
     std::vector<Vector3> image(rays.size());

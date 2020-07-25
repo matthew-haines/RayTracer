@@ -9,6 +9,7 @@ class Intersector {
     public:
         virtual bool getIntersect(Ray ray, Intersection& intersection)=0;
         virtual bool getShadowIntersect(Ray ray, double maxDistance)=0;
+        virtual Primitive& getRandomLight();
 };
 
 #endif

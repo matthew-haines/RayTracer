@@ -6,7 +6,11 @@
 #include <limits>
 #include <vector>
 
-NaiveIntersector::NaiveIntersector(Scene* scene): scene(scene) {};
+NaiveIntersector::NaiveIntersector(Scene* scene): scene(scene) {
+    std::random_device rd;
+    gen = std::mt19937(rd());
+    dist = std::uniform_int_distribution<int>(0, scene->lights.size()-1);
+};
 
 bool NaiveIntersector::getIntersect(Ray ray, Intersection& intersection) {
     double closestDistance = std::numeric_limits<double>::max();
@@ -40,4 +44,8 @@ bool NaiveIntersector::getShadowIntersect(Ray ray, double maxDistance) {
         }
     }
     return true;
+}
+
+Primitive& NaiveIntersector::getRandomLight() {
+    return *scene->lights[dist(gen)];
 }
