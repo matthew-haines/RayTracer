@@ -31,6 +31,16 @@ double UniformSampleHemisphere::pdf(Vector3 v) {
     return 0.5 / M_PI;
 }
 
+Vector3 UniformSampleSphere::sample(double u1, double u2) {
+    double alt = M_PI * u1 - M_PI_2;
+    double azi = 2. * M_PI * u2 - M_PI;
+    return SphericalToCartesian(Vector3(1.0, azi, alt));
+}
+
+double UniformSampleSphere::pdf(Vector3 v) {
+    return 0.25 / M_PI;
+}
+ 
 Vector2 ConcentricSampleDisk::sample(double u1, double u2) {
     // args are uniform on [0, 1]
     u1 = 2 * u1 - 1;

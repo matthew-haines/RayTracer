@@ -3,7 +3,7 @@
 
 Plane::Plane(Vector3 planeNormal, double d, Material *material, bool oneSided): Primitive(material), planeNormal(planeNormal), d(d),  oneSided(oneSided) {};
 
-double Plane::intersect(Ray ray, Vector3 *intersect, Vector3 *normal) {
+double Plane::Intersect(Ray ray, Vector3 *intersect, Vector3 *normal) {
    double vd = planeNormal.dot(ray.direction);
     if (vd > 0.0 && (oneSided || vd < epsilon)) {
         return -1;

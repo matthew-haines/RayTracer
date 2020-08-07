@@ -11,7 +11,7 @@ class Plane: public Primitive {
         bool oneSided;
     public:
         Plane(Vector3 planeNormal, double d, Material *material, bool oneSided=true);
-        double intersect(Ray ray, Vector3 *intersect, Vector3 *normal);
+        double Intersect(Ray ray, Vector3 *intersect, Vector3 *normal);
 };
 
 #endif

@@ -3,7 +3,11 @@
 #include "../helpers.hpp"
 #include <functional>
 
-PathTracerMIS::PathTracerMIS(Intersector& intersector, int maxDepth, Vector3 ambient): LightingModel(intersector, maxDepth, ambient) {}
+PathTracerMIS::PathTracerMIS(Intersector& intersector, int maxDepth, Vector3 ambient): LightingModel(intersector, maxDepth, ambient) {
+    std::random_device rd;
+    gen = std::mt19937(rd);
+    dist = std::uniform_real_distribution<double>(0, 1);
+}
 
 std::vector<Vector3> PathTracerMIS::Render(std::vector<Ray>& rays, int threads, int samples) {
     std::vector<Vector3> image(rays.size());
@@ -31,6 +35,8 @@ Vector3 PathTracerMIS::Evaluate(Ray ray, int depth) {
     // get random light
     Primitive& light = intersector.getRandomLight();
     // choose random point on light surface / get direction vector and evaluate probability of that ray
+    double pointProbability;
+    Vector3 point = light.DirectionalSample(dist(gen), dist(gen), pointProbability);
     // choose another direction based on bxdf
     // Weight probabilities with power heuristic
     // Sum with recursive call
