@@ -32,26 +32,37 @@ double Sphere::Intersect(Ray ray, Vector3 *intersect, Vector3 *normal) {
     return intersectDistance;
 };
 
-Vector3 Sphere::Sample(double u1, double u2, double& probability) {
+Vector3 Sphere::Sample(double u1, double u2) {
     Vector3 sample = UniformSampleSphere::sample(u1, u2);
-    probability = UniformSampleSphere::pdf(sample);
     return radius * sample + center;
 }
 
-Vector3 Sphere::DirectionalSample(double u1, double u2, Vector3 point, double& probability) {
+double Sphere::SamplePDF(Vector3 point, Vector3 direction) {
+    return UniformSampleSphere::pdf(); 
+}
+
+Vector3 Sphere::DirectionalSample(double u1, double u2, Vector3 point) {
     Vector3 direction = center - point;
     double distance2 = direction.dot(direction);
     if (distance2 < radius2) {
         // sample uniformly
-        return Sample(u1, u2, probability);
+        return Sample(u1, u2);
     } else {    
         double thetaMax = std::asin(std::sqrt(radius2 / distance2));
-        double alt = M_PI_2 - thetaMax * u1;
-        double azi = 2 * M_PI * u2; 
-        Vector3 result = SphericalToCartesian(Vector3(1, azi, alt));
-        probability = 1 / (2. * M_PI * (1. - std::cos(thetaMax)));
-        Vector3 directional = (Matrix3::createFromNormal(direction.normalized()) * Vector3(result.z, result.y, result.x));
-        // im done with efficiency for the day
-        
+        return UniformSampleCone::sample(u1, u2, direction, thetaMax);
     }
+}
+
+double Sphere::DirectionalSamplePDF(Vector3 point, Vector3 direction) {
+    Vector3 distance = center - point;
+    double distance2 = distance.dot(distance);
+    if (distance2 < radius2) {
+        return SamplePDF(point, direction);
+    }
+    double sinThetaMax2 = radius2 / distance2;
+    double cosThetaMax = std::sqrt(std::max(0., 1-sinThetaMax2));
+    if (direction.dot(distance) > cosThetaMax) { // wont intersect
+        return 0.;
+    }
+    return UniformSampleCone::pdf(cosThetaMax);
 }

@@ -37,8 +37,19 @@ Vector3 UniformSampleSphere::sample(double u1, double u2) {
     return SphericalToCartesian(Vector3(1.0, azi, alt));
 }
 
-double UniformSampleSphere::pdf(Vector3 v) {
+double UniformSampleSphere::pdf() {
     return 0.25 / M_PI;
+}
+
+Vector3 UniformSampleCone::sample(double u1, double u2, Vector3 direction, double thetaMax) {
+    double alt = M_PI_2 - thetaMax * u1;
+    double azi = 2 * M_PI * u2;
+    Vector3 result = SphericalToCartesian(Vector3(1., azi, alt));
+    return Matrix3::createFromNormal(direction.normalized()) * Vector3(result.z, result.y, result.x);
+}
+
+double UniformSampleCone::pdf(double cosThetaMax) {
+    return 1 / (2 * M_PI * (1 - cosThetaMax));
 }
  
 Vector2 ConcentricSampleDisk::sample(double u1, double u2) {

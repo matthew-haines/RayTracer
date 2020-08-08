@@ -28,7 +28,12 @@ struct UniformSampleHemisphere {
 
 struct UniformSampleSphere {
     static Vector3 sample(double u1, double u2);
-    static double pdf(Vector3 v);
+    static double pdf();
+};
+
+struct UniformSampleCone {
+    static Vector3 sample(double u1, double u2, Vector3 direction, double thetaMax);
+    static double pdf(double cosThetaMax);
 };
 
 struct ConcentricSampleDisk {

@@ -17,3 +17,23 @@ double Plane::Intersect(Ray ray, Vector3 *intersect, Vector3 *normal) {
     *normal = vd ? planeNormal : -planeNormal;
     return t;
 }
+
+Vector3 Plane::Sample(double u1, double u2) {
+    // Not implemented
+    return Vector3(0.);
+}
+
+double Plane::SamplePDF(Vector3 point, Vector3 direction) {
+    // Not implemented
+    return 0.;
+}
+
+Vector3 Plane::DirectionalSample(double u1, double u2, Vector3 point) {
+    // Not implemented
+    return Vector3(0.);
+}
+
+double Plane::DirectionalSamplePDF(Vector3 point, Vector3 direction) {
+    // Not implemented
+    return 0.;
+}
