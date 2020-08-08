@@ -88,6 +88,7 @@ int main(int argc, char *argv[]) {
     if (threads == 0) {
         threads = std::thread::hardware_concurrency();
     }
+    std::cout << "Using " << threads << " threads" << std::endl;
 
     totalPixels = width * height;    
 
@@ -96,7 +97,7 @@ int main(int argc, char *argv[]) {
     Scene scene = ParseSceneFromFile(infilename);
 
     NaiveIntersector intersector(&scene);
-    PathTracerMIS model(intersector, 4);
+    PathTracerMIS model(intersector, 8);
     std::vector<Ray> rays = PerspectiveCamera(width, height, M_PI_2, Vector3(1, 0, 0));
 
     std::vector<unsigned char> buffer(totalPixels * 4);
