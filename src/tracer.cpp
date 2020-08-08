@@ -8,6 +8,7 @@
 #include "scene.hpp"
 #include "material/perfect_specular_brdf.hpp"
 #include "lighting/pathtracer.hpp"
+#include "lighting/pathtracermis.hpp"
 #include "lighting/lighting_model.hpp"
 #include "intersector/naive_intersector.hpp"
 #include "constants.hpp"
@@ -95,7 +96,7 @@ int main(int argc, char *argv[]) {
     Scene scene = ParseSceneFromFile(infilename);
 
     NaiveIntersector intersector(&scene);
-    PathTracer model(intersector, 4);
+    PathTracerMIS model(intersector, 4);
     std::vector<Ray> rays = PerspectiveCamera(width, height, M_PI_2, Vector3(1, 0, 0));
 
     std::vector<unsigned char> buffer(totalPixels * 4);

@@ -9,6 +9,7 @@
 class Intersector {
     public:
         Scene* scene;
+        Intersector(Scene* scene): scene(scene) {};
         virtual bool getIntersect(Ray ray, Intersection& intersection)=0;
         virtual Primitive* getRandomLight()=0;
 };

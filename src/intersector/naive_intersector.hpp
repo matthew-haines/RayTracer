@@ -12,7 +12,6 @@ class NaiveIntersector: public Intersector {
         std::mt19937 gen;
         std::uniform_int_distribution<int> dist;
     public:
-        Scene* scene;
         NaiveIntersector(Scene* scene);
         bool getIntersect(Ray ray, Intersection& intersection);
         Primitive* getRandomLight();

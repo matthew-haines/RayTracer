@@ -2,6 +2,7 @@
 #include "vector3.hpp"
 #include "vector2.hpp"
 #include <cmath>
+#include <iostream>
 #include <thread>
 #include <vector>
 
@@ -32,9 +33,9 @@ double UniformSampleHemisphere::pdf(Vector3 v) {
 }
 
 Vector3 UniformSampleSphere::sample(double u1, double u2) {
-    double alt = M_PI * u1 - M_PI_2;
+    double alt = M_PI * u1;
     double azi = 2. * M_PI * u2 - M_PI;
-    return SphericalToCartesian(Vector3(1.0, azi, alt));
+    return SphericalToCartesian(Vector3(1.0, alt, azi));
 }
 
 double UniformSampleSphere::pdf() {
@@ -42,9 +43,9 @@ double UniformSampleSphere::pdf() {
 }
 
 Vector3 UniformSampleCone::sample(double u1, double u2, Vector3 direction, double thetaMax) {
-    double alt = M_PI_2 - thetaMax * u1;
+    double alt = thetaMax * u1;
     double azi = 2 * M_PI * u2;
-    Vector3 result = SphericalToCartesian(Vector3(1., azi, alt));
+    Vector3 result = SphericalToCartesian(Vector3(1., alt, azi));
     return Matrix3::createFromNormal(direction.normalized()) * Vector3(result.z, result.y, result.x);
 }
 
@@ -92,9 +93,15 @@ void ParallelizeLoop(int threads, std::function<void(int)> func, int range) {
 
     int blockSize = range / threads;
 
-    auto Process = [func](int start, int stop) {
+    int finished = 0;
+
+    auto Process = [func, &finished, range](int start, int stop) {
         for (int i = start; i < stop; ++i) {
             func(i);
+            finished++;
+            if (finished % (range / 100) == 0) {
+                std::cout << "\r" << 100 * finished / range << "\%" << std::flush;
+            }
         }
     };
 

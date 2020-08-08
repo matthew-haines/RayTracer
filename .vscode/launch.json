@@ -30,7 +30,7 @@
             "type": "lldb",
             "request": "launch",
             "program": "${workspaceFolder}/bin/tracer",
-            "args": ["--input=scenes/cornell_box_with_spheres.json", "--threads=1"],
+            "args": ["--input=scenes/cornell_box.json", "--threads=1"],
             "cwd": "${workspaceFolder}",
             "preLaunchTask": "build",
         }

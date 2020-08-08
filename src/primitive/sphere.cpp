@@ -61,7 +61,7 @@ double Sphere::DirectionalSamplePDF(Vector3 point, Vector3 direction) {
     }
     double sinThetaMax2 = radius2 / distance2;
     double cosThetaMax = std::sqrt(std::max(0., 1-sinThetaMax2));
-    if (direction.dot(distance) > cosThetaMax) { // wont intersect
+    if (direction.dot(distance.normalized()) < cosThetaMax) { // wont intersect
         return 0.;
     }
     return UniformSampleCone::pdf(cosThetaMax);

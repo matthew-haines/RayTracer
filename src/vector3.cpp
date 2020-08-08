@@ -139,7 +139,7 @@ Vector3 operator*(Matrix3 a, Vector3 b) {
 }
 
 Vector3 SphericalToCartesian(Vector3 vec) {
-    // (r, inclination, azimuth)
+    // (r, theta [0, pi], phi [0, 2pi])
     return Vector3(vec.x * sin(vec.y) * cos(vec.z), vec.x * sin(vec.y) * sin(vec.z), vec.x * cos(vec.y));
 }
 

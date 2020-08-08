@@ -1,0 +1,125 @@
+{
+    "bxdfs": [
+        {
+            "name": "Lambertian",
+            "type": "LambertianBRDF",
+            "params": {
+                "albedo": 0.5
+            }
+        }
+    ],
+    "materials": [
+        {
+            "name": "Light",
+            "color": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "emission": 1.0,
+            "bxdf": "Lambertian"
+        },
+        {
+            "name": "Red",
+            "color": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "emission": 0.0,
+            "bxdf": "Lambertian"
+        },
+        {
+            "name": "Green",
+            "color": [
+                0.0,
+                1.0,
+                0.0
+            ],
+            "emission": 0.0,
+            "bxdf": "Lambertian"
+        },
+        {
+            "name": "White",
+            "color": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "emission": 0.0,
+            "bxdf": "Lambertian"
+        }
+    ],
+    "objects": [
+        {
+            "type": "Sphere",
+            "material": "Light",
+            "center": [
+                4.9,
+                0.0,
+                2.5
+            ],
+            "radius": 1.0
+        },
+        {
+            "type": "Plane",
+            "material": "White",
+            "normal": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "d": 2.0
+        },
+        {
+            "type": "Plane",
+            "material": "White",
+            "normal": [
+                -1.0,
+                0.0,
+                0.0
+            ],
+            "d": 6.0
+        },
+        {
+            "type": "Plane",
+            "material": "White",
+            "normal": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "d": 4.0
+        },
+        {
+            "type": "Plane",
+            "material": "White",
+            "normal": [
+                0.0,
+                0.0,
+                -1.0
+            ],
+            "d": 4.0
+        },
+        {
+            "type": "Plane",
+            "material": "Red",
+            "normal": [
+                0.0,
+                -1.0,
+                0.0
+            ],
+            "d": 4.0
+        },
+        {
+            "type": "Plane",
+            "material": "Green",
+            "normal": [
+                0.0,
+                1.0,
+                0.0
+            ],
+            "d": 4.0
+        }
+    ]
+}

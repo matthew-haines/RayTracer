@@ -6,7 +6,7 @@
 #include <limits>
 #include <vector>
 
-NaiveIntersector::NaiveIntersector(Scene* scene): scene(scene) {
+NaiveIntersector::NaiveIntersector(Scene* scene): Intersector(scene) {
     std::random_device rd;
     gen = std::mt19937(rd());
     dist = std::uniform_int_distribution<int>(0, scene->lights.size()-1);
