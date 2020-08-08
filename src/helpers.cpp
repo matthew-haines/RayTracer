@@ -87,23 +87,31 @@ double CosineSampleHemisphere::pdf(double cosTheta) {
     return (cosTheta / M_PI);
 }
 
-void ParallelizeLoop(int threads, std::function<void(int)> func, int range) {
+void ParallelizeLoop(int threads, std::function<void(int)> func, int range, bool showProgress) {
     // Takes threads and function to apply at each iteration of loop, function takes index
     std::vector<std::thread> threadpool;
 
     int blockSize = range / threads;
 
     int finished = 0;
-
-    auto Process = [func, &finished, range](int start, int stop) {
-        for (int i = start; i < stop; ++i) {
-            func(i);
-            finished++;
-            if (finished % (range / 100) == 0) {
-                std::cout << "\r" << 100 * finished / range << "\%" << std::flush;
+    std::function<void(int, int)> Process;
+    if (showProgress) {
+        Process = [func, &finished, range](int start, int stop) {
+            for (int i = start; i < stop; ++i) {
+                func(i);
+                finished++;
+                if (finished % (range / 100) == 0) {
+                    std::cout << "\r" << 100 * finished / range << "\%" << std::flush;
+                }
             }
-        }
-    };
+        };
+    } else {
+        Process = [func](int start, int stop) {
+            for (int i = start; i < stop; ++i) {
+                func(i);
+            }
+        };
+    }
 
     for (int i = 0; i < threads; ++i) {
         threadpool.emplace_back(Process, i * blockSize, i == (threads-1) ? range : (i + 1) * blockSize);

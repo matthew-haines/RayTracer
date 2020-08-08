@@ -11,7 +11,7 @@ PathTracerMIS::PathTracerMIS(Intersector& intersector, int maxDepth, Vector3 amb
 
 std::vector<Vector3> PathTracerMIS::Render(std::vector<Ray>& rays, int threads, int samples) {
     std::vector<Vector3> image(rays.size());
-    ParallelizeLoop(threads, std::bind(&PathTracerMIS::EvaluateWrapper, this, std::placeholders::_1, std::ref(rays), std::ref(image), samples), rays.size());
+    ParallelizeLoop(threads, std::bind(&PathTracerMIS::EvaluateWrapper, this, std::placeholders::_1, std::ref(rays), std::ref(image), samples), rays.size(), true);
     return image;
 }
 

@@ -46,7 +46,7 @@ struct CosineSampleHemisphere {
     static double pdf(double cosTheta);
 };
 
-void ParallelizeLoop(int threads, std::function<void(int)> func, int range);
+void ParallelizeLoop(int threads, std::function<void(int)> func, int range, bool showProgress=false);
 
 double PowerHeuristic(double a, double b);
 

@@ -6,7 +6,7 @@ PathTracer::PathTracer(Intersector& intersector, int maxDepth, Vector3 ambient):
 
 std::vector<Vector3> PathTracer::Render(std::vector<Ray>& rays, int threads, int samples) {
     std::vector<Vector3> image(rays.size());
-    ParallelizeLoop(threads, std::bind(&PathTracer::EvaluateWrapper, this, std::placeholders::_1, std::ref(rays), std::ref(image), samples), rays.size());
+    ParallelizeLoop(threads, std::bind(&PathTracer::EvaluateWrapper, this, std::placeholders::_1, std::ref(rays), std::ref(image), samples), rays.size(), true);
     return image;
 }
 
