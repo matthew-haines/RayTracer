@@ -5,7 +5,9 @@
 class PerfectSpecularBRDF: public BxDF {
     public:
         PerfectSpecularBRDF();
-        Vector3 Evaluate(Vector3 in, Vector3 normal, Vector3& out, double& probability, bool importanceSample);
+        Vector3 Evaluate(Vector3 in, Vector3 normal, Vector3 out);
+        Vector3 Sample(Vector3 in, Vector3 normal);
+        double pdf(Vector3 in, Vector3 normal, Vector3 out);
 };
 
 #endif

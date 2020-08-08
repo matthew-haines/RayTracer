@@ -31,15 +31,36 @@ Vector3 PathTracerMIS::Evaluate(Ray ray, int depth) {
     if (!intersector.getIntersect(ray, intersection)) {
         return ambient;
     }
-     
-    // get random light
-    Primitive& light = intersector.getRandomLight();
-    // choose random point on light surface / get direction vector and evaluate probability of that ray
-    double pointProbability;
-    Vector3 point = light.DirectionalSample(dist(gen), dist(gen), pointProbability);
-    // choose another direction based on bxdf
-    // Weight probabilities with power heuristic
-    // Sum with recursive call
+    if (!intersection.primitive->material->bxdf->specular) {
+        // get random light
+        Primitive* light = intersector.getRandomLight();
+        // choose random point on light surface / get direction vector and evaluate probability of that ray
+        double lightProbability; // found with respect to solid angle
+        Vector3 lightDirection = light->DirectionalSample(dist(gen), dist(gen), lightProbability);
+        Vector3 lightColor;
+        Material* material = intersection.primitive->material;
+        if (lightProbability != 0.) {
+            Vector3 lightSampleBxDF = material->bxdf->Evaluate(ray.direction, intersection.normal, lightDirection);
+            lightProbability *= material->bxdf->pdf(ray.direction, intersection.normal, lightDirection);
+            Intersection lightIntersection;
+            if (intersector.getIntersect({intersection.intersect, lightDirection}, lightIntersection)) {
+                if (lightIntersection.primitive != light) {
+                    lightColor = Vector3(0.);
+                }
+                else {
+                    lightColor = lightIntersection.primitive->material->color * lightSampleBxDF;
+                }
+            }
+        }
+
+        // choose another direction based on bxdf (another solid angle)
+        Vector3 BxDFDirection = material->bxdf->Sample(ray.direction, intersection.normal);
+        double BxDFProbability = material->bxdf->pdf(ray.direction, intersection.normal, BxDFDirection);
+        double lightProbability;
+        
+        // Weight probabilities with power heuristic
+        // Sum with recursive call
+    }
 }
 
 

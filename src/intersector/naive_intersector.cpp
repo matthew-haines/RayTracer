@@ -17,7 +17,7 @@ bool NaiveIntersector::getIntersect(Ray ray, Intersection& intersection) {
     Primitive* closestPrimitive;
     Vector3 tempIntersect, tempNormal;
     for (Primitive* primitive : scene->primitives) {
-        double distance = primitive->intersect(ray, &tempIntersect, &tempNormal);
+        double distance = primitive->Intersect(ray, &tempIntersect, &tempNormal);
         if (distance > -epsilon && distance < closestDistance) {
             intersection.intersect = tempIntersect;
             intersection.normal = tempNormal;
@@ -34,18 +34,6 @@ bool NaiveIntersector::getIntersect(Ray ray, Intersection& intersection) {
     }
 }
 
-bool NaiveIntersector::getShadowIntersect(Ray ray, double maxDistance) {
-    // returns false if point light is blocked, else returns true
-    Vector3 intersect, normal;
-    for (Primitive* primitive : scene->primitives) {
-        double distance = primitive->intersect(ray, &intersect, &normal);
-        if (distance != -1) {
-            if (distance < maxDistance) return false;
-        }
-    }
-    return true;
-}
-
-Primitive& NaiveIntersector::getRandomLight() {
-    return *scene->lights[dist(gen)];
+Primitive* NaiveIntersector::getRandomLight() {
+    return &(*scene->lights[dist(gen)]);
 }

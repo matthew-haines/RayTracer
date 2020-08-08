@@ -95,3 +95,8 @@ void ParallelizeLoop(int threads, std::function<void(int)> func, int range) {
         thread.join();
     }
 }
+
+double PowerHeuristic(double a, double b) {
+    // power heurstic weight for a
+    return square(a) / (square(a) + square(b));
+}

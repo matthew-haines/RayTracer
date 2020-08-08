@@ -28,9 +28,11 @@ Vector3 PathTracer::Evaluate(Ray ray, int depth) {
     if (depth < maxDepth) {
         Ray newRay = {};
         newRay.origin = intersection.intersect + 0.0001 * intersection.normal;
-        double probability;
-        Vector3 bxdf = intersection.primitive->material->bxdf->Evaluate(ray.direction, intersection.normal, newRay.direction, probability, true);
-        color += intersection.primitive->material->color * bxdf * Evaluate(newRay, depth+1) / probability * intersection.normal.dot(newRay.direction);
+        Material* material = intersection.primitive->material;
+        newRay.direction = material->bxdf->Sample(ray.direction, intersection.normal);
+        Vector3 bxdf = material->bxdf->Evaluate(ray.direction, intersection.normal, newRay.direction);
+        double probability = material->bxdf->pdf(ray.direction, intersection.normal, newRay.direction);
+        color += material->color * bxdf * Evaluate(newRay, depth+1) / probability * intersection.normal.dot(newRay.direction);
     }
     color += intersection.primitive->material->emission;
     return color;

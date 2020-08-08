@@ -8,7 +8,7 @@ class Triangle: public Primitive {
         Vector3 v0, v1, v2;
     public:
         Triangle(Vector3 v0, Vector3 v1, Vector3 v2, Material *material);
-        double intersect(Ray ray, Vector3 *intersect, Vector3 *normal);
+        double Intersect(Ray ray, Vector3 *intersect, Vector3 *normal);
 };
 
 #endif
