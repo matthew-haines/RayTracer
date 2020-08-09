@@ -2,6 +2,7 @@
 #include "vector3.hpp"
 #include "vector2.hpp"
 #include <cmath>
+#include <chrono>
 #include <iostream>
 #include <thread>
 #include <vector>
@@ -94,14 +95,18 @@ void ParallelizeLoop(int threads, std::function<void(int)> func, int range, bool
     int blockSize = range / threads;
 
     int finished = 0;
+    auto epoch = std::chrono::high_resolution_clock::now();
     std::function<void(int, int)> Process;
     if (showProgress) {
-        Process = [func, &finished, range](int start, int stop) {
+        Process = [func, &finished, range, epoch](int start, int stop) {
             for (int i = start; i < stop; ++i) {
                 func(i);
                 finished++;
                 if (finished % (range / 100) == 0) {
-                    std::cout << "\r" << 100 * finished / range << "\%" << std::flush;
+                    auto now = std::chrono::high_resolution_clock::now();
+                    int milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(now - epoch).count();
+                    int total = milliseconds / (finished / range);
+                    std::cout << "\r" << 100 * finished / range << "\% " << (int)(total - milliseconds) / 100 << "seconds left" << std::flush;
                 }
             }
         };
