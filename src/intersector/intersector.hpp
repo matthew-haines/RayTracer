@@ -4,14 +4,18 @@
 #include "../scene.hpp"
 #include "../primitive/primitive.hpp"
 #include "../ray.hpp"
+#include <random>
 #include <vector>
 
 class Intersector {
+    protected:
+        std::mt19937 gen;
+        std::uniform_int_distribution<int> dist;
     public:
         Scene* scene;
-        Intersector(Scene* scene): scene(scene) {};
+        Intersector(Scene* scene);
         virtual bool getIntersect(Ray ray, Intersection& intersection)=0;
-        virtual Primitive* getRandomLight()=0;
+        Primitive* getRandomLight();
 };
 
 #endif
