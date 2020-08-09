@@ -104,9 +104,9 @@ void ParallelizeLoop(int threads, std::function<void(int)> func, int range, bool
                 finished++;
                 if (finished % (range / 100) == 0) {
                     auto now = std::chrono::high_resolution_clock::now();
-                    int milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(now - epoch).count();
-                    int total = milliseconds / (finished / range);
-                    std::cout << "\r" << 100 * finished / range << "\% " << (int)(total - milliseconds) / 100 << "seconds left" << std::flush;
+                    double milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(now - epoch).count();
+                    int total = milliseconds / ((double)finished / (double)range);
+                    std::cout << "\r" << 100 * finished / range << "\% (" << (int)(total - milliseconds) / 1000 << " s)     " << std::flush;
                 }
             }
         };
