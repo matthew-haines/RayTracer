@@ -3,10 +3,8 @@
 #include <limits>
 
 Bound::Bound() {
-    double minNum = std::numeric_limits<double>::lowest();
-    double maxNum = std::numeric_limits<double>::max();
-    min = Vector3(maxNum, maxNum, maxNum);
-    max = Vector3(minNum, maxNum, maxNum);
+    min = Vector3(std::numeric_limits<double>::max());
+    max = Vector3(std::numeric_limits<double>::lowest());
     centroid = (min + max) / 2;
 }
 
