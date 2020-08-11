@@ -37,3 +37,7 @@ double Plane::DirectionalSamplePDF(Vector3 point, Vector3 direction) {
     // Not implemented
     return 0.;
 }
+
+Bound Plane::GetBound() {
+    return Bound();
+}

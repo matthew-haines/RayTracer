@@ -11,6 +11,7 @@
 #include "lighting/pathtracermis.hpp"
 #include "lighting/lighting_model.hpp"
 #include "intersector/naive_intersector.hpp"
+#include "intersector/bvh_intersector.hpp"
 #include "constants.hpp"
 #include "reader/reader.hpp"
 #include "primitive/primitive.hpp"
@@ -96,7 +97,7 @@ int main(int argc, char *argv[]) {
     
     Scene scene = ParseSceneFromFile(infilename);
 
-    NaiveIntersector intersector(&scene);
+    BVHIntersector intersector(&scene);
     PathTracerMIS model(intersector, 8);
     std::vector<Ray> rays = PerspectiveCamera(width, height, M_PI_2, Vector3(1, 0, 0));
 

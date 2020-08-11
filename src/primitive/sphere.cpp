@@ -66,3 +66,7 @@ double Sphere::DirectionalSamplePDF(Vector3 point, Vector3 direction) {
     }
     return UniformSampleCone::pdf(cosThetaMax);
 }
+
+Bound Sphere::GetBound() {
+    return Bound(center - Vector3(radius), center + Vector3(radius));
+}

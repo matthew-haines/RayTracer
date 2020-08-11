@@ -1,6 +1,7 @@
 #include "vector3.hpp"
 #include "matrix3.hpp"
 #include <math.h>
+#include <cassert>
 
 Vector3::Vector3(double x, double y, double z): x(x), y(y), z(z) {}
 
@@ -100,6 +101,18 @@ Vector3 operator*(Vector3 a, double b) {
 Vector3 operator/(Vector3 a, double b) {
     Vector3 c = a;
     return c /= b;
+}
+
+double& Vector3::operator[](int index) {
+    assert(index == 0 || index == 1 || index == 2);
+    switch (index) {
+        case 0:
+            return x;
+        case 1:
+            return y;
+        case 2:
+            return z;
+    }
 }
 
 double Vector3::dot(Vector3 vec) {

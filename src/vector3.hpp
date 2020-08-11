@@ -16,6 +16,7 @@ class Vector3 {
         Vector3& operator-=(double a);
         Vector3& operator*=(double a);
         Vector3& operator/=(double a);
+        double& operator[](int index);
         double dot(Vector3 vec);
         Vector3 cross(Vector3 vec);
         double length();

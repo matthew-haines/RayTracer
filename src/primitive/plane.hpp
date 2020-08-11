@@ -16,6 +16,7 @@ class Plane: public Primitive {
         double SamplePDF(Vector3 point, Vector3 direction);
         Vector3 DirectionalSample(double u1, double u2, Vector3 point);
         double DirectionalSamplePDF(Vector3 point, Vector3 direction);
+        Bound GetBound();
 };
 
 #endif

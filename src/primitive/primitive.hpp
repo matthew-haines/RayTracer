@@ -3,6 +3,7 @@
 #include "../material/material.hpp"
 #include "../vector3.hpp"
 #include "../ray.hpp"
+#include "../intersector/bound.hpp"
 
 class Primitive {
     public:
@@ -13,6 +14,7 @@ class Primitive {
         virtual double SamplePDF(Vector3 point, Vector3 direction)=0;
         virtual Vector3 DirectionalSample(double u1, double u2, Vector3 point)=0;
         virtual double DirectionalSamplePDF(Vector3 point, Vector3 direction)=0;
+        virtual Bound GetBound()=0;
 };
 
 #endif

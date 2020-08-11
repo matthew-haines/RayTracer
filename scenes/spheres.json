@@ -1,0 +1,95 @@
+{
+    "bxdfs": [
+        {
+            "name": "Lambertian",
+            "type": "LambertianBRDF",
+            "params": {
+                "albedo": 0.5
+            }
+        }
+    ],
+    "materials": [
+        {
+            "name": "mat",
+            "color": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "emission": 1.0,
+            "bxdf": "Lambertian"
+        }
+    ],
+    "objects": [
+        {
+            "type": "Sphere",
+            "material": "mat",
+            "center": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "radius": 1.0
+        },
+        {
+            "type": "Sphere",
+            "material": "mat",
+            "center": [
+                2.0,
+                1.0,
+                2.0
+            ],
+            "radius": 1.0
+        },
+        {
+            "type": "Sphere",
+            "material": "mat",
+            "center": [
+                2.0,
+                1.0,
+                -1.0
+            ],
+            "radius": 1.0
+        },
+        {
+            "type": "Sphere",
+            "material": "mat",
+            "center": [
+                1.0,
+                4.0,
+                5.0
+            ],
+            "radius": 1.0
+        },
+        {
+            "type": "Sphere",
+            "material": "mat",
+            "center": [
+                -2.0,
+                1.0,
+                1.0
+            ],
+            "radius": 1.0
+        },
+        {
+            "type": "Sphere",
+            "material": "mat",
+            "center": [
+                12.0,
+                -12.0,
+                1.0
+            ],
+            "radius": 1.0
+        },
+        {
+            "type": "Sphere",
+            "material": "mat",
+            "center": [
+                -3.0,
+                2.0,
+                -4.0
+            ],
+            "radius": 1.0
+        }
+    ]
+}
