@@ -5,6 +5,7 @@ struct BVHNode {
     BVHNode* child1=nullptr;
     BVHNode* child2=nullptr;
     std::vector<int> primitives;
+    int dim;
 };
 
 BVHIntersector::BVHIntersector(Scene* scene): Intersector(scene) {
@@ -30,7 +31,51 @@ BVHIntersector::BVHIntersector(Scene* scene): Intersector(scene) {
 }
 
 bool BVHIntersector::getIntersect(Ray ray, Intersection& intersection) {
+    // Because of the strict performance requirements, I adapted this from PBRT
+    Vector3 invDir = 1. / ray.direction;
+    int dirIsNeg[3] = {ray.direction.x < 0., ray.direction.y < 0., ray.direction.z < 0.};
+
+    BVHNode* nodeStack[64];
+    int stackIndex = 0;
+    nodeStack[0] = root;
+
+    Vector3 normal;
+    Vector3 intersect;
     
+    bool intersected = false;
+    
+    while (true) {
+        BVHNode* node = nodeStack[stackIndex];
+        if (node->bound.RayIntersect(ray, invDir, dirIsNeg)) {
+            if (node->child1 == nullptr) {
+                double minDist = std::numeric_limits<double>::max();
+                for (int primIndex : node->primitives) {
+                    double distance = scene->primitives[primIndex]->Intersect(ray, &intersect, &normal);
+                    if (distance != -1 && distance < minDist) {
+                        intersected = true;
+                        minDist = distance;
+                        intersection.distance = distance;
+                        intersection.intersect = intersect;
+                        intersection.normal = normal;
+                    }
+                }
+                if (intersected) {
+                    return true;
+                }
+            } else {
+                if (dirIsNeg[node->dim]) {
+                    nodeStack[++stackIndex] = node->child1;
+                    nodeStack[++stackIndex] = node->child2;
+                } else {
+                    nodeStack[++stackIndex] = node->child2;
+                    nodeStack[++stackIndex] = node->child1;
+                }
+            }
+        }
+        stackIndex--;
+    }
+
+    return false;
 }
 
 void BVHIntersector::buildNode(BVHNode* precursor) {
@@ -56,6 +101,8 @@ void BVHIntersector::buildNode(BVHNode* precursor) {
             maxRange = range;
         }
     }
+
+    precursor->dim = dim;
 
     for (int index : precursor->primitives) {
         int bucket = (int)((double)bucketCount * (bounds[index].centroid[dim] - precursor->bound.min[dim]) / maxRange);
