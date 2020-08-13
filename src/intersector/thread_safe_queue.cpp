@@ -8,7 +8,7 @@ ThreadSafeQueue<T>::ThreadSafeQueue() {
 }
 
 template <class T>
-void ThreadSafeQueue<T>::Push(T val) {
+void ThreadSafeQueue<T>::push(T val) {
     std::unique_lock<std::mutex> unique_lock(mutex);
     cv.wait(unique_lock);
     queue.push(val);
@@ -17,7 +17,7 @@ void ThreadSafeQueue<T>::Push(T val) {
 }
 
 template <class T>
-T ThreadSafeQueue<T>::Pop() {
+T ThreadSafeQueue<T>::pop() {
     std::unique_lock<std::mutex> unique_lock(mutex);
     cv.wait(unique_lock, [this]{return !queue.empty();});
     T result = queue.front();

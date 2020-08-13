@@ -13,8 +13,8 @@ class ThreadSafeQueue {
         std::condition_variable cv;
     public:
         ThreadSafeQueue();
-        void Push(T val);
-        T Pop();
+        void push(T val);
+        T pop();
 };
 
 #endif
