@@ -11,10 +11,12 @@ class BVHIntersector: public Intersector {
     private:
         BVHNode* root; 
         std::vector<Bound> bounds;
+        void WorkerFunction();
     public:
         BVHIntersector(Scene* scene);
         bool getIntersect(Ray ray, Intersection& intersection);
         void buildNode(BVHNode* precursor);
+        void ParallelConstruct();
 };  
 
 #endif

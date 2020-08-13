@@ -1,4 +1,6 @@
 #include "bvh_intersector.hpp"
+#include <iostream>
+#include <thread>
 
 struct BVHNode {
     Bound bound;
@@ -28,6 +30,7 @@ BVHIntersector::BVHIntersector(Scene* scene): Intersector(scene) {
     }
     root->bound = Bound(min, max);
     buildNode(root);
+    ParallelConstruct();
 }
 
 bool BVHIntersector::getIntersect(Ray ray, Intersection& intersection) {
@@ -158,4 +161,12 @@ void BVHIntersector::buildNode(BVHNode* precursor) {
         precursor->child2 = right;
     }
     return;
+}
+
+void BVHIntersector::WorkerFunction() {
+}
+
+void BVHIntersector::ParallelConstruct() {
+    std::thread test(&BVHIntersector::WorkerFunction, this);
+    test.join();
 }
