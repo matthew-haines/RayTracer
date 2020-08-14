@@ -25,14 +25,17 @@ double Triangle::Intersect(Ray ray, Vector3 *intersect, Vector3 *normal) {
     }
     Vector3 q = origin.cross(e1);
     double v = ray.direction.dot(q) * invDeterminant;
-    if (v < 0. || v > 1.) {
+    if (v < 0. || u+v > 1.) {
         // not allowed by barycentric
         return -1;
     }
     double distance = e2.dot(q) * invDeterminant;
-    *intersect = ray.origin + distance * ray.direction;
-    *normal = planeNormal;
-    return distance;
+    if (distance > epsilon) {
+        *intersect = ray.origin + distance * ray.direction;
+        *normal = determinant > 0. ? planeNormal : -planeNormal;
+        return distance;
+    }
+    return -1;
 }
 
 Vector3 Triangle::Sample(double u1, double u2) {
