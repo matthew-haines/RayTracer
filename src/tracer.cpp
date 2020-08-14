@@ -98,7 +98,7 @@ int main(int argc, char *argv[]) {
     Scene scene = ParseSceneFromFile(infilename);
 
     BVHIntersector intersector(&scene);
-    PathTracerMIS model(intersector, 8);
+    PathTracerMIS model(intersector, 8, Vector3(0.));
     std::vector<Ray> rays = PerspectiveCamera(width, height, M_PI_2, Vector3(1, 0, 0));
 
     std::vector<unsigned char> buffer(totalPixels * 4);

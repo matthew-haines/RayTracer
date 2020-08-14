@@ -13,7 +13,7 @@ class BVHIntersector: public Intersector {
     private:
         BVHNode* root; 
         std::vector<Bound> bounds;
-        void WorkerFunction(ThreadSafeQueue<std::function<void(BVHNode**, BVHNode**)>>& queue, int& complete, int total);
+        void WorkerFunction(ThreadSafeQueue<BVHNode*>& queue, int& complete, int total);
     public:
         BVHIntersector(Scene* scene);
         bool getIntersect(Ray ray, Intersection& intersection);

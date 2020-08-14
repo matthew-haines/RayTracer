@@ -32,7 +32,7 @@ BVHIntersector::BVHIntersector(Scene* scene): Intersector(scene) {
     }
     root->bound = Bound(min, max);
     //buildNode(root);
-    ParallelConstruct(8);
+    ParallelConstruct(2);
 }
 
 bool BVHIntersector::getIntersect(Ray ray, Intersection& intersection) {
@@ -48,12 +48,12 @@ bool BVHIntersector::getIntersect(Ray ray, Intersection& intersection) {
     Vector3 intersect;
     
     bool intersected = false;
+    double minDist = std::numeric_limits<double>::max();
     
-    while (true) {
+    while (stackIndex > -1) {
         BVHNode* node = nodeStack[stackIndex];
         if (node->bound.RayIntersect(ray, invDir, dirIsNeg)) {
             if (node->child1 == nullptr) {
-                double minDist = std::numeric_limits<double>::max();
                 for (int primIndex : node->primitives) {
                     double distance = scene->primitives[primIndex]->Intersect(ray, &intersect, &normal);
                     if (distance != -1 && distance < minDist) {
@@ -62,25 +62,25 @@ bool BVHIntersector::getIntersect(Ray ray, Intersection& intersection) {
                         intersection.distance = distance;
                         intersection.intersect = intersect;
                         intersection.normal = normal;
+                        intersection.primitive = scene->primitives[primIndex];
                     }
                 }
-                if (intersected) {
-                    return true;
-                }
+                stackIndex--;
             } else {
                 if (dirIsNeg[node->dim]) {
-                    nodeStack[++stackIndex] = node->child1;
+                    nodeStack[stackIndex] = node->child1;
                     nodeStack[++stackIndex] = node->child2;
                 } else {
-                    nodeStack[++stackIndex] = node->child2;
+                    nodeStack[stackIndex] = node->child2;
                     nodeStack[++stackIndex] = node->child1;
                 }
             }
+        } else {
+            stackIndex--;
         }
-        stackIndex--;
     }
 
-    return false;
+    return intersected;
 }
 
 void BVHIntersector::buildNodeRecursive(BVHNode* precursor) {
@@ -193,6 +193,7 @@ void BVHIntersector::buildNode(BVHNode* precursor, BVHNode** left, BVHNode** rig
 
     for (int index : precursor->primitives) {
         int bucket = (int)((double)bucketCount * (bounds[index].centroid[dim] - precursor->bound.min[dim]) / maxRange);
+        bucket = bucket == bucketCount ? bucket - 1 : bucket;
         buckets[bucket].primitives.push_back(index);
         buckets[bucket].bound = Bound::Union(bounds[index], buckets[bucket].bound);
     }
@@ -245,36 +246,31 @@ void BVHIntersector::buildNode(BVHNode* precursor, BVHNode** left, BVHNode** rig
     return;
 }
 
-void BVHIntersector::WorkerFunction(ThreadSafeQueue<std::function<void(BVHNode**, BVHNode**)>>& queue, int& complete, int total) {
-    int nodesProcessed = 0;
+void BVHIntersector::WorkerFunction(ThreadSafeQueue<BVHNode*>& queue, int& complete, int total) {
     while (complete < total) {
-        std::function<void(BVHNode**, BVHNode**)> job = queue.pop();
-        if (job == nullptr) {
+        auto node = queue.pop();
+        if (node == nullptr) {
             queue.push(nullptr);
             break;
         }
         BVHNode* left = nullptr;
         BVHNode* right = nullptr;
-        job(&left, &right);
+        buildNode(node, &left, &right);
         if (left != nullptr) {
-            auto leftFunc = std::bind(&BVHIntersector::buildNode, this, left, std::placeholders::_1, std::placeholders::_2);
-            auto rightFunc = std::bind(&BVHIntersector::buildNode, this, right, std::placeholders::_1, std::placeholders::_2);
-            queue.push(leftFunc);
-            queue.push(rightFunc);
+            queue.push(left);
+            queue.push(right);
         } else {
-            complete++;
+            complete += node->primitives.size();
             if (complete == total) {
                 queue.push(nullptr);
             }
         }
-        nodesProcessed++;
     }
-    std::cout << nodesProcessed << std::endl;
 }
 
 void BVHIntersector::ParallelConstruct(int threads) {
-    ThreadSafeQueue<std::function<void(BVHNode**, BVHNode**)>> queue;
-    queue.push(std::bind(&BVHIntersector::buildNode, this, root, std::placeholders::_1, std::placeholders::_2));
+    ThreadSafeQueue<BVHNode*> queue;
+    queue.push(root);
     std::vector<std::thread> threadpool;
     int complete = 0;
     int total = scene->primitives.size();
