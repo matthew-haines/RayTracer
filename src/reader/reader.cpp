@@ -6,6 +6,7 @@
 #include "../primitive/primitive.hpp"
 #include "../primitive/sphere.hpp"
 #include "../primitive/plane.hpp"
+#include "../primitive/triangle.hpp"
 #include "../vector3.hpp"
 #include <fstream>
 #include <map>
@@ -69,11 +70,17 @@ Scene ParseSceneFromFile(std::string filename) {
             double d = object_json->at("d").get<double>();
             Material *material = materials[object_json->at("material").get<std::string>()];
             object = new Plane(normal, d, material);
+
+        } else if (type == "Triangle") {
+            Vector3 v0 = object_json->at("v0").get<Vector3>();
+            Vector3 v1 = object_json->at("v1").get<Vector3>();
+            Vector3 v2 = object_json->at("v2").get<Vector3>();
+            Material *material = materials[object_json->at("material").get<std::string>()];
+            object = new Triangle(v0, v1, v2, material);
         } else {
             throw "Object type doesn't exist";
         }
         scene.Insert(object);
     }
-
     return scene;
 }
