@@ -22,6 +22,8 @@ class Vector3 {
         double length();
         void normalize();
         Vector3 normalized();
+        static Vector3 max(Vector3 a, Vector3 b);
+        static Vector3 min(Vector3 a, Vector3 b);
 };
 
 Vector3 operator+(Vector3 a, Vector3 b);         

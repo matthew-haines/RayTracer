@@ -1,6 +1,7 @@
 #include "vector3.hpp"
 #include "matrix3.hpp"
-#include <math.h>
+#include <cmath>
+#include <algorithm>
 #include <cassert>
 
 Vector3::Vector3(double x, double y, double z): x(x), y(y), z(z) {}
@@ -124,7 +125,7 @@ Vector3 Vector3::cross(Vector3 vec) {
 }
 
 double Vector3::length() {
-    return sqrt(x * x + y * y + z * z);
+    return std::sqrt(x * x + y * y + z * z);
 }
 
 void Vector3::normalize() {
@@ -153,10 +154,18 @@ Vector3 operator*(Matrix3 a, Vector3 b) {
 
 Vector3 SphericalToCartesian(Vector3 vec) {
     // (r, theta [0, pi], phi [0, 2pi])
-    return Vector3(vec.x * sin(vec.y) * cos(vec.z), vec.x * sin(vec.y) * sin(vec.z), vec.x * cos(vec.y));
+    return Vector3(vec.x * std::sin(vec.y) * std::cos(vec.z), vec.x * std::sin(vec.y) * std::sin(vec.z), vec.x * std::cos(vec.y));
 }
 
 Vector3 CartesianToSpherical(Vector3 vec) {
     // (r, inclination, azimuth)
     return Vector3(vec.length(), atan2(sqrt(vec.x * vec.x + vec.y * vec.y), vec.z), atan2(vec.y, vec.x));
+}
+
+Vector3 Vector3::max(Vector3 a, Vector3 b) {
+    return Vector3(std::max(a.x, b.x), std::max(a.y, b.y), std::max(a.z, b.z));
+}
+
+Vector3 Vector3::min(Vector3 a, Vector3 b) {
+    return Vector3(std::min(a.x, b.x), std::min(a.y, b.y), std::min(a.z, b.z));
 }
