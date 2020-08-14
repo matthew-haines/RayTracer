@@ -1,6 +1,7 @@
 #include "bvh_intersector.hpp"
 #include "thread_safe_queue.hpp"
 #include <functional>
+#include <iostream>
 #include <thread>
 
 struct BVHNode {
@@ -164,7 +165,7 @@ void BVHIntersector::buildNodeRecursive(BVHNode* precursor) {
     return;
 }
 
-void BVHIntersector::buildNode(BVHNode* precursor, BVHNode* left, BVHNode* right) {
+void BVHIntersector::buildNode(BVHNode* precursor, BVHNode** left, BVHNode** right) {
     if (precursor->primitives.size() == 1) {
         return;
     }
@@ -228,28 +229,33 @@ void BVHIntersector::buildNode(BVHNode* precursor, BVHNode* left, BVHNode* right
     }
 
     if (bestCost < precursor->primitives.size()) {
-        left = new BVHNode();
-        right = new BVHNode();
-        left->bound = candidates[bestPartition].leftBound;
+        *left = new BVHNode();
+        *right = new BVHNode();
+        (**left).bound = candidates[bestPartition].leftBound;
         for (int i = 0; i <= bestPartition; i++) {
-            left->primitives.insert(left->primitives.end(), buckets[i].primitives.begin(), buckets[i].primitives.end());
+            (**left).primitives.insert((**left).primitives.end(), buckets[i].primitives.begin(), buckets[i].primitives.end());
         }
-        right->bound = candidates[bestPartition].rightBound;
+        (**right).bound = candidates[bestPartition].rightBound;
         for (int i = bestPartition+1; i < bucketCount; i++) {
-            right->primitives.insert(right->primitives.end(), buckets[i].primitives.begin(), buckets[i].primitives.end());
+            (**right).primitives.insert((**right).primitives.end(), buckets[i].primitives.begin(), buckets[i].primitives.end());
         }
-        precursor->child1 = left;
-        precursor->child2 = right;
+        precursor->child1 = *left;
+        precursor->child2 = *right;
     }
     return;
 }
 
-void BVHIntersector::WorkerFunction(ThreadSafeQueue<std::function<void(BVHNode*, BVHNode*)>>& queue, int& complete) {
-    while (complete < scene->primitives.size()) {
-        std::function<void(BVHNode*, BVHNode*)> job = queue.pop();
-        BVHNode* left;
-        BVHNode* right;
-        job(left, right);
+void BVHIntersector::WorkerFunction(ThreadSafeQueue<std::function<void(BVHNode**, BVHNode**)>>& queue, int& complete, int total) {
+    int nodesProcessed = 0;
+    while (complete < total) {
+        std::function<void(BVHNode**, BVHNode**)> job = queue.pop();
+        if (job == nullptr) {
+            queue.push(nullptr);
+            break;
+        }
+        BVHNode* left = nullptr;
+        BVHNode* right = nullptr;
+        job(&left, &right);
         if (left != nullptr) {
             auto leftFunc = std::bind(&BVHIntersector::buildNode, this, left, std::placeholders::_1, std::placeholders::_2);
             auto rightFunc = std::bind(&BVHIntersector::buildNode, this, right, std::placeholders::_1, std::placeholders::_2);
@@ -257,17 +263,23 @@ void BVHIntersector::WorkerFunction(ThreadSafeQueue<std::function<void(BVHNode*,
             queue.push(rightFunc);
         } else {
             complete++;
+            if (complete == total) {
+                queue.push(nullptr);
+            }
         }
+        nodesProcessed++;
     }
+    std::cout << nodesProcessed << std::endl;
 }
 
 void BVHIntersector::ParallelConstruct(int threads) {
-    ThreadSafeQueue<std::function<void(BVHNode*, BVHNode*)>> queue;
+    ThreadSafeQueue<std::function<void(BVHNode**, BVHNode**)>> queue;
     queue.push(std::bind(&BVHIntersector::buildNode, this, root, std::placeholders::_1, std::placeholders::_2));
     std::vector<std::thread> threadpool;
     int complete = 0;
+    int total = scene->primitives.size();
     for (int i = 0; i < threads; i++) {
-        auto func = std::bind(&BVHIntersector::WorkerFunction, this, queue, complete);
+        auto func = std::bind(&BVHIntersector::WorkerFunction, this, std::ref(queue), std::ref(complete), total);
         threadpool.emplace_back(func);
     }
 

@@ -12,9 +12,22 @@ class ThreadSafeQueue {
         std::mutex mutex;
         std::condition_variable cv;
     public:
-        ThreadSafeQueue();
-        void push(T val);
-        T pop();
+        ThreadSafeQueue() {};
+        void push(T val) {
+            std::unique_lock<std::mutex> unique_lock(mutex);
+            queue.push(val);
+            unique_lock.unlock();
+            cv.notify_one();
+        }
+        T pop() {
+            std::unique_lock<std::mutex> unique_lock(mutex);
+            cv.wait(unique_lock, [this]{return !queue.empty();});
+            T result = queue.front();
+            queue.pop();
+            unique_lock.unlock();
+            cv.notify_one();
+            return result;
+        }
 };
 
 #endif
