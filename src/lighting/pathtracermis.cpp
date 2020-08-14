@@ -85,7 +85,7 @@ Vector3 PathTracerMIS::Evaluate(Ray ray, int depth) {
             }
         }
         // Weight probabilities with power heuristic
-        return material->color * (intersector.scene->lights.size() * (lightColor * PowerHeuristic(lightProbability, totalBxDFProbability) + BxDFColor * PowerHeuristic(totalBxDFProbability, lightProbability)) + BxDFColor * Evaluate({intersection.intersect + BxDFDirection*epsilon, BxDFDirection}, depth+1) / BxDFProbability * intersection.normal.dot(BxDFDirection));
+        return material->color * (intersector.scene->lights.size() * (lightColor * PowerHeuristic(lightProbability, totalBxDFProbability) + BxDFColor * PowerHeuristic(totalBxDFProbability, lightProbability)) + BxDFColor * Evaluate({intersection.intersect, BxDFDirection}, depth+1) / BxDFProbability * intersection.normal.dot(BxDFDirection));
     }
 }
 

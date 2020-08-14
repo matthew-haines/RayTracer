@@ -5,7 +5,7 @@
 Triangle::Triangle(Vector3 v0, Vector3 v1, Vector3 v2, Material *material): Primitive(material), v0(v0), v1(v1), v2(v2) {
     e1 = (v1-v0);
     e2 = (v2-v0);
-    planeNormal = e1.cross(e2);
+    planeNormal = e1.cross(e2).normalized();
 }
 
 double Triangle::Intersect(Ray ray, Vector3 *intersect, Vector3 *normal) {

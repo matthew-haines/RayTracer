@@ -3,8 +3,8 @@
 #include "primitive.hpp"
 #include <vector>
 
-typedef struct complexPrimitive {
+struct ComplexPrimitive {
     std::vector<Primitive*> primitives;
-} ComplexPrimitive;
+};
 
 #endif

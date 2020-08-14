@@ -7,9 +7,11 @@
 #include "../primitive/sphere.hpp"
 #include "../primitive/plane.hpp"
 #include "../primitive/triangle.hpp"
+#include "../primitive/quad.hpp"
 #include "../vector3.hpp"
 #include <fstream>
 #include <map>
+#include <variant>
 
 void from_json(const json& j, Vector3& v) {
     j.at(0).get_to(v.x);
@@ -58,7 +60,7 @@ Scene ParseSceneFromFile(std::string filename) {
     Scene scene;
     json objects_json = j.at("objects");
     for (json::iterator object_json = objects_json.begin(); object_json != objects_json.end(); ++object_json) {
-        Primitive *object;
+        std::variant<Primitive*, ComplexPrimitive*> object;
         std::string type = object_json->at("type").get<std::string>();
         if (type == "Sphere") {
             Vector3 center = object_json->at("center").get<Vector3>();
@@ -69,7 +71,7 @@ Scene ParseSceneFromFile(std::string filename) {
             Vector3 normal = object_json->at("normal").get<Vector3>();
             double d = object_json->at("d").get<double>();
             Material *material = materials[object_json->at("material").get<std::string>()];
-            object = new Plane(normal, d, material);
+            object = new Plane(normal.normalized(), d, material);
 
         } else if (type == "Triangle") {
             Vector3 v0 = object_json->at("v0").get<Vector3>();
@@ -77,6 +79,13 @@ Scene ParseSceneFromFile(std::string filename) {
             Vector3 v2 = object_json->at("v2").get<Vector3>();
             Material *material = materials[object_json->at("material").get<std::string>()];
             object = new Triangle(v0, v1, v2, material);
+        } else if (type == "Quad") {
+            Vector3 v0 = object_json->at("v0").get<Vector3>();
+            Vector3 v1 = object_json->at("v1").get<Vector3>();
+            Vector3 v2 = object_json->at("v2").get<Vector3>();
+            Vector3 v3 = object_json->at("v3").get<Vector3>();
+            Material *material = materials[object_json->at("material").get<std::string>()];
+            object = new Quad(v0, v1, v2, v3, material);
         } else {
             throw "Object type doesn't exist";
         }
