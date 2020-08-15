@@ -256,7 +256,7 @@ void BVHIntersector::WorkerFunction(ThreadSafeQueue<BVHNode*>& queue, int& compl
         BVHNode* left = nullptr;
         BVHNode* right = nullptr;
         buildNode(node, &left, &right);
-        if (left != nullptr) {
+        if (left != nullptr) { // not leaf
             queue.push(left);
             queue.push(right);
         } else {

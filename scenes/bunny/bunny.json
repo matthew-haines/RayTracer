@@ -1,0 +1,30 @@
+{
+    "bxdfs": [
+        {
+            "name": "Lambertian",
+            "type": "LambertianBRDF",
+            "params": {
+                "albedo": 0.5
+            }
+        }
+    ],
+    "materials": [
+        {
+            "name": "mat",
+            "color": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "emission": 1.0,
+            "bxdf": "Lambertian"
+        }
+    ],
+    "objects": [
+        {
+            "type": "OBJ",
+            "material": "Lambertian",
+            "path": "scenes/bunny/bunny.obj"
+        }
+    ]
+}

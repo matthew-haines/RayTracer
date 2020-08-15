@@ -9,7 +9,9 @@
 #include "../primitive/triangle.hpp"
 #include "../primitive/quad.hpp"
 #include "../vector3.hpp"
+#include "obj_reader.hpp"
 #include <fstream>
+#include <string>
 #include <map>
 #include <variant>
 
@@ -86,6 +88,10 @@ Scene ParseSceneFromFile(std::string filename) {
             Vector3 v3 = object_json->at("v3").get<Vector3>();
             Material *material = materials[object_json->at("material").get<std::string>()];
             object = new Quad(v0, v1, v2, v3, material);
+        } else if (type == "OBJ") {
+            std::string filepath = object_json->at("path").get<std::string>();
+            Material *material = materials[object_json->at("material").get<std::string>()];
+            object = ParseOBJFile(filepath, material);
         } else {
             throw "Object type doesn't exist";
         }
