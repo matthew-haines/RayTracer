@@ -13,6 +13,8 @@ class BVHIntersector: public Intersector {
     private:
         BVHNode* root; 
         std::vector<Bound> bounds;
+        int processed = 0;
+        int added = 0;
         void WorkerFunction(ThreadSafeQueue<BVHNode*>& queue, int& complete, int total);
     public:
         BVHIntersector(Scene* scene);

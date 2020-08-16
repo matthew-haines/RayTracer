@@ -11,6 +11,8 @@ class ThreadSafeQueue {
         std::queue<T> queue;
         std::mutex mutex;
         std::condition_variable cv;
+        int added = 0;
+        int removed = 0;
     public:
         ThreadSafeQueue() {};
         void push(T val) {
@@ -18,6 +20,7 @@ class ThreadSafeQueue {
             queue.push(val);
             unique_lock.unlock();
             cv.notify_one();
+            added++;
         }
         T pop() {
             std::unique_lock<std::mutex> unique_lock(mutex);
@@ -26,6 +29,7 @@ class ThreadSafeQueue {
             queue.pop();
             unique_lock.unlock();
             cv.notify_one();
+            removed++;
             return result;
         }
 };

@@ -30,7 +30,7 @@
             "type": "lldb",
             "request": "launch",
             "program": "${workspaceFolder}/bin/tracer",
-            "args": ["--input=scenes/bunny/bunny.json", "--threads=1"],
+            "args": ["--input=scenes/obj/tetrahedron.json", "--threads=1", "--size=50", "--count=8"],
             "cwd": "${workspaceFolder}",
             "preLaunchTask": "build",
         }

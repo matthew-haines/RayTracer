@@ -32,7 +32,7 @@ BVHIntersector::BVHIntersector(Scene* scene): Intersector(scene) {
     }
     root->bound = Bound(min, max);
     //buildNode(root);
-    ParallelConstruct(2);
+    ParallelConstruct(1);
 }
 
 bool BVHIntersector::getIntersect(Ray ray, Intersection& intersection) {
@@ -257,10 +257,12 @@ void BVHIntersector::WorkerFunction(ThreadSafeQueue<BVHNode*>& queue, int& compl
         BVHNode* right = nullptr;
         buildNode(node, &left, &right);
         if (left != nullptr) { // not leaf
+            added++;
             queue.push(left);
             queue.push(right);
         } else {
             complete += node->primitives.size();
+            processed++;
             if (complete == total) {
                 queue.push(nullptr);
             }

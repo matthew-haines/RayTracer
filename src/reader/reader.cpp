@@ -91,7 +91,9 @@ Scene ParseSceneFromFile(std::string filename) {
         } else if (type == "OBJ") {
             std::string filepath = object_json->at("path").get<std::string>();
             Material *material = materials[object_json->at("material").get<std::string>()];
-            object = ParseOBJFile(filepath, material);
+            double scale = object_json->at("scale").get<double>();
+            Vector3 position = object_json->at("position").get<Vector3>();
+            object = ParseOBJFile(filepath, material, position, scale);
         } else {
             throw "Object type doesn't exist";
         }
