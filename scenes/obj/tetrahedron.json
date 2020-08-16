@@ -111,9 +111,9 @@
         },
         {
             "type": "OBJ",
-            "material": "White",
+            "material": "Green",
             "path": "scenes/obj/tetrahedron.obj",
-            "position": [2, 0, -1],
+            "position": [4.5, 0, -2.5],
             "scale": 0.5
         }
     ]

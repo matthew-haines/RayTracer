@@ -20,6 +20,16 @@
             "bxdf": "Lambertian"
         },
         {
+            "name": "RedLight",
+            "color": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "emission": 2.0,
+            "bxdf": "Lambertian"
+        },
+        {
             "name": "Red",
             "color": [
                 1.0,
@@ -61,59 +71,33 @@
             ],
             "radius": 1.0
         },
+
         {
-            "type": "Quad",
-            "material": "White",
-            "v0": [6, 4, 4],
-            "v1": [6, -4, 4],
-            "v2": [6, -4, -4],
-            "v3": [6, 4, -4]
+            "type": "Sphere",
+            "material": "Light",
+            "center": [
+                2,
+                -3.0,
+                -1
+            ],
+            "radius": 1.0
         },
+
         {
-            "type": "Quad",
-            "material": "White",
-            "v0": [-2, 4, 4],
-            "v1": [-2, -4, 4],
-            "v2": [-2, -4, -4],
-            "v3": [-2, 4, -4]
-        },
-        {
-            "type": "Quad",
-            "material": "White",
-            "v0": [6, 4, 4],
-            "v1": [6, -4, 4],
-            "v2": [-2, -4, 4],
-            "v3": [-2, 4, 4]
-        },
-        {
-            "type": "Quad",
-            "material": "White",
-            "v0": [6, 4, -4],
-            "v1": [6, -4, -4],
-            "v2": [-2, -4, -4],
-            "v3": [-2, 4, -4]
-        },
-        {
-            "type": "Quad",
-            "material": "Red",
-            "v0": [6, 4, 4],
-            "v1": [6, 4, -4],
-            "v2": [-2, 4, -4],
-            "v3": [-2, 4, 4]
-        },
-        {
-            "type": "Quad",
-            "material": "Green",
-            "v0": [6, -4, 4],
-            "v1": [6, -4, -4],
-            "v2": [-2, -4, -4],
-            "v3": [-2, -4, 4]
+            "type": "Sphere",
+            "material": "RedLight",
+            "center": [
+                2,
+                5,
+                2.5
+            ],
+            "radius": 1.0
         },
         {
             "type": "OBJ",
             "material": "White",
             "path": "scenes/obj/bunny.obj",
-            "position": [3, 0, 0],
+            "position": [4, -0.6, -0.5],
             "scale": 1
         }
     ]

@@ -43,19 +43,20 @@ bool BVHIntersector::getIntersect(Ray ray, Intersection& intersection) {
     BVHNode* nodeStack[64];
     int stackIndex = 0;
     nodeStack[0] = root;
-
+    calls++;
     Vector3 normal;
     Vector3 intersect;
     
     bool intersected = false;
     double minDist = std::numeric_limits<double>::max();
-    
+
     while (stackIndex > -1) {
         BVHNode* node = nodeStack[stackIndex];
         if (node->bound.RayIntersect(ray, invDir, dirIsNeg)) {
             if (node->child1 == nullptr) {
                 for (int primIndex : node->primitives) {
                     double distance = scene->primitives[primIndex]->Intersect(ray, &intersect, &normal);
+                    intersections++;
                     if (distance != -1 && distance < minDist) {
                         intersected = true;
                         minDist = distance;
