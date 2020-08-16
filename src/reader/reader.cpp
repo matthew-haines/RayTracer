@@ -93,7 +93,8 @@ Scene ParseSceneFromFile(std::string filename) {
             Material *material = materials[object_json->at("material").get<std::string>()];
             double scale = object_json->at("scale").get<double>();
             Vector3 position = object_json->at("position").get<Vector3>();
-            object = ParseOBJFile(filepath, material, position, scale);
+            Vector3 rotation = object_json->at("rotation").get<Vector3>();
+            object = ParseOBJFile(filepath, material, position, rotation, scale, true);
         } else {
             throw "Object type doesn't exist";
         }

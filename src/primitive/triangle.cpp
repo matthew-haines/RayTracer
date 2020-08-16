@@ -2,7 +2,7 @@
 #include "../constants.hpp"
 #include "../ray.hpp"
 
-Triangle::Triangle(Vector3 v0, Vector3 v1, Vector3 v2, Material *material): Primitive(material), v0(v0), v1(v1), v2(v2) {
+Triangle::Triangle(Vector3 v0, Vector3 v1, Vector3 v2, Material *material, bool normals, Vector3 vn0, Vector3 vn1, Vector3 vn2): Primitive(material), v0(v0), v1(v1), v2(v2), normals(normals), vn0(vn0), vn1(vn1), vn2(vn2) {
     e1 = (v1-v0);
     e2 = (v2-v0);
     planeNormal = e1.cross(e2).normalized();
@@ -32,7 +32,12 @@ double Triangle::Intersect(Ray ray, Vector3 *intersect, Vector3 *normal) {
     double distance = e2.dot(q) * invDeterminant;
     if (distance > epsilon) {
         *intersect = ray.origin + distance * ray.direction;
-        *normal = determinant > 0. ? planeNormal : -planeNormal;
+        if (normals) {
+            *normal = u * vn0 + v * vn1 + (1. - u - v) * vn2;
+        } else {
+            *normal = planeNormal;
+        }
+        *normal = determinant > 0. ? *normal : -*normal;
         return distance;
     }
     return -1;

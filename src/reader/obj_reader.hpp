@@ -4,6 +4,6 @@
 #include "../material/material.hpp"
 #include <string>
 
-ComplexPrimitive* ParseOBJFile(std::string filepath, Material* material, Vector3 position = Vector3(0.), double scale = 1.);
+ComplexPrimitive* ParseOBJFile(std::string filepath, Material* material, Vector3 position = Vector3(0.), Vector3 rotation = Vector3(0.), double scale = 1., bool normal=false);
 
 #endif
