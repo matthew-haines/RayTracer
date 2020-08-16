@@ -98,13 +98,17 @@ void BVHIntersector::buildNodeRecursive(BVHNode* precursor) {
     const int bucketCount = 12; // yay magic number
     Bucket buckets[bucketCount];
 
-    int dim;
-    double maxRange = 0.0;
+    Bound centroidBound;
+    for (int index : precursor->primitives) {
+        centroidBound = Bound::Union(centroidBound, bounds[index].centroid);
+    }
+    int dim = 0;
+    double maxRange = std::numeric_limits<double>::lowest();
     for (int i = 0; i < 3; i++) {
-        double range = precursor->bound.max[i] - precursor->bound.min[i];
+        double range = centroidBound.max[i] - centroidBound.min[i];
         if (range > maxRange) {
-            dim = i;
             maxRange = range;
+            dim = i;
         }
     }
 
@@ -179,17 +183,24 @@ void BVHIntersector::buildNode(BVHNode* precursor, BVHNode** left, BVHNode** rig
 
     const int bucketCount = 12; // yay magic number
     Bucket buckets[bucketCount];
-
-    int dim;
-    double maxRange = 0.0;
+    
+    Bound centroidBound;
+    for (int index : precursor->primitives) {
+        centroidBound = Bound::Union(centroidBound, bounds[index].centroid);
+    }
+    int dim = 0;
+    double maxCentroidRange = std::numeric_limits<double>::lowest();
     for (int i = 0; i < 3; i++) {
-        double range = precursor->bound.max[i] - precursor->bound.min[i];
-        if (range > maxRange) {
+        double range = centroidBound.max[i] - centroidBound.min[i];
+        if (range > maxCentroidRange) {
+            maxCentroidRange = range;
             dim = i;
-            maxRange = range;
         }
     }
-
+    double maxRange = precursor->bound.max[dim] - precursor->bound.min[dim];
+    if (maxRange == 0) {
+        return;
+    }
     precursor->dim = dim;
 
     for (int index : precursor->primitives) {

@@ -23,9 +23,11 @@ double Bound::SurfaceArea() {
 
 
 Bound Bound::Union(Bound a, Bound b) {
-    Vector3 min(std::min(a.min.x, b.min.x), std::min(a.min.y, b.min.y), std::min(a.min.z, b.min.z));
-    Vector3 max(std::max(a.max.x, b.max.x), std::max(a.max.y, b.max.y), std::max(a.max.z, b.max.z));
-    return Bound(min, max);
+    return Bound(Vector3::min(a.min, b.min), Vector3::max(a.max, b.max));
+}
+
+Bound Bound::Union(Bound a, Vector3 b) {
+    return Bound(Vector3::min(a.min, b), Vector3::max(a.max, b));
 }
 
 Vector3& Bound::operator[](int index) {
@@ -35,6 +37,8 @@ Vector3& Bound::operator[](int index) {
             return min;
         case 1:
             return max;
+        default:
+            return min;
     }
 }
 
