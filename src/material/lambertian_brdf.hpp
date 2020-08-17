@@ -5,7 +5,6 @@
 class LambertianBRDF: public BxDF {
     public:
         double albedo;
-        bool specular=false;
         LambertianBRDF(double albedo);
         Vector3 Evaluate(Vector3 in, Vector3 normal, Vector3 out);
         Vector3 Sample(Vector3 in, Vector3 normal);

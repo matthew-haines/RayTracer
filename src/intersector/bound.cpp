@@ -31,15 +31,10 @@ Bound Bound::Union(Bound a, Vector3 b) {
 }
 
 Vector3& Bound::operator[](int index) {
-    assert(index == 0 || index == 1);
-    switch (index) {
-        case 0:
-            return min;
-        case 1:
-            return max;
-        default:
-            return min;
+    if (index == 0) {
+        return min;
     }
+    return max;
 }
 
 bool Bound::RayIntersect(Ray& ray, Vector3& invDir, const int dirIsNeg[3]) {

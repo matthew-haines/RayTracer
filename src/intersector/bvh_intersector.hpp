@@ -17,8 +17,6 @@ class BVHIntersector: public Intersector {
         int added = 0;
         void WorkerFunction(ThreadSafeQueue<BVHNode*>& queue, int& complete, int total);
     public:
-        int intersections = 0;
-        int calls = 0;
         BVHIntersector(Scene* scene);
         bool getIntersect(Ray ray, Intersection& intersection);
         void buildNodeRecursive(BVHNode* precursor);
