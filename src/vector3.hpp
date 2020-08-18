@@ -20,6 +20,8 @@ class Vector3 {
         double dot(Vector3 vec);
         Vector3 cross(Vector3 vec);
         double length();
+        double max();
+        double min();
         void normalize();
         Vector3 normalized();
         static Vector3 max(Vector3 a, Vector3 b);

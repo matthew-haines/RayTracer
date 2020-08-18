@@ -128,6 +128,15 @@ double Vector3::length() {
     return std::sqrt(x * x + y * y + z * z);
 }
 
+double Vector3::max() {
+    return std::max(x, std::max(y, z));
+}
+
+double Vector3::min() {
+    return std::min(x, std::min(y, z));
+}
+
+
 void Vector3::normalize() {
     double magnitude = length();
     x /= magnitude;
