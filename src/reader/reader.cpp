@@ -14,6 +14,7 @@
 #include <string>
 #include <map>
 #include <variant>
+#include <iostream>
 
 void from_json(const json& j, Vector3& v) {
     j.at(0).get_to(v.x);
@@ -74,7 +75,6 @@ Scene ParseSceneFromFile(std::string filename) {
             double d = object_json->at("d").get<double>();
             Material *material = materials[object_json->at("material").get<std::string>()];
             object = new Plane(normal.normalized(), d, material);
-
         } else if (type == "Triangle") {
             Vector3 v0 = object_json->at("v0").get<Vector3>();
             Vector3 v1 = object_json->at("v1").get<Vector3>();

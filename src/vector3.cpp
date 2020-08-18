@@ -105,14 +105,12 @@ Vector3 operator/(Vector3 a, double b) {
 }
 
 double& Vector3::operator[](int index) {
-    assert(index == 0 || index == 1 || index == 2);
-    switch (index) {
-        case 0:
-            return x;
-        case 1:
-            return y;
-        case 2:
-            return z;
+    if (index == 0) {
+        return x;
+    } else if (index == 1) {
+        return y;
+    } else {
+        return z;
     }
 }
 

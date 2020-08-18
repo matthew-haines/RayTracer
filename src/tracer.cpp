@@ -99,7 +99,7 @@ int main(int argc, char *argv[]) {
 
     BVHIntersector intersector(&scene);
     PathTracerMIS model(intersector, 4, Vector3(0.));
-    std::vector<Ray> rays = PerspectiveCamera(width, height, M_PI_2, Vector3(1, 0, 0));
+    std::vector<Ray> rays = PerspectiveCamera(width, height, M_PI_2, Vector3(0.5, 0, 0.5).normalized());
 
     std::vector<unsigned char> buffer(totalPixels * 4);
 

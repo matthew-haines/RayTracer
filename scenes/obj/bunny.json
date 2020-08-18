@@ -64,31 +64,19 @@
         {
             "type": "Sphere",
             "material": "Light",
-            "center": [
-                4.0,
-                0.0,
-                2.5
-            ],
+            "center": [4.0, 0.0, 2.5],
             "radius": 1.0
         },
         {
             "type": "Sphere",
             "material": "Light",
-            "center": [
-                2,
-                -3.0,
-                -1
-            ],
+            "center": [2, -3.0, -1],
             "radius": 1.0
         },
         {
             "type": "Sphere",
             "material": "RedLight",
-            "center": [
-                2,
-                5,
-                2.5
-            ],
+            "center": [2, 5, 2.5],
             "radius": 1.0
         },     
         {

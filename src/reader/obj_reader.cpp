@@ -28,20 +28,33 @@ ComplexPrimitive* ParseOBJFile(std::string filepath, Material* material, Vector3
                 vertices.push_back((rotationMatrix * vector * scale) + position);
             }
         } else if (line[0] == 'f') {
+            int v0, vn0, v1, vn1, v2, vn2;
+            bool hasNormals = false;
             std::string::size_type start = 2;
             std::string::size_type offset;
-            int v0 = std::stoi(line.substr(start), &offset);
-            start += offset + 2;
-            int vn0 = std::stoi(line.substr(start), &offset);
+            v0 = std::stoi(line.substr(start), &offset);
             start += offset;
-            int v1 = std::stoi(line.substr(start), &offset);
-            start += offset + 2;
-            int vn1 = std::stoi(line.substr(start), &offset);
+            if (line[start] == '/') {
+                start += 2;
+                hasNormals = true;
+                vn0 = std::stoi(line.substr(start), &offset);
+                start += offset;
+            }
+            v1 = std::stoi(line.substr(start), &offset);
             start += offset;
-            int v2 = std::stoi(line.substr(start), &offset);
-            start += offset + 2;
-            int vn2 = std::stoi(line.substr(start), &offset);
-            if (normal) {
+            if (hasNormals) {
+                start += 2; 
+                vn1 = std::stoi(line.substr(start), &offset);
+                start += offset;
+            }
+            v2 = std::stoi(line.substr(start), &offset);
+            start += offset;
+            if (hasNormals) {
+                start += 2; 
+                vn2 = std::stoi(line.substr(start), &offset);
+                start += offset;
+            }
+            if (normal && hasNormals) {
                 mesh->primitives.push_back(new Triangle(vertices[v0-1], vertices[v1-1], vertices[v2-1], material, true, normals[vn0-1], normals[vn1-1], normals[vn2-1]));
             } else {
                 mesh->primitives.push_back(new Triangle(vertices[v0-1], vertices[v1-1], vertices[v2-1], material));

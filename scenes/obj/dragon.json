@@ -1,0 +1,71 @@
+{
+    "bxdfs": [
+        {
+            "name": "Lambertian",
+            "type": "LambertianBRDF",
+            "params": {
+                "albedo": 0.5
+            }
+        }
+    ],
+    "materials": [
+        {
+            "name": "Light",
+            "color": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "emission": 8.0,
+            "bxdf": "Lambertian"
+        },
+        {
+            "name": "White",
+            "color": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "emission": 0.0,
+            "bxdf": "Lambertian"
+        },
+        {
+            "name": "Grey",
+            "color": [
+                0.7,
+                0.7,
+                0.7
+            ],
+            "emission": 0.0,
+            "bxdf": "Lambertian"
+        }
+    ],
+    "objects": [
+        {
+            "type": "Sphere",
+            "material": "Light",
+            "center": [
+                2.0,
+                -1.0,
+                15
+            ],
+            "radius": 10
+        },
+        {
+            "type": "Quad",
+            "material": "White",
+            "v0": [-15, 15, -6.5],
+            "v1": [15, 15, -6.5],
+            "v2": [15, -15, -6.5],
+            "v3": [-15, -15, -6.5]
+        },
+        {
+            "type": "OBJ",
+            "material": "Grey",
+            "path": "scenes/obj/dragon.obj",
+            "position": [-0.7, 1.5, -2.5],
+            "scale": 0.7,
+            "rotation": [1.570796327, 0, -0.5]
+        }
+    ]
+}
