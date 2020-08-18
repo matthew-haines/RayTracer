@@ -110,9 +110,9 @@ int main(int argc, char *argv[]) {
 
     std::function<void(int)> charConv = [&buffer, &result](int index) {
         int baseIndex = index * 4;
-        buffer[baseIndex] = ColorToChar(std::pow(result[index].x, 1/2.2));
-        buffer[++baseIndex] = ColorToChar(std::pow(result[index].y, 1/2.2));
-        buffer[++baseIndex] = ColorToChar(std::pow(result[index].z, 1/2.2));
+        buffer[baseIndex] = ColorToChar(std::pow(result[index].x(), 1/2.2));
+        buffer[++baseIndex] = ColorToChar(std::pow(result[index].y(), 1/2.2));
+        buffer[++baseIndex] = ColorToChar(std::pow(result[index].z(), 1/2.2));
         buffer[++baseIndex] = 255;
     };
 

@@ -38,7 +38,7 @@ BVHIntersector::BVHIntersector(Scene* scene): Intersector(scene) {
 bool BVHIntersector::getIntersect(Ray ray, Intersection& intersection) {
     // Because of the strict performance requirements, I adapted this from PBRT
     Vector3 invDir = 1. / ray.direction;
-    int dirIsNeg[3] = {ray.direction.x < 0., ray.direction.y < 0., ray.direction.z < 0.};
+    int dirIsNeg[3] = {ray.direction.x() < 0., ray.direction.y() < 0., ray.direction.z() < 0.};
 
     BVHNode* nodeStack[64];
     int stackIndex = 0;

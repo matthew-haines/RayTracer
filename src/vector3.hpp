@@ -1,18 +1,28 @@
 #ifndef VECTOR3_HPP
 #define VECTOR3_HPP
 #include "matrix3.hpp"
+#include "immintrin.h"
+
+union SIMDData {
+    __m256d d4;
+    double d[4];
+};
 
 class Vector3 {
     public:
-        double x, y, z;
+        SIMDData data;
         Vector3() = default;
-        Vector3(double x, double y, double z);
-        Vector3(double x);
+        Vector3(double _x, double _y, double _z);
+        Vector3(double _x);
+        Vector3(__m256d dat);
+        double x();
+        double y();
+        double z();
         Vector3& operator+=(Vector3 vec);         
         Vector3& operator-=(Vector3 vec);
         Vector3& operator*=(Vector3 vec);
         Vector3& operator/=(Vector3 vec);
-        Vector3& operator+=(double a);         
+         Vector3& operator+=(double a);         
         Vector3& operator-=(double a);
         Vector3& operator*=(double a);
         Vector3& operator/=(double a);

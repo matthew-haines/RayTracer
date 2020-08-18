@@ -5,7 +5,7 @@ LIBDIR := lib
 OBJDIR := obj
 BINDIR := bin
 TARGET := tracer
-CPPFLAGS := -c -g -std=c++17 -Wall -O
+CPPFLAGS := -c -g -std=c++17 -Wall -O -march=skylake
 LDLIBS := -lm -lpthread
 
 SOURCES :=  $(shell find $(SRCDIR) -name "*.cpp")

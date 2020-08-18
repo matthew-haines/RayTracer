@@ -16,9 +16,9 @@
 #include <variant>
 
 void from_json(const json& j, Vector3& v) {
-    j.at(0).get_to(v.x);
-    j.at(1).get_to(v.y);
-    j.at(2).get_to(v.z);
+    j.at(0).get_to(v.data.d[0]);
+    j.at(1).get_to(v.data.d[1]);
+    j.at(2).get_to(v.data.d[2]);
 }
 
 Scene ParseSceneFromFile(std::string filename) {

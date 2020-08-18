@@ -7,7 +7,7 @@ ComplexPrimitive* ParseOBJFile(std::string filepath, Material* material, Vector3
     // only handles faces and vertices for now
     std::vector<Vector3> vertices;
     std::vector<Vector3> normals;
-    Matrix3 rotationMatrix = Matrix3::createEulerRotationMatrix(rotation.x, rotation.y, rotation.z);
+    Matrix3 rotationMatrix = Matrix3::createEulerRotationMatrix(rotation.x(), rotation.y(), rotation.z());
     ComplexPrimitive* mesh = new ComplexPrimitive;
     std::ifstream file(filepath);
     std::string line;

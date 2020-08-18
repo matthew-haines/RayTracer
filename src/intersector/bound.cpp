@@ -14,9 +14,9 @@ Bound::Bound(Vector3 min, Vector3 max): min(min), max(max) {
 }
 
 double Bound::SurfaceArea() {
-    double length = max.x - min.x;
-    double width = max.y - min.y;
-    double height = max.z - min.z;
+    double length = max.x() - min.x();
+    double width = max.y() - min.y();
+    double height = max.z() - min.z();
     return 2. * (length * width + length * height + width * height);
 }
 
@@ -40,10 +40,10 @@ Vector3& Bound::operator[](int index) {
 bool Bound::RayIntersect(Ray& ray, Vector3& invDir, const int dirIsNeg[3]) {
     // Because of the strict performance requirements, I copied this from PBRT
     Bound& bound = *this;
-    double tMin = (bound[dirIsNeg[0]].x - ray.origin.x) * invDir.x;
-    double tMax = (bound[1-dirIsNeg[0]].x - ray.origin.x) * invDir.x;
-    double tyMin = (bound[dirIsNeg[1]].y - ray.origin.y) * invDir.y;
-    double tyMax = (bound[1-dirIsNeg[1]].y - ray.origin.y) * invDir.y;
+    double tMin = (bound[dirIsNeg[0]].x() - ray.origin.x()) * invDir.x();
+    double tMax = (bound[1-dirIsNeg[0]].x() - ray.origin.x()) * invDir.x();
+    double tyMin = (bound[dirIsNeg[1]].y() - ray.origin.y()) * invDir.y();
+    double tyMax = (bound[1-dirIsNeg[1]].y() - ray.origin.y()) * invDir.y();
 
     if (tMin > tyMax || tyMin > tMax) {
         return false;
@@ -55,8 +55,8 @@ bool Bound::RayIntersect(Ray& ray, Vector3& invDir, const int dirIsNeg[3]) {
         tMax = tyMax;
     }
 
-    double tzMin = (bound[dirIsNeg[2]].z - ray.origin.z) * invDir.z;
-    double tzMax = (bound[1-dirIsNeg[2]].z - ray.origin.z) * invDir.z;
+    double tzMin = (bound[dirIsNeg[2]].z() - ray.origin.z()) * invDir.z();
+    double tzMax = (bound[1-dirIsNeg[2]].z() - ray.origin.z()) * invDir.z();
     if (tMin > tzMax || tzMin > tMax) {
         return false; 
     }

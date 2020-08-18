@@ -6,15 +6,15 @@
 Matrix3::Matrix3(double x11, double x12, double x13, double x21, double x22, double x23, double x31, double x32, double x33) : x11(x11), x12(x12), x13(x13), x21(x21), x22(x22), x23(x23), x31(x31), x32(x32), x33(x33) {};
 
 Matrix3::Matrix3(Vector3 v1, Vector3 v2, Vector3 v3) {
-    x11 = v1.x;
-    x12 = v2.x;
-    x13 = v3.x;
-    x21 = v1.y;
-    x22 = v2.y;
-    x23 = v3.y;
-    x31 = v1.z;
-    x32 = v2.z;
-    x33 = v3.z;
+    x11 = v1.x();
+    x12 = v2.x();
+    x13 = v3.x();
+    x21 = v1.y();
+    x22 = v2.y();
+    x23 = v3.y();
+    x31 = v1.z();
+    x32 = v2.z();
+    x33 = v3.z();
 }
 
 Matrix3 Matrix3::createEulerRotationMatrix(double xRotation, double yRotation, double zRotation) {
@@ -33,13 +33,13 @@ Matrix3 Matrix3::createEulerRotationMatrix(double xRotation, double yRotation, d
 }
 
 Matrix3 Matrix3::createSSCrossMatrix(Vector3 v) {
-    return Matrix3(0., -v.z, v.y, v.z, 0., -v.x, -v.y, v.x, 0.);
+    return Matrix3(0., -v.z(), v.y(), v.z(), 0., -v.x(), -v.y(), v.x(), 0.);
 }
 
 Matrix3 Matrix3::createFromNormal(Vector3 normal) {
     // Rotation matrix: Final = Mat * Initial
     Vector3 temp(1., 0., 0.);
-    if (abs(normal.x) > 0.99) {
+    if (abs(normal.x()) > 0.99) {
         temp = Vector3(0., 0., 1.);
     }
 
