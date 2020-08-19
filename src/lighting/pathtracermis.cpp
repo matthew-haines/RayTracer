@@ -10,21 +10,6 @@ PathTracerMIS::PathTracerMIS(Intersector& intersector, int maxDepth, Vector3 amb
     dist = std::uniform_real_distribution<double>(0, 1);
 }
 
-std::vector<Vector3> PathTracerMIS::Render(std::vector<Ray>& rays, int threads, int samples) {
-    std::vector<Vector3> image(rays.size());
-    ParallelizeLoop(threads, std::bind(&PathTracerMIS::EvaluateWrapper, this, std::placeholders::_1, std::ref(rays), std::ref(image), samples), rays.size(), true);
-    return image;
-}
-
-void PathTracerMIS::EvaluateWrapper(int index, std::vector<Ray>& rays, std::vector<Vector3>& image, int samples) {
-    image[index] = Vector3(0.);
-    for (int i = 0; i < samples; i++) {
-        Vector3 result = Evaluate(rays[index], 1);
-        image[index] += result;
-    }
-    image[index] /= (double)samples;
-}
-
 Vector3 PathTracerMIS::Evaluate(Ray ray, int depth) {
     // Combine estimate of direct lighting by sampling different lights in scene with an indirect ray with MIS (Veach '97 power heuristic)
     //direct

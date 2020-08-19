@@ -3,6 +3,7 @@
 #include "../vector3.hpp"
 #include "../ray.hpp"
 #include "../intersector/intersector.hpp"
+#include "../camera/camera.hpp"
 #include <vector>
 
 class LightingModel {
@@ -11,8 +12,9 @@ class LightingModel {
         int maxDepth;
         Vector3 ambient;
     public:
-        LightingModel(Intersector& intersector, int maxDepth, Vector3 ambient): intersector(intersector), maxDepth(maxDepth), ambient(ambient) {};
-        virtual std::vector<Vector3> Render(std::vector<Ray> &rays, int threads, int samples)=0;
+        LightingModel(Intersector& intersector, int maxDepth, Vector3 ambient);
+        void Render(Camera& camera, int threads, int samples);
+        virtual Vector3 Evaluate(Ray ray, int depth)=0;
 };
 
 #endif

@@ -3,7 +3,7 @@
 #include "primitive/sphere.hpp"
 #include "primitive/plane.hpp"
 #include "material/material.hpp"
-#include "camera/cameras.hpp"
+#include "camera/perspective_camera.hpp"
 #include "material/lambertian_brdf.hpp"
 #include "scene.hpp"
 #include "material/perfect_specular_brdf.hpp"
@@ -99,14 +99,12 @@ int main(int argc, char *argv[]) {
 
     BVHIntersector intersector(&scene);
     PathTracerMIS model(intersector, 4, Vector3(0.));
-    std::vector<Ray> rays = PerspectiveCamera(width, height, M_PI_2, Vector3(0.5, 0, 0.5).normalized());
-
-    std::vector<unsigned char> buffer(totalPixels * 4);
+    PerspectiveCamera camera(M_PI_2, false, width, height);
 
     std::cout << "Rendering" << std::endl;
     auto start = std::chrono::high_resolution_clock::now();
 
-    std::vector<Vector3> result = model.Render(rays, threads, samples);
+    model.Render(camera, threads, samples);
 
     auto stop = std::chrono::high_resolution_clock::now();
 
@@ -114,5 +112,5 @@ int main(int argc, char *argv[]) {
 
     std::cout << "Writing" << std::endl;
 
-
+    camera.Write(outfilename);
 }
