@@ -108,24 +108,11 @@ int main(int argc, char *argv[]) {
 
     std::vector<Vector3> result = model.Render(rays, threads, samples);
 
-    std::function<void(int)> charConv = [&buffer, &result](int index) {
-        int baseIndex = index * 4;
-        buffer[baseIndex] = ColorToChar(std::pow(result[index].x, 1/2.2));
-        buffer[++baseIndex] = ColorToChar(std::pow(result[index].y, 1/2.2));
-        buffer[++baseIndex] = ColorToChar(std::pow(result[index].z, 1/2.2));
-        buffer[++baseIndex] = 255;
-    };
-
-    ParallelizeLoop(threads, charConv, totalPixels);
-
     auto stop = std::chrono::high_resolution_clock::now();
 
     std::cout << std::endl << std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count() << " ms" << std::endl;
 
     std::cout << "Writing" << std::endl;
 
-    unsigned error = lodepng::encode(outfilename, buffer, width, height);
-    if (error) {
-        std::cout << "Encoding error: " << error << ": " << lodepng_error_text(error) << std::endl;
-    }
+
 }

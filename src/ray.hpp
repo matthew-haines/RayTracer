@@ -2,8 +2,9 @@
 #define RAY_HPP
 #include "vector3.hpp"
 
-typedef struct ray {
+struct Ray {
     Vector3 origin, direction;
-} Ray;
+    Ray(Vector3 origin, Vector3 direction): origin(origin), direction(direction) {};
+};
 
 #endif
