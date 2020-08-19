@@ -1,10 +1,16 @@
 #include "lighting_model.hpp"
+#include <chrono>
+#include <iostream>
 #include <thread>
 
 LightingModel::LightingModel(Intersector& intersector, int maxDepth, Vector3 ambient): intersector(intersector), maxDepth(maxDepth), ambient(ambient) {};
 
 void LightingModel::Render(Camera& camera, int threads, int samples) {
-    auto workerFunction = [this, &camera, samples]() {
+    int finished = 0;
+    int total = camera.width * camera.height;
+    auto last = std::chrono::high_resolution_clock::now();
+
+    auto workerFunction = [this, &camera, samples, &last, &finished, &total]() {
         while (true) {
             Vector3* location = nullptr;
             auto rayGen = camera.Next(&location);
@@ -17,6 +23,15 @@ void LightingModel::Render(Camera& camera, int threads, int samples) {
             }
             accumulator /= samples;
             *location = accumulator;
+            finished++;
+            if (finished % (total / 100) == 0) {
+                auto now = std::chrono::high_resolution_clock::now();
+                double milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(now - last).count();
+                last = now;
+                double remaining = 100. - (double)finished / (double)total * 100.;
+                std::cout << "\r" << 100 * finished / total << "\% (" << (int)(remaining * milliseconds) / 1000 << " s)     " << std::flush;
+
+            }
         }
     };
 
