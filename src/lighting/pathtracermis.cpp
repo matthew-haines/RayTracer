@@ -3,6 +3,7 @@
 #include "../helpers.hpp"
 #include "../constants.hpp"
 #include <functional>
+#include <iostream>
 
 PathTracerMIS::PathTracerMIS(Intersector& intersector, int maxDepth, Vector3 ambient): LightingModel(intersector, maxDepth, ambient) {
     std::random_device rd;
@@ -57,20 +58,23 @@ Vector3 PathTracerMIS::Evaluate(Ray ray, int depth) {
         Vector3 BxDFDirection = material->bxdf->Sample(ray.direction, intersection.normal);
         double BxDFProbability = material->bxdf->pdf(ray.direction, intersection.normal, BxDFDirection);
         double totalBxDFProbability = BxDFProbability * light->DirectionalSamplePDF(intersection.intersect, BxDFDirection);
-        Vector3 BxDFColor(0.);
+        Vector3 randomColor(0.);
+        Vector3 randomBxDF;
         if (BxDFProbability != 0.)  {
             Intersection lightIntersection;
-            Vector3 lightSampleBxDF = material->bxdf->Evaluate(ray.direction, intersection.normal, BxDFDirection);
+            randomBxDF = material->bxdf->Evaluate(ray.direction, intersection.normal, BxDFDirection);
             if (intersector.getIntersect({intersection.intersect, BxDFDirection}, lightIntersection)) {
                 if (lightIntersection.primitive != light) {
-                    BxDFColor = Vector3(0.);
+                    randomColor = Vector3(0.);
                 } else {
-                    BxDFColor = lightIntersection.primitive->material->color * lightSampleBxDF * lightIntersection.primitive->material->emission * intersection.normal.dot(BxDFDirection);
+                    randomColor = lightIntersection.primitive->material->color * randomBxDF * lightIntersection.primitive->material->emission * intersection.normal.dot(BxDFDirection);
                 }
             }
         }
         // Weight probabilities with power heuristic
-        return material->color * (intersector.scene->lights.size() * (lightColor * PowerHeuristic(lightProbability, totalBxDFProbability) + BxDFColor * PowerHeuristic(totalBxDFProbability, lightProbability)) + BxDFColor * Evaluate({intersection.intersect, BxDFDirection}, depth+1) / BxDFProbability * intersection.normal.dot(BxDFDirection));
+        Vector3 nextRay = Evaluate({intersection.intersect, BxDFDirection}, depth+1) / BxDFProbability * intersection.normal.dot(BxDFDirection);
+        Vector3 output = 0.5 * material->color * (intersector.scene->lights.size() * (lightColor * PowerHeuristic(lightProbability, totalBxDFProbability) + randomColor * PowerHeuristic(totalBxDFProbability, lightProbability)) + randomBxDF * nextRay);
+        return output;
     }
 }
 

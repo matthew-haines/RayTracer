@@ -1,0 +1,54 @@
+{
+    "bxdfs": [
+        {
+            "name": "Lambertian",
+            "type": "LambertianBRDF",
+            "params": {
+                "albedo": 0.7
+            }
+        }
+    ],
+    "materials": [
+        {
+            "name": "Light",
+            "color": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "emission": 1.5,
+            "bxdf": "Lambertian"
+        },
+        {
+            "name": "White",
+            "color": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "emission": 0.0, 
+            "bxdf": "Lambertian"
+        }
+    ],
+    "objects": [
+        {
+            "type": "Sphere",
+            "material": "Light",
+            "center": [
+                4.0,
+                0.0,
+                0.5
+            ],
+            "radius": 0.5
+        },
+        {
+            "type": "Quad",
+            "material": "White",
+            "v0": [15, 15, -1],
+            "v1": [15, -15, -1],
+            "v2": [-15, -15, -1],
+            "v3": [-15, 15, -1]
+        }
+    ]
+}
+ 
