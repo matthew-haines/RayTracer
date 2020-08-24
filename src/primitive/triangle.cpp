@@ -67,7 +67,7 @@ double Triangle::DirectionalSamplePDF(Vector3 point, Vector3 direction) {
         Vector3 direction = intersect - point;
         return direction.dot(direction) / (normal.dot(-direction) * area);
     } else {
-        return 0.000001; // if this isnt added there are black dot
+        return 0;
     }
 }
 

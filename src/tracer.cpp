@@ -99,7 +99,7 @@ int main(int argc, char *argv[]) {
 
     BVHIntersector intersector(&scene);
     PathTracerMIS model(intersector, 4, Vector3(0.));
-    PerspectiveCamera camera(M_PI_2, true, width, height, Vector3(0.5, 0.0, 0.5).normalized());
+    PerspectiveCamera camera(M_PI_2, true, width, height, Vector3(1, 0, 0).normalized());
 
     std::cout << "Rendering" << std::endl;
     auto start = std::chrono::high_resolution_clock::now();
