@@ -2,7 +2,7 @@
     "bxdfs": [
         {
             "name": "MirrorBRDF",
-            "type": "PerfectSpecularBRDF",
+            "type": "SpecularReflectBRDF",
             "params": {
 
             }

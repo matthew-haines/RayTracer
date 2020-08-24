@@ -32,8 +32,10 @@ Vector3 PathTracerMIS::Evaluate(Ray ray, int depth) {
             return Vector3(0.);
         }
     } else if (material->bxdf->specular) {
-        Vector3 direction = material->bxdf->Sample(ray.direction, intersection.normal);
-        return material->bxdf->Evaluate(ray.direction, intersection.normal, direction) * Evaluate({intersection.intersect, direction}, depth+1);
+        Vector3 direction;
+        double probability;
+        Vector3 bxdfEval = material->bxdf->operator()(ray.direction, intersection.normal, direction, probability);
+        return bxdfEval * Evaluate({intersection.intersect, direction}, depth+1);
     } else {
         // get random light
         Primitive* light = intersector.getRandomLight();

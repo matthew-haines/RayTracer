@@ -2,7 +2,9 @@
 #include "../material/material.hpp"
 #include "../material/bxdf.hpp"
 #include "../material/lambertian_brdf.hpp"
-#include "../material/perfect_specular_brdf.hpp"
+#include "../material/specular_reflect_brdf.hpp"
+#include "../material/specular_refract_btdf.hpp"
+#include "../material/fresnel_specular_bsdf.hpp"
 #include "../primitive/primitive.hpp"
 #include "../primitive/sphere.hpp"
 #include "../primitive/plane.hpp"
@@ -38,8 +40,12 @@ Scene ParseSceneFromFile(std::string filename) {
         std::string type = bxdf_json->at("type").get<std::string>();
         if (type == "LambertianBRDF") {
             bxdf = new LambertianBRDF(bxdf_json->at("params").at("albedo").get<double>());
-        } else if (type == "PerfectSpecularBRDF") {
-            bxdf = new PerfectSpecularBRDF();
+        } else if (type == "SpecularReflectBRDF") {
+            bxdf = new SpecularReflectBRDF();
+        } else if (type == "SpecularRefractBTDF") {
+            bxdf = new SpecularRefractBTDF(bxdf_json->at("params").at("refractionIndex").get<double>());
+        } else if (type == "FresnelSpecularBSDF") {
+            bxdf = new FresnelSpecularBSDF(bxdf_json->at("params").at("refractionIndex").get<double>());
         } else {
             throw "BxDF doesn't exist";
         }
