@@ -57,9 +57,7 @@ Vector3 PathTracerMIS::Evaluate(Ray ray, int depth) {
         double bxdfProbability;
         Vector3 bxdfEval;
         {
-            direction = material->bxdf->Sample(ray.direction, intersection.normal);
-            bxdfProbability = material->bxdf->pdf(ray.direction, intersection.normal, direction);
-            bxdfEval = material->color * material->bxdf->Evaluate(ray.direction, intersection.normal, direction) * intersection.normal.dot(direction);
+            bxdfEval = material->bxdf->operator()(ray.direction, intersection.normal, direction, bxdfProbability);
             double lightProbability = light->DirectionalSamplePDF(intersection.intersect, direction);
             Intersection lightIntersection;
             if (intersector.getIntersect({intersection.intersect, direction}, lightIntersection)) {

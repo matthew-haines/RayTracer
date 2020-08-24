@@ -13,3 +13,9 @@ Vector3 PerfectSpecularBRDF::Sample(Vector3 in, Vector3 normal) {
 double PerfectSpecularBRDF::pdf(Vector3 in, Vector3 normal, Vector3 out) {
     return 1.;
 }
+
+Vector3 PerfectSpecularBRDF::operator()(Vector3 in, Vector3 normal, Vector3& out, double& probability) {
+    out = Sample(in, normal);
+    probability = pdf(in, normal, out);
+    return Evaluate(in, normal, out);
+}

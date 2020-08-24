@@ -19,3 +19,9 @@ Vector3 LambertianBRDF::Sample(Vector3 in, Vector3 normal) {
 double LambertianBRDF::pdf(Vector3 in, Vector3 normal, Vector3 out) {
     return CosineSampleHemisphere::pdf(normal.dot(out));
 }
+
+Vector3 LambertianBRDF::operator()(Vector3 in, Vector3 normal, Vector3& out, double& probability) {
+    out = Sample(in, normal);
+    probability = pdf(in, normal, out);
+    return Evaluate(in, normal, out);
+}
