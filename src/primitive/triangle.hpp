@@ -9,6 +9,7 @@ class Triangle: public Primitive {
         bool normals;
         Vector3 vn0, vn1, vn2;
         Vector3 planeNormal, e1, e2;
+        double area;
     public:
         Triangle(Vector3 v0, Vector3 v1, Vector3 v2, Material *material, bool normals=false, Vector3 vn0 = Vector3(0.), Vector3 vn1 = Vector3(0.), Vector3 vn2 = Vector3(0.));
         double Intersect(Ray ray, Vector3 *intersect, Vector3 *normal);

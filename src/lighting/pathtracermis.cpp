@@ -38,44 +38,38 @@ Vector3 PathTracerMIS::Evaluate(Ray ray, int depth) {
         // get random light
         Primitive* light = intersector.getRandomLight();
         // choose random point on light surface / get direction vector and evaluate probability of that ray
-        Vector3 lightDirection = light->DirectionalSample(dist(gen), dist(gen), intersection.intersect);
-        double lightProbability = light->DirectionalSamplePDF(intersection.intersect, lightDirection);
-        Vector3 lightColor;
-        if (lightProbability != 0.) {
-            Vector3 lightSampleBxDF = material->bxdf->Evaluate(ray.direction, intersection.normal, lightDirection);
-            lightProbability *= material->bxdf->pdf(ray.direction, intersection.normal, lightDirection);
+        Vector3 misSampled = Vector3(0.);
+        {
+            Vector3 direction = light->DirectionalSample(dist(gen), dist(gen), intersection.intersect);
+            double lightProbability = light->DirectionalSamplePDF(intersection.intersect, direction);
+            if (lightProbability != 0.) {
+                Vector3 bxdfEval = material->color * material->bxdf->Evaluate(ray.direction, intersection.normal, direction) * intersection.normal.dot(direction);
+                double bxdfProbability = material->bxdf->pdf(ray.direction, intersection.normal, direction);
+                Intersection lightIntersection;
+                if (intersector.getIntersect({intersection.intersect, direction}, lightIntersection)) {
+                    if (lightIntersection.primitive == light) {
+                        misSampled += light->material->color * light->material->emission * bxdfEval * PowerHeuristic(lightProbability, bxdfProbability) / lightProbability;
+                    }
+                }
+            }
+        }
+        Vector3 direction;
+        double bxdfProbability;
+        Vector3 bxdfEval;
+        {
+            direction = material->bxdf->Sample(ray.direction, intersection.normal);
+            bxdfProbability = material->bxdf->pdf(ray.direction, intersection.normal, direction);
+            bxdfEval = material->color * material->bxdf->Evaluate(ray.direction, intersection.normal, direction) * intersection.normal.dot(direction);
+            double lightProbability = light->DirectionalSamplePDF(intersection.intersect, direction);
             Intersection lightIntersection;
-            if (intersector.getIntersect({intersection.intersect, lightDirection}, lightIntersection)) {
-                if (lightIntersection.primitive != light) {
-                    lightColor = Vector3(0.);
-                } else {
-                    lightColor = lightIntersection.primitive->material->color * lightSampleBxDF * lightIntersection.primitive->material->emission * intersection.normal.dot(lightDirection);
+            if (intersector.getIntersect({intersection.intersect, direction}, lightIntersection)) {
+                if (lightIntersection.primitive == light) {
+                    misSampled += light->material->color * light->material->emission * bxdfEval * PowerHeuristic(bxdfProbability, lightProbability) / bxdfProbability;
                 }
             }
         }
 
-        // choose another direction based on bxdf (another solid angle)
-        Vector3 BxDFDirection = material->bxdf->Sample(ray.direction, intersection.normal);
-        double BxDFProbability = material->bxdf->pdf(ray.direction, intersection.normal, BxDFDirection);
-        double totalBxDFProbability = BxDFProbability * light->DirectionalSamplePDF(intersection.intersect, BxDFDirection);
-        Vector3 randomColor(0.);
-        Vector3 randomBxDF;
-        if (BxDFProbability != 0.)  {
-            Intersection lightIntersection;
-            randomBxDF = material->bxdf->Evaluate(ray.direction, intersection.normal, BxDFDirection);
-            if (intersector.getIntersect({intersection.intersect, BxDFDirection}, lightIntersection)) {
-                if (lightIntersection.primitive != light) {
-                    randomColor = Vector3(0.);
-                } else {
-                    randomColor = lightIntersection.primitive->material->color * randomBxDF * lightIntersection.primitive->material->emission * intersection.normal.dot(BxDFDirection);
-                }
-            }
-        }
-        // Weight probabilities with power heuristic
-        Vector3 nextRay = Evaluate({intersection.intersect, BxDFDirection}, depth+1) / BxDFProbability * intersection.normal.dot(BxDFDirection);
-        Vector3 output = 0.5 * material->color * (intersector.scene->lights.size() * (lightColor * PowerHeuristic(lightProbability, totalBxDFProbability) + randomColor * PowerHeuristic(totalBxDFProbability, lightProbability)) + randomBxDF * nextRay);
-        return output;
+        Vector3 nextRay = Evaluate({intersection.intersect, direction}, depth+1) * bxdfEval / bxdfProbability;
+        return intersector.scene->lights.size() * misSampled + nextRay;
     }
 }
-
-

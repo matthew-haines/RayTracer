@@ -16,7 +16,7 @@
                 1.0,
                 1.0
             ],
-            "emission": 8.0,
+            "emission": 2.0,
             "bxdf": "Lambertian"
         },
         {

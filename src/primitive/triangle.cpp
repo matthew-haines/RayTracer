@@ -1,11 +1,14 @@
 #include "triangle.hpp"
 #include "../constants.hpp"
 #include "../ray.hpp"
+#include "../helpers.hpp"
+#include <cmath>
 
 Triangle::Triangle(Vector3 v0, Vector3 v1, Vector3 v2, Material *material, bool normals, Vector3 vn0, Vector3 vn1, Vector3 vn2): Primitive(material), v0(v0), v1(v1), v2(v2), normals(normals), vn0(vn0), vn1(vn1), vn2(vn2) {
     e1 = (v1-v0);
     e2 = (v2-v0);
     planeNormal = e1.cross(e2).normalized();
+    area = 0.5 * e1.cross(e2).length();
 }
 
 double Triangle::Intersect(Ray ray, Vector3 *intersect, Vector3 *normal) {
@@ -44,23 +47,28 @@ double Triangle::Intersect(Ray ray, Vector3 *intersect, Vector3 *normal) {
 }
 
 Vector3 Triangle::Sample(double u1, double u2) {
-    // Not implemented yet
-    return Vector3(0.);
+    double sqrtu1 = std::sqrt(u1);
+    return (1 - sqrtu1) * v0 + sqrtu1 * (1 - u2) * v1 + sqrtu1 * u2 * v2;
 }
 
 double Triangle::SamplePDF(Vector3 point, Vector3 direction) {
-    // Not implemented yet
-    return 0.;
+    return 1 / area;
 }
 
 Vector3 Triangle::DirectionalSample(double u1, double u2, Vector3 point) {
-    // Not implemented yet
-    return Vector3(0.);
+    return (Sample(u1, u2) - point).normalized();
 }
 
 double Triangle::DirectionalSamplePDF(Vector3 point, Vector3 direction) {
-    // Not implemented yet
-    return 0.;
+    Ray ray(point, direction);
+    Vector3 intersect;
+    Vector3 normal;
+    if (Intersect(ray, &intersect, &normal) != -1) {
+        Vector3 direction = intersect - point;
+        return direction.dot(direction) / (normal.dot(-direction) * area);
+    } else {
+        return 0.000001; // if this isnt added there are black dot
+    }
 }
 
 Bound Triangle::GetBound() {

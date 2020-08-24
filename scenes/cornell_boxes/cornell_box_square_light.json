@@ -1,0 +1,119 @@
+{
+    "bxdfs": [
+        {
+            "name": "Lambertian",
+            "type": "LambertianBRDF",
+            "params": {
+                "albedo": 0.5
+            }
+        }
+    ],
+    "materials": [
+        {
+            "name": "Light",
+            "color": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "emission": 2.0,
+            "bxdf": "Lambertian"
+        },
+        {
+            "name": "Red",
+            "color": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "emission": 0.0,
+            "bxdf": "Lambertian"
+        },
+        {
+            "name": "Green",
+            "color": [
+                0.0,
+                1.0,
+                0.0
+            ],
+            "emission": 0.0,
+            "bxdf": "Lambertian"
+        },
+        {
+            "name": "White",
+            "color": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "emission": 0.0,
+            "bxdf": "Lambertian"
+        }
+    ],
+    "objects": [
+        {
+            "type": "Quad",
+            "material": "Light",
+            "v0": [3.5, 0.75, 3.99],
+            "v1": [5, 0.75, 3.99],
+            "v2": [5, -0.75, 3.99],
+            "v3": [3.5, -0.75, 3.99]
+        },
+        {
+            "type": "Quad",
+            "material": "White",
+            "v0": [6, 4, 4],
+            "v1": [6, -4, 4],
+            "v2": [6, -4, -4],
+            "v3": [6, 4, -4]
+        },
+        {
+            "type": "Quad",
+            "material": "White",
+            "v0": [-2, 4, 4],
+            "v1": [-2, -4, 4],
+            "v2": [-2, -4, -4],
+            "v3": [-2, 4, -4]
+        },
+        {
+            "type": "Quad",
+            "material": "White",
+            "v0": [6, 4, 4],
+            "v1": [6, -4, 4],
+            "v2": [-2, -4, 4],
+            "v3": [-2, 4, 4]
+        },
+        {
+            "type": "Quad",
+            "material": "White",
+            "v0": [6, 4, -4],
+            "v1": [6, -4, -4],
+            "v2": [-2, -4, -4],
+            "v3": [-2, 4, -4]
+        },
+        {
+            "type": "Quad",
+            "material": "Red",
+            "v0": [6, 4, 4],
+            "v1": [6, 4, -4],
+            "v2": [-2, 4, -4],
+            "v3": [-2, 4, 4]
+        },
+        {
+            "type": "Quad",
+            "material": "Green",
+            "v0": [6, -4, 4],
+            "v1": [6, -4, -4],
+            "v2": [-2, -4, -4],
+            "v3": [-2, -4, 4]
+        },
+        {
+            "type": "OBJ",
+            "material": "White",
+            "path": "scenes/obj/bunny.obj",
+            "position": [4, -2, -3.4],
+            "scale": 1,
+            "rotation": [1.57079632679, 0, -1.5]
+        }
+    ]
+}
