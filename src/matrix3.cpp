@@ -37,7 +37,7 @@ Matrix3 Matrix3::createSSCrossMatrix(Vector3 v) {
 }
 
 Matrix3 Matrix3::createFromNormal(Vector3 normal) {
-    // Rotation matrix: Final = Mat * Initial
+    // rotate (0, 0, 1) to normal
     Vector3 temp(1., 0., 0.);
     if (abs(normal.x) > 0.99) {
         temp = Vector3(0., 0., 1.);

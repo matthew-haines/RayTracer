@@ -12,8 +12,8 @@
             "type": "PhongBRDF",
             "params": {
                 "kd": 0.5,
-                "ks": 0.2,
-                "n": 20
+                "ks": 0.5,
+                "n": 4
             }
         }
     ],
@@ -69,7 +69,7 @@
         {
             "type": "Sphere",
             "material": "Glass",
-            "center": [4.5, 2, -2.5],
+            "center": [4, 0, 0],
             "radius": 1
         },
         {
