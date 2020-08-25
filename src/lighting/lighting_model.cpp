@@ -18,8 +18,10 @@ void LightingModel::Render(Camera& camera, int threads, int samples) {
                 break;
             }
             Vector3 accumulator(0.);
+            Intersection nullIntersection;
+            nullIntersection.primitive = nullptr;
             for (int i = 0; i < samples; i++) {
-                accumulator += Evaluate(rayGen(), 1);
+                accumulator += Evaluate(rayGen(), 1, nullIntersection);
             }
             accumulator /= samples;
             *location = accumulator;
