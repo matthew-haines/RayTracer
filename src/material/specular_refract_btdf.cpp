@@ -13,7 +13,7 @@ Vector3 SpecularRefractBTDF::Sample(Vector3 in, Vector3 normal) {
 }
 
 Vector3 SpecularRefractBTDF::GetRefraction(Vector3 in, Vector3 normal, double refractionIndex) {
-    double ndoti = normal.dot(-in);
+    double ndoti = std::clamp(normal.dot(-in), -1., 1.);
     double eta = 1 / refractionIndex;
     if (ndoti < 0) {
         eta = 1 / eta;

@@ -14,7 +14,7 @@ class BxDF {
         virtual Vector3 Evaluate(Vector3 in, Vector3 normal, Vector3 out)=0;
         virtual Vector3 Sample(Vector3 in, Vector3 normal)=0;
         virtual double pdf(Vector3 in, Vector3 normal, Vector3 out)=0;
-        virtual Vector3 operator()(Vector3 in, Vector3 normal, Vector3& out, double& probability);
+        virtual Vector3 operator()(Vector3 in, Vector3 normal, Vector3& out, double& probability)=0;
 };
 
 #endif

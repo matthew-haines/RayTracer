@@ -106,14 +106,6 @@
             "v1": [6, -4, -4],
             "v2": [-2, -4, -4],
             "v3": [-2, -4, 4]
-        },
-        {
-            "type": "OBJ",
-            "material": "White",
-            "path": "scenes/obj/bunny.obj",
-            "position": [4, -2, -3.4],
-            "scale": 1,
-            "rotation": [1.57079632679, 0, -1.5]
         }
     ]
 }

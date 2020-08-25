@@ -9,9 +9,11 @@
         },
         {
             "name": "Glass",
-            "type": "SpecularRefractBTDF",
+            "type": "PhongBRDF",
             "params": {
-                "refractionIndex": 1.333
+                "kd": 0.5,
+                "ks": 0.2,
+                "n": 20
             }
         }
     ],

@@ -5,6 +5,7 @@
 #include "../material/specular_reflect_brdf.hpp"
 #include "../material/specular_refract_btdf.hpp"
 #include "../material/fresnel_specular_bsdf.hpp"
+#include "../material/phong_brdf.hpp"
 #include "../primitive/primitive.hpp"
 #include "../primitive/sphere.hpp"
 #include "../primitive/plane.hpp"
@@ -46,6 +47,9 @@ Scene ParseSceneFromFile(std::string filename) {
             bxdf = new SpecularRefractBTDF(bxdf_json->at("params").at("refractionIndex").get<double>());
         } else if (type == "FresnelSpecularBSDF") {
             bxdf = new FresnelSpecularBSDF(bxdf_json->at("params").at("refractionIndex").get<double>());
+        } else if (type == "PhongBRDF") {
+            auto params = bxdf_json->at("params");
+            bxdf = new PhongBRDF(params.at("kd").get<double>(), params.at("ks").get<double>(), params.at("n").get<double>());
         } else {
             throw "BxDF doesn't exist";
         }
