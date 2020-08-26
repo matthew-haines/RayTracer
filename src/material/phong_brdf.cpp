@@ -7,7 +7,11 @@ PhongBRDF::PhongBRDF(double kd, double ks, double n): BxDF(false), kd(kd), ks(ks
 
 Vector3 PhongBRDF::Evaluate(Vector3 in, Vector3 normal, Vector3 out) {
     double calpha = std::clamp(SpecularReflectBRDF::GetReflection(in, normal).dot(out), -1., 1.);
-    return M_1_PI * (kd + (n + 2) / 2 * std::pow(calpha, n));
+    if (normal.dot(out) < 0) {
+        return 0;
+    } else {
+        return M_1_PI * (kd + (n + 2) / 2 * std::pow(calpha, n));
+    }
 }
 
 Vector3 PhongBRDF::Sample(Vector3 in, Vector3 normal) {
@@ -52,6 +56,9 @@ Vector3 PhongBRDF::operator()(Vector3 in, Vector3 normal, Vector3& out, double& 
         Matrix3 rotation = Matrix3::createFromNormal(reflect);
         out = rotation * vec;
         probability = 0.5 * M_1_PI * (n + 1) * std::pow(calpha, n);
+        if (normal.dot(out) < 0) {
+            return 0;
+        }
     }
     return M_1_PI * (kd + (n + 2) / 2 * std::pow(calpha, n));
 }

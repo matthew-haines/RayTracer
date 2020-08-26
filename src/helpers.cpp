@@ -36,7 +36,7 @@ double UniformSampleHemisphere::pdf(Vector3 v) {
 Vector3 UniformSampleSphere::sample(double u1, double u2) {
     double alt = M_PI * u1;
     double azi = 2. * M_PI * u2 - M_PI;
-    return SphericalToCartesian(Vector3(1.0, alt, azi));
+    return SphericalToCartesian(Vector3(1.0, azi, alt));
 }
 
 double UniformSampleSphere::pdf() {
@@ -46,7 +46,7 @@ double UniformSampleSphere::pdf() {
 Vector3 UniformSampleCone::sample(double u1, double u2, Vector3 direction, double thetaMax) {
     double alt = thetaMax * u1;
     double azi = 2 * M_PI * u2;
-    Vector3 result = SphericalToCartesian(Vector3(1., alt, azi));
+    Vector3 result = SphericalToCartesian(Vector3(1., azi, alt));
     return Matrix3::createFromNormal(direction.normalized()) * Vector3(result.z, result.y, result.x);
 }
 

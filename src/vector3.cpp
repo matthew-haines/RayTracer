@@ -159,14 +159,14 @@ Vector3 operator*(Matrix3 a, Vector3 b) {
     return Vector3(a.x11 * b.x + a.x12 * b.y + a.x13 * b.z, a.x21 * b.x + a.x22 * b.y + a.x23 * b.z, a.x31 * b.x + a.x32 * b.y + a.x33 * b.z);
 }
 
+// Converts from spherical coordinates in form (length, azimuth, polar angle) to cartesian coordinates in form (x, y, z)
 Vector3 SphericalToCartesian(Vector3 vec) {
-    // (r, theta [0, pi], phi [0, 2pi])
-    return Vector3(vec.x * std::sin(vec.y) * std::cos(vec.z), vec.x * std::sin(vec.y) * std::sin(vec.z), vec.x * std::cos(vec.y));
+    return Vector3(vec.x * std::sin(vec.z) * std::cos(vec.y), vec.x * std::sin(vec.z) * std::sin(vec.y), vec.x * std::cos(vec.z));
 }
 
+// Converts from cartesian coordinates in form (x, y, z) to spherical coordinates in form (length, azimuth, polar angle)
 Vector3 CartesianToSpherical(Vector3 vec) {
-    // (r, inclination, azimuth)
-    return Vector3(vec.length(), atan2(sqrt(vec.x * vec.x + vec.y * vec.y), vec.z), atan2(vec.y, vec.x));
+    return Vector3(vec.length(), atan2(vec.y, vec.x), atan2(sqrt(vec.x * vec.x + vec.y * vec.y), vec.z));
 }
 
 Vector3 Vector3::max(Vector3 a, Vector3 b) {

@@ -17,8 +17,8 @@ Matrix3::Matrix3(Vector3 v1, Vector3 v2, Vector3 v3) {
     x33 = v3.z;
 }
 
+// Creates rotation matrix from Extrinsic Tait-Bryan angles in rotation order xyz
 Matrix3 Matrix3::createEulerRotationMatrix(double xRotation, double yRotation, double zRotation) {
-    // Extrinsic Tait-Bryan angles in rotation order xyz
     Matrix3 m;
     m.x11 = cos(yRotation) * cos(zRotation);
     m.x12 = cos(zRotation) * sin(yRotation) * sin(xRotation) - cos(xRotation) * sin(zRotation);
@@ -36,8 +36,8 @@ Matrix3 Matrix3::createSSCrossMatrix(Vector3 v) {
     return Matrix3(0., -v.z, v.y, v.z, 0., -v.x, -v.y, v.x, 0.);
 }
 
+// Creates rotation matrix that rotates (0, 0, 1) to normal
 Matrix3 Matrix3::createFromNormal(Vector3 normal) {
-    // rotate (0, 0, 1) to normal
     Vector3 temp(1., 0., 0.);
     if (abs(normal.x) > 0.99) {
         temp = Vector3(0., 0., 1.);
