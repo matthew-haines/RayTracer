@@ -35,7 +35,8 @@ Vector3 PathTracerMIS::Evaluate(Ray ray, int depth, Intersection& lastIntersecti
         Vector3 direction;
         double probability;
         Vector3 bxdfEval = material->bxdf->operator()(ray.direction, intersection.normal, direction, probability);
-        return bxdfEval * Evaluate({intersection.intersect + epsilon * direction, direction}, depth+1, intersection);
+        Vector3 result = Evaluate({intersection.intersect, direction}, depth+1, intersection);
+        return bxdfEval * result;
     } else {
         // get random light
         Primitive* light = intersector.getRandomLight();

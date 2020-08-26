@@ -1,4 +1,5 @@
 #include "specular_refract_btdf.hpp"
+#include "specular_reflect_brdf.hpp"
 #include "../helpers.hpp"
 #include <cmath>
 
@@ -13,15 +14,19 @@ Vector3 SpecularRefractBTDF::Sample(Vector3 in, Vector3 normal) {
 }
 
 Vector3 SpecularRefractBTDF::GetRefraction(Vector3 in, Vector3 normal, double refractionIndex) {
-    double ndoti = std::clamp(normal.dot(-in), -1., 1.);
+    double ndoti = normal.dot(in);
     double eta = 1 / refractionIndex;
-    if (ndoti < 0) {
+    if (ndoti > 0) {
         eta = 1 / eta;
+        normal = -normal;
     } else {
         ndoti = -ndoti;
     }
-    double term = 1 - square(eta) * (1-square(ndoti));
-    return (eta * in + (eta * ndoti - std::sqrt(term)) * normal);
+    double ndott2 = 1 - square(eta) * (1-square(ndoti));
+    if (ndott2 < 0) {
+        return SpecularReflectBRDF::GetReflection(in, ndoti < 0 ? -normal : normal);
+    }
+    return (eta * in + (eta * ndoti - std::sqrt(ndott2)) * normal).normalized();
 }
 
 double SpecularRefractBTDF::pdf(Vector3 in, Vector3 normal, Vector3 out) {
