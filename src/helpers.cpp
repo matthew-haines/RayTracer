@@ -21,8 +21,8 @@ char ColorToChar(double color) {
     return (char)(std::min(color, 1.0) * 255);
 }
 
+// Samples hemisphere around (0, 0, 1)
 Vector3 UniformSampleHemisphere::sample(double u1, double u2) {
-    // Hemisphere around (0, 0, 1)
     double z = u1;
     double r = std::sqrt(std::max(0., 1. - z * z));
     double phi = 2 * M_PI * u2;
@@ -77,8 +77,8 @@ double ConcentricSampleDisk::pdf(Vector2 v) {
     return 0.5 / M_PI;
 }
 
+// Samples hemisphere around (0, 0, 1)
 Vector3 CosineSampleHemisphere::sample(double u1, double u2) {
-    // Hemisphere around (0, 0, 1)
     Vector2 diskMapping = ConcentricSampleDisk::sample(u1, u2);
     double z = std::sqrt(std::max(0., 1. - square(diskMapping.x) - square(diskMapping.y)));
     return Vector3(diskMapping.x, diskMapping.y, z);
@@ -88,8 +88,8 @@ double CosineSampleHemisphere::pdf(double cosTheta) {
     return (cosTheta / M_PI);
 }
 
+// Takes threads and function to apply at each iteration of loop, function takes index
 void ParallelizeLoop(int threads, std::function<void(int)> func, int range, bool showProgress) {
-    // Takes threads and function to apply at each iteration of loop, function takes index
     std::vector<std::thread> threadpool;
 
     int blockSize = range / threads;
@@ -127,7 +127,7 @@ void ParallelizeLoop(int threads, std::function<void(int)> func, int range, bool
     }
 }
 
+// Power heurstic weight for a
 double PowerHeuristic(double a, double b) {
-    // power heurstic weight for a
     return square(a) / (square(a) + square(b));
 }
