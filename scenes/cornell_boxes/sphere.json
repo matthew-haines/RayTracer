@@ -9,9 +9,11 @@
         },
         {
             "name": "Glass",
-            "type": "SpecularRefractBTDF",
+            "type": "PhongBRDF",
             "params": {
-                "refractionIndex": 1.9
+                "kd": 0.2,
+                "ks": 0.5,
+                "n": 4
             }
         }
     ],
@@ -64,19 +66,6 @@
         }
     ],
     "objects": [
-        {
-            "type": "Sphere",
-            "material": "Glass",
-            "center": [2.5, 0, 0],
-            "radius": 1
-        },
-        {
-            "type": "Triangle",
-            "material": "Red",
-            "v0": [5.5, -0.5, -0.5],
-            "v1": [5.5, 0.5, -0.5],
-            "v2": [5.5, 0, 0.5]
-        },
         {
             "type": "Quad",
             "material": "Light",
@@ -132,6 +121,12 @@
             "v1": [6, -4, -4],
             "v2": [-2, -4, -4],
             "v3": [-2, -4, 4]
+        },
+        {
+            "type": "Sphere",
+            "material": "Glass",
+            "center": [3, 0, 0],
+            "radius": 1
         }
     ]
 }

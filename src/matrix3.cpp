@@ -45,7 +45,7 @@ Matrix3 Matrix3::createFromNormal(Vector3 normal) {
 
     Vector3 tangent = normal.cross(temp).normalized();
     Vector3 binormal = tangent.cross(normal).normalized();
-    return Matrix3(normal, tangent, binormal);
+    return Matrix3(tangent, binormal, normal);
 }
 
 Matrix3& Matrix3::operator*=(Matrix3 b) {

@@ -10,7 +10,7 @@ Vector3 PhongBRDF::Evaluate(Vector3 in, Vector3 normal, Vector3 out) {
     if (normal.dot(out) < 0) {
         return 0;
     } else {
-        return M_1_PI * (kd + (n + 2) / 2 * std::pow(calpha, n));
+        return M_1_PI * (kd + ks * (n + 2) / 2 * std::pow(calpha, n));
     }
 }
 
@@ -21,13 +21,15 @@ Vector3 PhongBRDF::Sample(Vector3 in, Vector3 normal) {
     if (u < kd) {
         //diffuse
         Matrix3 rotation = Matrix3::createFromNormal(normal); // convert (1, 0, 0) to normal
-        Vector3 temp = CosineSampleHemisphere::sample(u1, u2); // (around (0, 0, 1))
-        return rotation * Vector3(temp.z, temp.y, temp.x);
-    } else {
+        Vector3 vec = CosineSampleHemisphere::sample(u1, u2); // (around (0, 0, 1))
+        return rotation * vec;
+    } else if (u < kd + ks) {
         //specular
         Vector3 vec = SphericalToCartesian(Vector3(1, 2 * M_PI * u1, std::acos(std::pow(u2, 1 / (n+1)))));
         Matrix3 rotation = Matrix3::createFromNormal(SpecularReflectBRDF::GetReflection(in, normal));
         return rotation * vec;
+    } else {
+        return 0;
     }
 }
 double PhongBRDF::pdf(Vector3 in, Vector3 normal, Vector3 out) {
@@ -46,19 +48,23 @@ Vector3 PhongBRDF::operator()(Vector3 in, Vector3 normal, Vector3& out, double& 
         //diffuse
         Matrix3 rotation = Matrix3::createFromNormal(normal); // convert (1, 0, 0) to normal
         Vector3 temp = CosineSampleHemisphere::sample(u1, u2); // (around (0, 0, 1))
-        out = rotation * Vector3(temp.z, temp.y, temp.x);
-        probability = CosineSampleHemisphere::pdf(normal.dot(out));
+        out = rotation * temp;
+        probability = CosineSampleHemisphere::pdf(normal.dot(out)) * kd;
         calpha = out.dot(reflect);
-    } else {
+    } else if (u < kd + ks) {
         //specular
         calpha = std::pow(u2, 1/(n+1));
         Vector3 vec = SphericalToCartesian(Vector3(1, 2 * M_PI * u1, std::acos(calpha)));
         Matrix3 rotation = Matrix3::createFromNormal(reflect);
         out = rotation * vec;
-        probability = 0.5 * M_1_PI * (n + 1) * std::pow(calpha, n);
+        probability = 0.5 * M_1_PI * (n + 1) * std::pow(calpha, n) * ks;
         if (normal.dot(out) < 0) {
             return 0;
         }
+    } else {
+        probability = 1;
+        out = Vector3(0);
+        return 0;
     }
-    return M_1_PI * (kd + (n + 2) / 2 * std::pow(calpha, n));
+    return M_1_PI * (kd + ks * (n + 2) / 2 * std::pow(calpha, n));
 }

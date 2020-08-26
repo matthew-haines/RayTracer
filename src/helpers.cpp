@@ -47,7 +47,7 @@ Vector3 UniformSampleCone::sample(double u1, double u2, Vector3 direction, doubl
     double alt = thetaMax * u1;
     double azi = 2 * M_PI * u2;
     Vector3 result = SphericalToCartesian(Vector3(1., azi, alt));
-    return Matrix3::createFromNormal(direction.normalized()) * Vector3(result.z, result.y, result.x);
+    return Matrix3::createFromNormal(direction.normalized()) * result;
 }
 
 double UniformSampleCone::pdf(double cosThetaMax) {

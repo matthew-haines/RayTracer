@@ -6,6 +6,15 @@
             "params": {
                 "albedo": 0.7
             }
+        },
+        {
+            "name": "Phong",
+            "type": "PhongBRDF",
+            "params": {
+                "kd": 0.5,
+                "ks": 0.5,
+                "n": 255
+            }
         }
     ],
     "materials": [
@@ -27,7 +36,7 @@
                 1.0
             ],
             "emission": 0.0, 
-            "bxdf": "Lambertian"
+            "bxdf": "Phong"
         }
     ],
     "objects": [
