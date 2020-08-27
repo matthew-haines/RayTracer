@@ -13,33 +13,22 @@ Vector3 FresnelSpecularBSDF::Evaluate(Vector3 in, Vector3 normal, Vector3 out) {
 
 Vector3 FresnelSpecularBSDF::Sample(Vector3 in, Vector3 normal) {
     // not needed
-    double fresnel = FresnelDielectric(normal.dot(-in), refractionIndex, 1);
-    if (dist(gen) < fresnel) {
-        return SpecularReflectBRDF::GetReflection(in, normal);
-    } else {
-        return SpecularRefractBTDF::GetRefraction(in, normal, refractionIndex);
-    }
+    return 0;
 }
 
 double FresnelSpecularBSDF::pdf(Vector3 in, Vector3 normal, Vector3 out) {
     // not needed
-    double fresnel = FresnelDielectric(normal.dot(-in), refractionIndex, 1);
-    if (out == SpecularReflectBRDF::GetReflection(in, normal)) {
-        return fresnel;
-    } else {
-        return 1 - fresnel;
-    }
+    return 0;
 }
 
 Vector3 FresnelSpecularBSDF::operator()(Vector3 in, Vector3 normal, Vector3& out, double& probability) {
     double fresnel = FresnelDielectric(normal.dot(in), refractionIndex, 1);
-    Vector3 f = Vector3(1) / normal.dot(out);
+    Vector3 f = Vector3(1);
     if (dist(gen) < fresnel) {
-        probability = fresnel;
         out = SpecularReflectBRDF::GetReflection(in, normal);
     } else {
-        probability = 1 - fresnel;
         out = SpecularRefractBTDF::GetRefraction(in, normal, refractionIndex);
     }
+    probability = 1; // no need to importance sample
     return f;
 }

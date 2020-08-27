@@ -3,13 +3,14 @@
 #include <cmath>
 
 double FresnelDielectric(double ndoti, double etaT, double etaI) {
-    std::clamp(ndoti, -1., 1.);
     bool entering = ndoti < 0;
     if (!entering) {
         std::swap(etaT, etaI);
     }
-    ndoti = std::abs(ndoti);
+    double cosI = std::abs(ndoti);
+    double cosT = std::sqrt(1 - square(std::sqrt(1-square(cosI)) * etaI / etaT));
     // https://en.wikipedia.org/wiki/Fresnel_equations equation 38
-    double rs = square((etaT * ndoti + etaI * ndoti)/(3));
-    return 1;
+    double rs = square((etaT * cosI - etaI * cosT)/(etaT * cosI + etaI * cosT));
+    double rt = square((etaI * cosI - etaT * cosT)/(etaI * cosI + etaT * cosT));
+    return 0.5 * (square(rs) + square(rt));
 }
