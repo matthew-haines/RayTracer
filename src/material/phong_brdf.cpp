@@ -49,7 +49,6 @@ Vector3 PhongBRDF::operator()(Vector3 in, Vector3 normal, Vector3& out, double& 
         Matrix3 rotation = Matrix3::createFromNormal(normal); // convert (1, 0, 0) to normal
         Vector3 temp = CosineSampleHemisphere::sample(u1, u2); // (around (0, 0, 1))
         out = rotation * temp;
-        probability = CosineSampleHemisphere::pdf(normal.dot(out)) * kd;
         calpha = out.dot(reflect);
     } else if (u < kd + ks) {
         //specular
@@ -57,13 +56,13 @@ Vector3 PhongBRDF::operator()(Vector3 in, Vector3 normal, Vector3& out, double& 
         Vector3 vec = SphericalToCartesian(Vector3(1, 2 * M_PI * u1, std::acos(calpha)));
         Matrix3 rotation = Matrix3::createFromNormal(reflect);
         out = rotation * vec;
-        probability = 0.5 * M_1_PI * (n + 1) * std::pow(calpha, n) * ks;
-        if (normal.dot(out) < 0) {
-            return 0;
-        }
     } else {
         probability = 1;
         out = Vector3(0);
+        return 0;
+    }
+    probability = kd * CosineSampleHemisphere::pdf(normal.dot(out)) + ks * 0.5 * M_1_PI * (n + 1) * std::pow(calpha, n);
+    if (normal.dot(out) < 0) {
         return 0;
     }
     return M_1_PI * (kd + ks * (n + 2) / 2 * std::pow(calpha, n));

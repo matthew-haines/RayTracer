@@ -1,12 +1,13 @@
 #include "specular_refract_btdf.hpp"
 #include "specular_reflect_brdf.hpp"
 #include "../helpers.hpp"
+#include "fresnel.hpp"
 #include <cmath>
 
 SpecularRefractBTDF::SpecularRefractBTDF(double refractionIndex): BxDF(true), refractionIndex(refractionIndex) {}
 
 Vector3 SpecularRefractBTDF::Evaluate(Vector3 in, Vector3 normal, Vector3 out) {
-    return Vector3(1.);
+    return Vector3(1);
 }
 
 Vector3 SpecularRefractBTDF::Sample(Vector3 in, Vector3 normal) {

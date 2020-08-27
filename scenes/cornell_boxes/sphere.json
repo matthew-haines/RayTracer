@@ -11,8 +11,8 @@
             "name": "Glass",
             "type": "PhongBRDF",
             "params": {
-                "kd": 0.2,
-                "ks": 0.5,
+                "kd": 0.4,
+                "ks": 0.6,
                 "n": 4
             }
         }

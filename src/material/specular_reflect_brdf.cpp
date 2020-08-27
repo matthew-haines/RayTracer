@@ -1,9 +1,10 @@
 #include "specular_reflect_brdf.hpp"
+#include "fresnel.hpp"
 
 SpecularReflectBRDF::SpecularReflectBRDF(): BxDF(true) {}
 
 Vector3 SpecularReflectBRDF::Evaluate(Vector3 in, Vector3 normal, Vector3 out) {
-    return Vector3(1.);
+    return Vector3(1);
 }
 
 Vector3 SpecularReflectBRDF::Sample(Vector3 in, Vector3 normal) {

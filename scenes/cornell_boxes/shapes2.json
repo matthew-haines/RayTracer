@@ -4,7 +4,16 @@
             "name": "Lambertian",
             "type": "LambertianBRDF",
             "params": {
-                "albedo": 0.7
+                "albedo": 0.5
+            }
+        },
+        {
+            "name": "Phong",
+            "type": "PhongBRDF",
+            "params": {
+                "kd": 0.2,
+                "ks": 0.4,
+                "n": 4
             }
         }
     ],
@@ -14,7 +23,7 @@
             "color": [
                 1.0,
                 0.96,
-                0.713
+                0.71
             ],
             "emission": 1.5,
             "bxdf": "Lambertian"
@@ -48,18 +57,22 @@
             ],
             "emission": 0.0,
             "bxdf": "Lambertian"
+        },
+        {
+            "name": "Phong",
+            "color": [1.0, 1.0, 1.0],
+            "emission": 0,
+            "bxdf": "Phong"
         }
     ],
     "objects": [
         {
-            "type": "Sphere",
+            "type": "Quad",
             "material": "Light",
-            "center": [
-                4.0,
-                0.0,
-                2.5
-            ],
-            "radius": 1.0
+            "v0": [3, 1, 3.99],
+            "v1": [5, 1, 3.99],
+            "v2": [5, -1, 3.99],
+            "v3": [3, -1, 3.99]
         },
         {
             "type": "Quad",
@@ -111,15 +124,15 @@
         }, 
         {
             "type": "OBJ",
-            "material": "Red",
+            "material": "Phong",
             "path": "scenes/obj/cube.obj",
             "position": [4, -1.2, 0.5],
-            "scale": 1.6,
+            "scale": 1.8,
             "rotation": [0.6, 0, 0.8]
         },
         {
             "type": "OBJ",
-            "material": "Green",
+            "material": "White",
             "path": "scenes/obj/tetrahedron.obj",
             "position": [3.5, 1, -1.5],
             "scale": 1.5,
