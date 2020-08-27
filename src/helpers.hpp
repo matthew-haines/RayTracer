@@ -50,4 +50,6 @@ void ParallelizeLoop(int threads, std::function<void(int)> func, int range, bool
 
 double PowerHeuristic(double a, double b);
 
+double PositiveCharacteristic(double a);
+
 #endif

@@ -131,3 +131,8 @@ void ParallelizeLoop(int threads, std::function<void(int)> func, int range, bool
 double PowerHeuristic(double a, double b) {
     return square(a) / (square(a) + square(b));
 }
+
+// Returns 1 if a > 0 and 0 otherwise
+double PositiveCharacteristic(double a) {
+    return a > 0 ? 1 : 0;
+}
