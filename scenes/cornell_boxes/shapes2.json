@@ -11,9 +11,16 @@
             "name": "Phong",
             "type": "PhongBRDF",
             "params": {
-                "kd": 0.2,
-                "ks": 0.4,
-                "n": 4
+                "kd": 0.3,
+                "ks": 0.3,
+                "n": 16
+            }
+        },
+        {
+            "name": "Glass",
+            "type": "FresnelSpecularBSDF",
+            "params": {
+                "refractionIndex": 2
             }
         }
     ],
@@ -60,9 +67,15 @@
         },
         {
             "name": "Phong",
-            "color": [1.0, 1.0, 1.0],
+            "color": [0, 0, 1.0],
             "emission": 0,
             "bxdf": "Phong"
+        },
+        {
+            "name": "Glass",
+            "color": [1, 1, 1],
+            "emission": 0,
+            "bxdf": "Glass"
         }
     ],
     "objects": [

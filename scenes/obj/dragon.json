@@ -6,6 +6,22 @@
             "params": {
                 "albedo": 0.5
             }
+        },
+        {
+            "name": "Phong",
+            "type": "PhongBRDF",
+            "params": {
+                "kd": 0.1,
+                "ks": 0.8,
+                "n": 16
+            }
+        },
+        {
+            "name": "Glass",
+            "type": "FresnelSpecularBSDF",
+            "params": {
+                "refractionIndex": 2
+            }
         }
     ],
     "materials": [
@@ -38,6 +54,18 @@
             ],
             "emission": 0.0,
             "bxdf": "Lambertian"
+        },
+        {
+            "name": "Phong",
+            "color": [1, 1, 1],
+            "emission": 0,
+            "bxdf": "Phong"
+        },
+        {
+            "name": "Glass",
+            "color": [1, 1, 1],
+            "emission": 0,
+            "bxdf": "Glass"
         }
     ],
     "objects": [
@@ -61,7 +89,7 @@
         },
         {
             "type": "OBJ",
-            "material": "Grey",
+            "material": "Glass",
             "path": "scenes/obj/dragon.obj",
             "position": [-0.7, 1.5, -2.5],
             "scale": 0.7,
