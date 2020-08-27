@@ -176,3 +176,9 @@ Vector3 Vector3::max(Vector3 a, Vector3 b) {
 Vector3 Vector3::min(Vector3 a, Vector3 b) {
     return Vector3(std::min(a.x, b.x), std::min(a.y, b.y), std::min(a.z, b.z));
 }
+
+void from_json(const nlohmann::json& j, Vector3& v) {
+    j.at(0).get_to(v.x);
+    j.at(1).get_to(v.y);
+    j.at(2).get_to(v.z);
+}

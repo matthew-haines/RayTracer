@@ -1,4 +1,7 @@
 {
+    "camera": {
+        "type": "PerspectiveCamera"
+    },
     "bxdfs": [
         {
             "name": "Lambertian",

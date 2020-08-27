@@ -5,8 +5,11 @@
 #include "lighting/pathtracermis.hpp"
 #include "intersector/naive_intersector.hpp"
 #include "intersector/bvh_intersector.hpp"
-#include "reader/reader.hpp"
+#include "../lib/json/json.hpp"
+#include "reader/camera_reader.hpp"
+#include "reader/scene_reader.hpp"
 #include <cmath>
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <thread>
@@ -32,6 +35,8 @@ static struct option long_options[] = {
     {"size", required_argument, 0, 's'},
     {"count", required_argument, 0, 'c'}
 };
+
+using json = nlohmann::json;
 
 int main(int argc, char *argv[]) {
     while (true) {
@@ -83,17 +88,19 @@ int main(int argc, char *argv[]) {
     totalPixels = width * height;    
 
     std::cout << "Generating Data Structures" << std::endl;
+    std::ifstream f(infilename);
+    json j;
+    f >> j;
+    Camera* camera = ParseCamera(j, width, height);
+    Scene scene = ParseScene(j);
     
-    Scene scene = ParseSceneFromFile(infilename);
-
     BVHIntersector intersector(&scene);
     PathTracerMIS model(intersector, 4, Vector3(0.));
-    PerspectiveCamera camera(M_PI_2, true, width, height, Vector3(1, 0, 0).normalized());
 
     std::cout << "Rendering" << std::endl;
     auto start = std::chrono::high_resolution_clock::now();
 
-    model.Render(camera, threads, samples);
+    model.Render(*camera, threads, samples);
 
     auto stop = std::chrono::high_resolution_clock::now();
 
@@ -101,5 +108,5 @@ int main(int argc, char *argv[]) {
 
     std::cout << "Writing" << std::endl;
 
-    camera.Write(outfilename);
+    camera->Write(outfilename);
 }

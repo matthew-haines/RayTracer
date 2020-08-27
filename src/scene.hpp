@@ -2,6 +2,7 @@
 #define SCENE_HPP
 #include "primitive/primitive.hpp"
 #include "primitive/complex_primitive.hpp"
+#include "camera/camera.hpp"
 #include <variant>
 #include <vector>
 

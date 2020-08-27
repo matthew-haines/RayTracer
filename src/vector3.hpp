@@ -1,6 +1,7 @@
 #ifndef VECTOR3_HPP
 #define VECTOR3_HPP
 #include "matrix3.hpp"
+#include "../lib/json/json.hpp"
 
 class Vector3 {
     public:
@@ -43,5 +44,7 @@ Vector3 operator*(Matrix3 a, Vector3 b);
 Vector3 SphericalToCartesian(Vector3 vec);
 
 Vector3 CartesianToSpherical(Vector3 vec);
+
+void from_json(const nlohmann::json& j, Vector3& v);
 
 #endif
