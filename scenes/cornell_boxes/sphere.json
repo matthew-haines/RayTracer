@@ -16,8 +16,8 @@
             "params": {
                 "refractionIndex": 2,
                 "distribution": {
-                    "type": "Beckmann",
-                    "alpha": 0.01
+                    "type": "Phong",
+                    "alpha": 2
                 },
                 "fresnel": {
                     "type": "Fixed",
