@@ -1,0 +1,152 @@
+{
+    "camera": {
+        "type": "PerspectiveCamera"
+    },
+    "bxdfs": [
+        {
+            "name": "Lambertian",
+            "type": "LambertianBRDF",
+            "params": {
+                "albedo": 0.5
+            }
+        },
+        {
+            "name": "A",
+            "type": "MicrofacetBSDF",
+            "params": {
+                "refractionIndex": 2,
+                "distribution": {
+                    "type": "GGX",
+                    "alpha": 0.8
+                },
+                "fresnel": {
+                    "type": "Reflectance",
+                    "ratio": 1
+                }
+            }
+        },
+        {
+            "name": "B",
+            "type": "MicrofacetBSDF",
+            "params": {
+                "refractionIndex": 2,
+                "distribution": {
+                    "type": "GGX",
+                    "alpha": 0.5
+                },
+                "fresnel": {
+                    "type": "Reflectance",
+                    "ratio": 1
+                }
+            }
+        },
+        {
+            "name": "C",
+            "type": "MicrofacetBSDF",
+            "params": {
+                "refractionIndex": 2,
+                "distribution": {
+                    "type": "GGX",
+                    "alpha": 0.25
+                },
+                "fresnel": {
+                    "type": "Reflectance",
+                    "ratio": 1
+                }
+            }
+        },
+        {
+            "name": "D",
+            "type": "MicrofacetBSDF",
+            "params": {
+                "refractionIndex": 2,
+                "distribution": {
+                    "type": "GGX",
+                    "alpha": 0.1
+                },
+                "fresnel": {
+                    "type": "Reflectance",
+                    "ratio": 1
+                }
+            }
+        }
+    ],
+    "materials": [
+        {
+            "name": "A",
+            "color": [1, 1, 1],
+            "emission": 0,
+            "bxdf": "A"
+        },
+        {
+            "name": "B",
+            "color": [1, 1, 1],
+            "emission": 0,
+            "bxdf": "B"
+        },
+        {
+            "name": "C",
+            "color": [1, 1, 1],
+            "emission": 0,
+            "bxdf": "C"
+        },
+        {
+            "name": "D",
+            "color": [1, 1, 1],
+            "emission": 0,
+            "bxdf": "D"
+        },
+        {
+            "name": "Lambertian",
+            "color": [1, 1, 1],
+            "emission": 0,
+            "bxdf": "Lambertian"
+        },
+        {
+            "name": "Light",
+            "color": [1, 1, 1],
+            "emission": 2,
+            "bxdf": "Lambertian"
+        }
+    ],
+    "objects": [
+        {
+            "type": "Sphere",
+            "center": [4, -2.25, 0],
+            "radius": 0.5,
+            "material": "A"
+        },
+        {
+            "type": "Sphere",
+            "center": [4, -0.75, 0],
+            "radius": 0.5,
+            "material": "B"
+        },
+        {
+            "type": "Sphere",
+            "center": [4, 0.75, 0],
+            "radius": 0.5,
+            "material": "C"
+        },
+        {
+            "type": "Sphere",
+            "center": [4, 2.25, 0],
+            "radius": 0.5,
+            "material": "D"
+        },
+        {
+            "type": "Sphere",
+            "center": [2, 0, 10],
+            "radius": 5,
+            "material": "Light"
+        },
+        {
+            "type": "OBJ",
+            "material": "Lambertian",
+            "path": "scenes/obj/cube.obj",
+            "position": [0, 0, 0],
+            "scale": 20,
+            "rotation": [0, 0, 0]
+        }
+    ]
+}
