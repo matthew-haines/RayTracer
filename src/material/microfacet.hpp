@@ -5,7 +5,8 @@
 class MicrofacetDistribution {
     public:
         MicrofacetDistribution() {};
-        virtual double Evaluate(Vector3 m, Vector3 n)=0;
+        virtual double Distribution(Vector3 m, Vector3 n)=0;
+        virtual double Geometry(Vector3 i, Vector3 o, Vector3 m, Vector3 n)=0;
         // Returns in spherical coordinates
         virtual Vector3 Sample(double e1, double e2)=0;
 };
@@ -16,8 +17,8 @@ class BeckmannDistribution: public MicrofacetDistribution {
         double alpha2;
     public:
         BeckmannDistribution(double alpha);
-        double Evaluate(Vector3 m, Vector3 n);
-        double G1(Vector3 v, Vector3 m, Vector3 n);
+        double Distribution(Vector3 m, Vector3 n);
+        double Geometry(Vector3 i, Vector3 o, Vector3 m, Vector3 n);
         Vector3 Sample(double e1, double e2);
 };
 
@@ -27,8 +28,8 @@ class PhongDistribution: public MicrofacetDistribution {
         double alpha2;
     public:
         PhongDistribution(double alpha);
-        double Evaluate(Vector3 m, Vector3 n);
-        double G1(Vector3 v, Vector3 m, Vector3 n);
+        double Distribution(Vector3 m, Vector3 n);
+        double Geometry(Vector3 i, Vector3 o, Vector3 m, Vector3 n);
         Vector3 Sample(double e1, double e2);
 };
 
@@ -38,8 +39,8 @@ class GGXDistribution: public MicrofacetDistribution {
         double alpha2;
     public:
         GGXDistribution(double alpha);
-        double Evaluate(Vector3 m, Vector3 n);
-        double G1(Vector3 v, Vector3 m, Vector3 n);
+        double Distribution(Vector3 m, Vector3 n);
+        double Geometry(Vector3 i, Vector3 o, Vector3 m, Vector3 n);
         Vector3 Sample(double e1, double e2);
 };
 

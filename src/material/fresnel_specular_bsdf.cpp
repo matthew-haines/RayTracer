@@ -30,5 +30,5 @@ Vector3 FresnelSpecularBSDF::operator()(Vector3 in, Vector3 normal, Vector3& out
         out = SpecularRefractBTDF::GetRefraction(in, normal, refractionIndex);
     }
     probability = 1; // no need to importance sample
-    return f;
+    return Vector3(1); // maybe f but this seems to make sense in my brain
 }

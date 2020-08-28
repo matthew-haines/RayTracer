@@ -4,7 +4,7 @@
 class Fresnel {
     public:
         Fresnel() {};
-        virtual double operator()(double cosI, double etaI, double etaT);
+        virtual double operator()(double cosI, double etaI, double etaT)=0;
 };
 
 class DielectricFresnel: public Fresnel {
@@ -22,6 +22,14 @@ class ReflectanceFresnel: public Fresnel {
 class TransmittanceFresnel: public Fresnel {
     public:
         TransmittanceFresnel() {};
+        double operator()(double cosI, double etaI, double etaT);
+};
+
+class FixedFresnel: public Fresnel {
+    private:
+        double ratio;
+    public:
+        FixedFresnel(double ratio): ratio(ratio) {};
         double operator()(double cosI, double etaI, double etaT);
 };
 

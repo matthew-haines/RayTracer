@@ -35,3 +35,7 @@ double ReflectanceFresnel::operator()(double cosI, double etaT, double etaI) {
 double TransmittanceFresnel::operator()(double cosI, double etaT, double etaI) {
     return 0;
 }
+
+double FixedFresnel::operator()(double cosI, double etaT, double etaI) {
+    return ratio;
+}

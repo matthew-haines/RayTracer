@@ -6,6 +6,9 @@
 #include "../material/specular_refract_btdf.hpp"
 #include "../material/fresnel_specular_bsdf.hpp"
 #include "../material/phong_brdf.hpp"
+#include "../material/microfacet_bsdf.hpp"
+#include "../material/fresnel.hpp"
+#include "../material/microfacet.hpp"
 #include "../primitive/primitive.hpp"
 #include "../primitive/sphere.hpp"
 #include "../primitive/plane.hpp"
@@ -30,17 +33,52 @@ Scene ParseScene(json j) {
         std::string name = bxdf_json->at("name").get<std::string>();
         BxDF *bxdf;
         std::string type = bxdf_json->at("type").get<std::string>();
+        auto params = bxdf_json->at("params");
         if (type == "LambertianBRDF") {
-            bxdf = new LambertianBRDF(bxdf_json->at("params").at("albedo").get<double>());
+            bxdf = new LambertianBRDF(params.at("albedo").get<double>());
         } else if (type == "SpecularReflectBRDF") {
             bxdf = new SpecularReflectBRDF();
         } else if (type == "SpecularRefractBTDF") {
-            bxdf = new SpecularRefractBTDF(bxdf_json->at("params").at("refractionIndex").get<double>());
+            bxdf = new SpecularRefractBTDF(params.at("refractionIndex").get<double>());
         } else if (type == "FresnelSpecularBSDF") {
-            bxdf = new FresnelSpecularBSDF(bxdf_json->at("params").at("refractionIndex").get<double>());
+            bxdf = new FresnelSpecularBSDF(params.at("refractionIndex").get<double>());
         } else if (type == "PhongBRDF") {
-            auto params = bxdf_json->at("params");
             bxdf = new PhongBRDF(params.at("kd").get<double>(), params.at("ks").get<double>(), params.at("n").get<double>());
+        } else if (type == "MicrofacetBSDF") {
+            double refractionIndex = params.contains("refractionIndex") ? params["refractionIndex"].get<double>() : 2;
+            MicrofacetDistribution* distribution;
+            {
+                auto distribution_json = params.at("distribution");
+                double alpha = distribution_json.at("alpha").get<double>();
+                std::string distributionName = distribution_json.at("type").get<std::string>();
+                if (distributionName == "Beckmann") {
+                    distribution = new BeckmannDistribution(alpha);
+                } else if (distributionName == "Phong") {
+                    distribution = new PhongDistribution(alpha);
+                } else if (distributionName == "GGX") {
+                    distribution = new GGXDistribution(alpha);
+                } else {
+                    throw std::runtime_error("Distribution type doesn't exist");
+                }
+            }
+            Fresnel* fresnel;
+            {
+                auto fresnel_json = params.at("fresnel");
+                std::string fresnelName = fresnel_json.at("type").get<std::string>();
+                if (fresnelName == "Dielectric") {
+                    fresnel = new DielectricFresnel();
+                } else if (fresnelName == "Reflectance") {
+                    fresnel = new ReflectanceFresnel();
+                } else if (fresnelName == "Transmittance") {
+                    fresnel = new TransmittanceFresnel();
+                } else if (fresnelName == "Fixed") {
+                    double ratio = fresnel_json.at("ratio").get<double>();
+                    fresnel = new FixedFresnel(ratio);
+                } else {
+                    throw std::runtime_error("Fresnel type doesn't exist");
+                }
+            }
+            bxdf = new MicrofacetBSDF(refractionIndex, fresnel, distribution);
         } else {
             throw std::runtime_error("BxDF doesn't exist");
         }

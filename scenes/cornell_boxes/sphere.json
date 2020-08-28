@@ -12,9 +12,17 @@
         },
         {
             "name": "Glass",
-            "type": "FresnelSpecularBSDF",
+            "type": "MicrofacetBSDF",
             "params": {
-                "refractionIndex": 2
+                "refractionIndex": 2,
+                "distribution": {
+                    "type": "Beckmann",
+                    "alpha": 0.01
+                },
+                "fresnel": {
+                    "type": "Fixed",
+                    "ratio": 1
+                }
             }
         }
     ],
