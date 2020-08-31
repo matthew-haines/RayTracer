@@ -1,6 +1,6 @@
 {
     "camera": {
-        "type": "PerspectiveCamera"
+        "type": "OrthographicCamera"
     },
     "bxdfs": [
         {
