@@ -64,8 +64,8 @@ double Triangle::DirectionalSamplePDF(Vector3 point, Vector3 direction) {
     Vector3 intersect;
     Vector3 normal;
     if (Intersect(ray, &intersect, &normal) != -1) {
-        Vector3 direction = intersect - point;
-        return direction.dot(direction) / (normal.dot(-direction) * area);
+        Vector3 distance = intersect - point;
+        return distance.dot(distance) / (std::abs(normal.dot(-direction)) * area);
     } else {
         return 0;
     }

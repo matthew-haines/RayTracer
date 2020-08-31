@@ -16,12 +16,11 @@
             "params": {
                 "refractionIndex": 2,
                 "distribution": {
-                    "type": "Phong",
-                    "alpha": 2
+                    "type": "GGX",
+                    "alpha": 0.5
                 },
                 "fresnel": {
-                    "type": "Fixed",
-                    "ratio": 1
+                    "type": "Reflectance"
                 }
             }
         }
@@ -34,7 +33,7 @@
                 1.0,
                 1.0
             ],
-            "emission": 4.0,
+            "emission": 8.0,
             "bxdf": "Lambertian"
         },
         {

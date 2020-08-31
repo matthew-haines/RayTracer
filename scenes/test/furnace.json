@@ -1,0 +1,58 @@
+
+{
+    "camera": {
+        "type": "PerspectiveCamera"
+    },
+    "bxdfs": [
+        {
+            "name": "Lambertian",
+            "type": "LambertianBRDF",
+            "params": {
+                "albedo": 0.5
+            }
+        },
+        {
+            "name": "Material",
+            "type": "MicrofacetBSDF",
+            "params": {
+                "refractionIndex": 2,
+                "distribution": {
+                    "type": "GGX",
+                    "alpha": 0.8
+                },
+                "fresnel": {
+                    "type": "Dielectric",
+                    "ratio": 1
+                }
+            }
+        }
+    ],
+    "materials": [
+        {
+            "name": "Material",
+            "color": [1, 1, 1],
+            "emission": 0,
+            "bxdf": "Material"
+        },
+        {
+            "name": "Light",
+            "color": [1, 1, 1],
+            "emission": 2,
+            "bxdf": "Lambertian"
+        }
+    ],
+    "objects": [
+        {
+            "type": "Sphere",
+            "center": [4, 0, 0],
+            "radius": 1.5,
+            "material": "Material"
+        },
+        {
+            "type": "Sphere",
+            "center": [4, 0, 0],
+            "radius": 10,
+            "material": "Light"
+        }
+    ]
+}
