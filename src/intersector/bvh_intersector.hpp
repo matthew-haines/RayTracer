@@ -4,6 +4,7 @@
 #include "bound.hpp"
 #include "thread_safe_queue.hpp"
 #include <functional>
+#include <atomic>
 #include <vector>
 
 struct BVHNode;
@@ -15,9 +16,9 @@ class BVHIntersector: public Intersector {
         std::vector<Bound> bounds;
         int processed = 0;
         int added = 0;
-        void WorkerFunction(ThreadSafeQueue<BVHNode*>& queue, int& complete, int total);
+        void WorkerFunction(ThreadSafeQueue<BVHNode*>& queue, std::atomic<int>* complete, int total);
     public:
-        BVHIntersector(Scene* scene);
+        BVHIntersector(Scene* scene, int threads);
         bool getIntersect(Ray ray, Intersection& intersection);
         void buildNodeRecursive(BVHNode* precursor);
         void buildNode(BVHNode* precursor, BVHNode** left, BVHNode** right);

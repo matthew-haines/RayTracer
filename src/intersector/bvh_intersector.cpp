@@ -12,7 +12,7 @@ struct BVHNode {
     int dim;
 };
 
-BVHIntersector::BVHIntersector(Scene* scene): Intersector(scene) {
+BVHIntersector::BVHIntersector(Scene* scene, int threads): Intersector(scene) {
     bounds = std::vector<Bound>(scene->primitives.size());
     root = new BVHNode();
     root->primitives = std::vector<int>(bounds.size());
@@ -32,7 +32,7 @@ BVHIntersector::BVHIntersector(Scene* scene): Intersector(scene) {
     }
     root->bound = Bound(min, max);
     //buildNode(root);
-    ParallelConstruct(1);
+    ParallelConstruct(threads);
 }
 
 bool BVHIntersector::getIntersect(Ray ray, Intersection& intersection) {
@@ -256,8 +256,8 @@ void BVHIntersector::buildNode(BVHNode* precursor, BVHNode** left, BVHNode** rig
     return;
 }
 
-void BVHIntersector::WorkerFunction(ThreadSafeQueue<BVHNode*>& queue, int& complete, int total) {
-    while (complete < total) {
+    void BVHIntersector::WorkerFunction(ThreadSafeQueue<BVHNode*>& queue, std::atomic<int>* complete, int total) {
+    while (*complete < total) {
         auto node = queue.pop();
         if (node == nullptr) {
             queue.push(nullptr);
@@ -271,9 +271,9 @@ void BVHIntersector::WorkerFunction(ThreadSafeQueue<BVHNode*>& queue, int& compl
             queue.push(left);
             queue.push(right);
         } else {
-            complete += node->primitives.size();
+            *complete += node->primitives.size();
             processed++;
-            if (complete == total) {
+            if (*complete == total) {
                 queue.push(nullptr);
             }
         }
@@ -284,10 +284,10 @@ void BVHIntersector::ParallelConstruct(int threads) {
     ThreadSafeQueue<BVHNode*> queue;
     queue.push(root);
     std::vector<std::thread> threadpool;
-    int complete = 0;
+    std::atomic<int> complete = 0;
     int total = scene->primitives.size();
     for (int i = 0; i < threads; i++) {
-        auto func = std::bind(&BVHIntersector::WorkerFunction, this, std::ref(queue), std::ref(complete), total);
+        auto func = std::bind(&BVHIntersector::WorkerFunction, this, std::ref(queue), &complete, total);
         threadpool.emplace_back(func);
     }
 

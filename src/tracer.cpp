@@ -94,7 +94,7 @@ int main(int argc, char *argv[]) {
     Camera* camera = ParseCamera(j, width, height);
     Scene scene = ParseScene(j);
     
-    BVHIntersector intersector(&scene);
+    BVHIntersector intersector(&scene, threads);
     PathTracerMIS model(intersector, 4, Vector3(0.));
 
     std::cout << "Rendering" << std::endl;
