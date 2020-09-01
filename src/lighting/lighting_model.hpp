@@ -1,6 +1,6 @@
 #ifndef LIGHTING_MODEL_HPP
 #define LIGHTING_MODEL_HPP
-#include "../vector3.hpp"
+
 #include "../ray.hpp"
 #include "../intersector/intersector.hpp"
 #include "../camera/camera.hpp"

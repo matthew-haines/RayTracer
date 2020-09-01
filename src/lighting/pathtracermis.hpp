@@ -1,5 +1,6 @@
 #ifndef PATHTRACERMIS_HPP
 #define PATHTRACERMIS_HPP
+
 #include "lighting_model.hpp"
 #include <random>
 

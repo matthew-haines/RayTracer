@@ -1,5 +1,6 @@
 #ifndef PATHTRACER_HPP
 #define PATHTRACER_HPP
+
 #include "lighting_model.hpp"
 
 class PathTracer: public LightingModel {

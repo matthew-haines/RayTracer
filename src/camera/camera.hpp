@@ -1,7 +1,6 @@
 #ifndef CAMERA_HPP
 #define CAMERA_HPP
 #include "../ray.hpp"
-#include "../vector3.hpp"
 #include <functional>
 #include <mutex>
 #include <string>

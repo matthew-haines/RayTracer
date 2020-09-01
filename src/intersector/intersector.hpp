@@ -2,8 +2,6 @@
 #define INTERSECTOR_HPP
 #include "../intersection.hpp"
 #include "../scene.hpp"
-#include "../primitive/primitive.hpp"
-#include "../ray.hpp"
 #include <random>
 #include <vector>
 

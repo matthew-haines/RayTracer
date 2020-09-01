@@ -2,9 +2,7 @@
 #define HELPERS_HPP
 #include "vector2.hpp"
 #include "vector3.hpp"
-#include <cmath>
 #include <functional>
-#include <random>
 
 // Need to define these in header
 template <typename T>

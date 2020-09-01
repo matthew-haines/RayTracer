@@ -1,5 +1,5 @@
 #include "vector2.hpp"
-#include <math.h>
+#include <cmath>
 
 Vector2::Vector2(double x, double y): x(x), y(y) {}
 
@@ -98,7 +98,7 @@ double Vector2::dot(Vector2 vec) {
 }
 
 double Vector2::length() {
-    return sqrt(x * x + y * y);
+    return std::sqrt(x * x + y * y);
 }
 
 void Vector2::normalize() {

@@ -1,8 +1,6 @@
 #ifndef PRIMITIVE_HPP
 #define PRIMITIVE_HPP
 #include "../material/material.hpp"
-#include "../vector3.hpp"
-#include "../ray.hpp"
 #include "../intersector/bound.hpp"
 
 class Primitive {

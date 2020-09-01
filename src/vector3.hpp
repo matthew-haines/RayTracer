@@ -39,6 +39,7 @@ Vector3 operator*(Vector3 a, double b);
 Vector3 operator/(Vector3 a, double b);
 Vector3 operator-(Vector3& v);
 bool operator==(Vector3 a, Vector3 b);
+bool operator!=(Vector3 a, Vector3 b);
 Vector3 operator*(Matrix3 a, Vector3 b);
 
 Vector3 sphericalToCartesian(Vector3 vec);

@@ -1,10 +1,6 @@
-#include "../vector3.hpp"
 #include "naive_intersector.hpp"
-#include "../ray.hpp"
-#include "../primitive/primitive.hpp"
 #include "../constants.hpp"
 #include <limits>
-#include <vector>
 
 NaiveIntersector::NaiveIntersector(Scene* scene): Intersector(scene) {};
 

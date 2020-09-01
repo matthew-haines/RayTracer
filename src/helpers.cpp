@@ -1,6 +1,4 @@
 #include "helpers.hpp"
-#include "vector3.hpp"
-#include "vector2.hpp"
 #include <cmath>
 #include <chrono>
 #include <iostream>

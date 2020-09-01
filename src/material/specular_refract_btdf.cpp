@@ -1,7 +1,6 @@
 #include "specular_refract_btdf.hpp"
 #include "specular_reflect_brdf.hpp"
 #include "../helpers.hpp"
-#include "fresnel.hpp"
 #include <cmath>
 
 SpecularRefractBTDF::SpecularRefractBTDF(double refractionIndex): BxDF(true), refractionIndex(refractionIndex) {}

@@ -1,7 +1,7 @@
 #include "matrix3.hpp"
 #include "vector3.hpp"
 #include "helpers.hpp"
-#include <math.h>
+#include <cmath>
 
 Matrix3::Matrix3(double x11, double x12, double x13, double x21, double x22, double x23, double x31, double x32, double x33) : x11(x11), x12(x12), x13(x13), x21(x21), x22(x22), x23(x23), x31(x31), x32(x32), x33(x33) {};
 
@@ -20,15 +20,15 @@ Matrix3::Matrix3(Vector3 v1, Vector3 v2, Vector3 v3) {
 // Creates rotation matrix from Extrinsic Tait-Bryan angles in rotation order xyz
 Matrix3 Matrix3::createEulerRotationMatrix(double xRotation, double yRotation, double zRotation) {
     Matrix3 m;
-    m.x11 = cos(yRotation) * cos(zRotation);
-    m.x12 = cos(zRotation) * sin(yRotation) * sin(xRotation) - cos(xRotation) * sin(zRotation);
-    m.x13 = cos(xRotation) * cos(zRotation) * sin(yRotation) + sin(xRotation) * sin(zRotation);
-    m.x21 = cos(yRotation) * sin(zRotation);
-    m.x22 = cos(xRotation) * cos(zRotation) + sin(yRotation) * sin(xRotation) * sin(zRotation);
-    m.x23 = cos(xRotation) * sin(yRotation) * sin(zRotation) - cos(zRotation) * sin(xRotation);
-    m.x31 = -sin(yRotation);
-    m.x32 = cos(yRotation) * sin(xRotation);
-    m.x33 = cos(yRotation) * cos(xRotation);
+    m.x11 = std::cos(yRotation) * std::cos(zRotation);
+    m.x12 = std::cos(zRotation) * std::sin(yRotation) * std::sin(xRotation) - std::cos(xRotation) * std::sin(zRotation);
+    m.x13 = std::cos(xRotation) * std::cos(zRotation) * std::sin(yRotation) + std::sin(xRotation) * std::sin(zRotation);
+    m.x21 = std::cos(yRotation) * std::sin(zRotation);
+    m.x22 = std::cos(xRotation) * std::cos(zRotation) + std::sin(yRotation) * std::sin(xRotation) * std::sin(zRotation);
+    m.x23 = std::cos(xRotation) * std::sin(yRotation) * std::sin(zRotation) - std::cos(zRotation) * std::sin(xRotation);
+    m.x31 = -std::sin(yRotation);
+    m.x32 = std::cos(yRotation) * std::sin(xRotation);
+    m.x33 = std::cos(yRotation) * std::cos(xRotation);
     return m;
 }
 
@@ -39,7 +39,7 @@ Matrix3 Matrix3::createSSCrossMatrix(Vector3 v) {
 // Creates rotation matrix that rotates (0, 0, 1) to normal
 Matrix3 Matrix3::createFromNormal(Vector3 normal) {
     Vector3 temp(1., 0., 0.);
-    if (abs(normal.x) > 0.99) {
+    if (std::abs(normal.x) > 0.99) {
         temp = Vector3(0., 0., 1.);
     }
 

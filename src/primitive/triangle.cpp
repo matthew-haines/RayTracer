@@ -1,6 +1,5 @@
 #include "triangle.hpp"
 #include "../constants.hpp"
-#include "../ray.hpp"
 #include "../helpers.hpp"
 #include <cmath>
 

@@ -1,8 +1,7 @@
 #include "vector3.hpp"
 #include "matrix3.hpp"
-#include <cmath>
 #include <algorithm>
-#include <cassert>
+#include <cmath>
 
 Vector3::Vector3(double x, double y, double z): x(x), y(y), z(z) {}
 
@@ -153,6 +152,10 @@ Vector3 operator-(Vector3& v) {
 
 bool operator==(Vector3 a, Vector3 b) {
     return (a.x == b.x) && (a.y == b.y) && (a.z == b.z);
+}
+
+bool operator!=(Vector3 a, Vector3 b) {
+    return !(a == b);
 }
 
 Vector3 operator*(Matrix3 a, Vector3 b) {
