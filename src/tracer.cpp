@@ -91,8 +91,8 @@ int main(int argc, char *argv[]) {
     std::ifstream f(infilename);
     json j;
     f >> j;
-    Camera* camera = ParseCamera(j, width, height);
-    Scene scene = ParseScene(j);
+    Camera* camera = parseCamera(j, width, height);
+    Scene scene = parseScene(j);
     
     BVHIntersector intersector(&scene, threads);
     PathTracerMIS model(intersector, 4, Vector3(0.));
@@ -100,7 +100,7 @@ int main(int argc, char *argv[]) {
     std::cout << "Rendering" << std::endl;
     auto start = std::chrono::high_resolution_clock::now();
 
-    model.Render(*camera, threads, samples);
+    model.render(*camera, threads, samples);
 
     auto stop = std::chrono::high_resolution_clock::now();
 
@@ -108,5 +108,5 @@ int main(int argc, char *argv[]) {
 
     std::cout << "Writing" << std::endl;
 
-    camera->Write(outfilename);
+    camera->write(outfilename);
 }

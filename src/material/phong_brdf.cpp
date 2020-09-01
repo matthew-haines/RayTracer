@@ -5,8 +5,8 @@
 
 PhongBRDF::PhongBRDF(double kd, double ks, double n): BxDF(false), kd(kd), ks(ks), n(n) {}
 
-Vector3 PhongBRDF::Evaluate(Vector3 in, Vector3 normal, Vector3 out) {
-    double calpha = std::clamp(SpecularReflectBRDF::GetReflection(in, normal).dot(out), -1., 1.);
+Vector3 PhongBRDF::evaluate(Vector3 in, Vector3 normal, Vector3 out) {
+    double calpha = std::clamp(SpecularReflectBRDF::getReflection(in, normal).dot(out), -1., 1.);
     if (normal.dot(out) < 0) {
         return 0;
     } else {
@@ -14,7 +14,7 @@ Vector3 PhongBRDF::Evaluate(Vector3 in, Vector3 normal, Vector3 out) {
     }
 }
 
-Vector3 PhongBRDF::Sample(Vector3 in, Vector3 normal) {
+Vector3 PhongBRDF::sample(Vector3 in, Vector3 normal) {
     double u = dist(gen);
     double u1 = dist(gen);
     double u2 = dist(gen);
@@ -25,8 +25,8 @@ Vector3 PhongBRDF::Sample(Vector3 in, Vector3 normal) {
         return rotation * vec;
     } else if (u < kd + ks) {
         //specular
-        Vector3 vec = SphericalToCartesian(Vector3(1, 2 * M_PI * u1, std::acos(std::pow(u2, 1 / (n+1)))));
-        Matrix3 rotation = Matrix3::createFromNormal(SpecularReflectBRDF::GetReflection(in, normal));
+        Vector3 vec = sphericalToCartesian(Vector3(1, 2 * M_PI * u1, std::acos(std::pow(u2, 1 / (n+1)))));
+        Matrix3 rotation = Matrix3::createFromNormal(SpecularReflectBRDF::getReflection(in, normal));
         return rotation * vec;
     } else {
         return 0;
@@ -34,7 +34,7 @@ Vector3 PhongBRDF::Sample(Vector3 in, Vector3 normal) {
 }
 double PhongBRDF::pdf(Vector3 in, Vector3 normal, Vector3 out) {
     // weight probabilities
-    double calpha = std::clamp(SpecularReflectBRDF::GetReflection(in, normal).dot(out), -1., 1.);
+    double calpha = std::clamp(SpecularReflectBRDF::getReflection(in, normal).dot(out), -1., 1.);
     return kd * CosineSampleHemisphere::pdf(normal.dot(out)) + ks * 0.5 * M_1_PI * (n + 1) * std::pow(calpha, n);
 }
 
@@ -43,7 +43,7 @@ Vector3 PhongBRDF::operator()(Vector3 in, Vector3 normal, Vector3& out, double& 
     double u1 = dist(gen);
     double u2 = dist(gen);
     double calpha;
-    Vector3 reflect = SpecularReflectBRDF::GetReflection(in, normal);
+    Vector3 reflect = SpecularReflectBRDF::getReflection(in, normal);
     if (u < kd) {
         //diffuse
         Matrix3 rotation = Matrix3::createFromNormal(normal); // convert (1, 0, 0) to normal
@@ -53,7 +53,7 @@ Vector3 PhongBRDF::operator()(Vector3 in, Vector3 normal, Vector3& out, double& 
     } else if (u < kd + ks) {
         //specular
         calpha = std::pow(u2, 1/(n+1));
-        Vector3 vec = SphericalToCartesian(Vector3(1, 2 * M_PI * u1, std::acos(calpha)));
+        Vector3 vec = sphericalToCartesian(Vector3(1, 2 * M_PI * u1, std::acos(calpha)));
         Matrix3 rotation = Matrix3::createFromNormal(reflect);
         out = rotation * vec;
     } else {

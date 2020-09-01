@@ -13,7 +13,7 @@ bool NaiveIntersector::getIntersect(Ray ray, Intersection& intersection) {
     Primitive* closestPrimitive;
     Vector3 tempIntersect, tempNormal;
     for (Primitive* primitive : scene->primitives) {
-        double distance = primitive->Intersect(ray, &tempIntersect, &tempNormal);
+        double distance = primitive->intersect(ray, &tempIntersect, &tempNormal);
         if (distance > -epsilon && distance < closestDistance) {
             intersection.intersect = tempIntersect;
             intersection.normal = tempNormal;

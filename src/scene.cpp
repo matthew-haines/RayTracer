@@ -6,7 +6,7 @@ Scene::Scene() {
     lights = std::vector<Primitive*>();
 }
 
-void Scene::Insert(std::variant<Primitive*, ComplexPrimitive*> object) {    
+void Scene::insert(std::variant<Primitive*, ComplexPrimitive*> object) {    
     if (std::holds_alternative<Primitive*>(object)) {
         Primitive* primitive = std::get<Primitive*>(object);
         if (primitive->material->emission != 0.) {

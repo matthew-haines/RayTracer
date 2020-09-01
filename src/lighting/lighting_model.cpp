@@ -5,7 +5,7 @@
 
 LightingModel::LightingModel(Intersector& intersector, int maxDepth, Vector3 ambient): intersector(intersector), maxDepth(maxDepth), ambient(ambient) {};
 
-void LightingModel::Render(Camera& camera, int threads, int samples) {
+void LightingModel::render(Camera& camera, int threads, int samples) {
     int finished = 0;
     int total = camera.width * camera.height;
     auto last = std::chrono::high_resolution_clock::now();
@@ -13,7 +13,7 @@ void LightingModel::Render(Camera& camera, int threads, int samples) {
     auto workerFunction = [this, &camera, samples, &last, &finished, &total]() {
         while (true) {
             Vector3* location = nullptr;
-            auto rayGen = camera.Next(&location);
+            auto rayGen = camera.next(&location);
             if (location == nullptr) {
                 break;
             }
@@ -21,7 +21,7 @@ void LightingModel::Render(Camera& camera, int threads, int samples) {
             Intersection nullIntersection;
             nullIntersection.primitive = nullptr;
             for (int i = 0; i < samples; i++) {
-                accumulator += Evaluate(rayGen(), 1, nullIntersection);
+                accumulator += evaluate(rayGen(), 1, nullIntersection);
             }
             accumulator /= samples;
             *location = accumulator;

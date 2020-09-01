@@ -41,9 +41,9 @@ Vector3 operator-(Vector3& v);
 bool operator==(Vector3 a, Vector3 b);
 Vector3 operator*(Matrix3 a, Vector3 b);
 
-Vector3 SphericalToCartesian(Vector3 vec);
+Vector3 sphericalToCartesian(Vector3 vec);
 
-Vector3 CartesianToSpherical(Vector3 vec);
+Vector3 cartesianToSpherical(Vector3 vec);
 
 void from_json(const nlohmann::json& j, Vector3& v);
 

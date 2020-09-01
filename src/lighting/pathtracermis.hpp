@@ -9,7 +9,7 @@ class PathTracerMIS: public LightingModel {
     private:
         std::mt19937 gen;
         std::uniform_real_distribution<double> dist;
-        Vector3 Evaluate(Ray ray, int depth, Intersection& lastIntersection);
+        Vector3 evaluate(Ray ray, int depth, Intersection& lastIntersection);
 };
 
 #endif

@@ -6,6 +6,6 @@
 
 using json = nlohmann::json;
 
-Camera* ParseCamera(json j, std::size_t width, std::size_t height);
+Camera* parseCamera(json j, std::size_t width, std::size_t height);
 
 #endif

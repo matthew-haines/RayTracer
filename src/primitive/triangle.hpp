@@ -12,12 +12,12 @@ class Triangle: public Primitive {
         double area;
     public:
         Triangle(Vector3 v0, Vector3 v1, Vector3 v2, Material *material, bool normals=false, Vector3 vn0 = Vector3(0.), Vector3 vn1 = Vector3(0.), Vector3 vn2 = Vector3(0.));
-        double Intersect(Ray ray, Vector3 *intersect, Vector3 *normal);
-        Vector3 Sample(double u1, double u2);
-        double SamplePDF(Vector3 point, Vector3 direction);
-        Vector3 DirectionalSample(double u1, double u2, Vector3 point);
-        double DirectionalSamplePDF(Vector3 point, Vector3 direction);
-        Bound GetBound();
+        double intersect(Ray ray, Vector3 *intersect, Vector3 *normal);
+        Vector3 sample(double u1, double u2);
+        double samplePdf(Vector3 point, Vector3 direction);
+        Vector3 directionalSample(double u1, double u2, Vector3 point);
+        double directionalSamplePdf(Vector3 point, Vector3 direction);
+        Bound getBound();
 };
 
 #endif

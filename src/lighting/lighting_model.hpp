@@ -13,8 +13,8 @@ class LightingModel {
         Vector3 ambient;
     public:
         LightingModel(Intersector& intersector, int maxDepth, Vector3 ambient);
-        void Render(Camera& camera, int threads, int samples);
-        virtual Vector3 Evaluate(Ray ray, int depth, Intersection& lastIntersection)=0;
+        void render(Camera& camera, int threads, int samples);
+        virtual Vector3 evaluate(Ray ray, int depth, Intersection& lastIntersection)=0;
 };
 
 #endif

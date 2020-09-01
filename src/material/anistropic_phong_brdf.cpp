@@ -7,11 +7,11 @@ AnistropicPhongBRDF::AnistropicPhongBRDF(double kd, double ks, double nu, double
     rho = std::sqrt((nu + 1) * (nv + 1)) / (8 * M_PI);
 }
 
-Vector3 AnistropicPhongBRDF::Evaluate(Vector3 in, Vector3 normal, Vector3 out) {
+Vector3 AnistropicPhongBRDF::evaluate(Vector3 in, Vector3 normal, Vector3 out) {
     Vector3 h = (out - in).normalized();
     Vector3 u = normal.cross(normal.z < 0.99 ? Vector3(0, 0, 1) : Vector3(1, 0, 0)).normalized();
     Vector3 v = normal.cross(u).normalized();
-    Vector3 k1 = SpecularReflectBRDF::GetReflection(in, normal);
+    Vector3 k1 = SpecularReflectBRDF::getReflection(in, normal);
     Vector3 k2 = -in;
     double ndoti = -normal.dot(in);
     double fresnel = ks + (1 - ks) * square(square(1 - ndoti)) * (1 - ndoti);
@@ -24,7 +24,7 @@ Vector3 AnistropicPhongBRDF::Evaluate(Vector3 in, Vector3 normal, Vector3 out) {
     return specular + diffuse;
 }
 
-Vector3 AnistropicPhongBRDF::Sample(Vector3 in, Vector3 normal) {
+Vector3 AnistropicPhongBRDF::sample(Vector3 in, Vector3 normal) {
 
 }
 

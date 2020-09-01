@@ -10,10 +10,10 @@ OrthographicCamera::OrthographicCamera(double scale, bool jitter, std::size_t wi
         gen = std::mt19937(rd());
         dist = std::uniform_real_distribution<double>(-gridSize / 2, gridSize / 2);
     }
-    BuildQueue();
+    buildQueue();
 }
 
-std::function<Ray()> OrthographicCamera::PixelFunction(int row, int column) {
+std::function<Ray()> OrthographicCamera::getPixelFunction(int row, int column) {
     std::function<Ray()> func;
     if (jitter) {
         func = [this, row, column]() {

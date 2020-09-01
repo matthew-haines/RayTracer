@@ -11,10 +11,10 @@ PerspectiveCamera::PerspectiveCamera(double fov, bool jitter, std::size_t width,
         gen = std::mt19937(rd());
         dist = std::uniform_real_distribution<double>(-gridSize / 2, gridSize / 2);
     }
-    BuildQueue();
+    buildQueue();
 }
 
-std::function<Ray()> PerspectiveCamera::PixelFunction(int row, int column) {
+std::function<Ray()> PerspectiveCamera::getPixelFunction(int row, int column) {
     std::function<Ray()> func;
     if (jitter) {
         func = [this, row, column]() {

@@ -9,15 +9,15 @@ Camera::Camera(std::size_t width, std::size_t height, Vector3 direction, Vector3
     rotation = Matrix3::createEulerRotationMatrix(0.0, std::atan(direction.z / Vector3(direction.x, direction.y, 0.0).length()), std::atan(direction.y / direction.x));
 }
 
-void Camera::BuildQueue() {
+void Camera::buildQueue() {
     for (int row = 0; row < height; row++) {
         for (int column = 0; column < width; column++) {
-            queue.push(std::make_pair(PixelFunction(row, column), &result[row * width + column]));
+            queue.push(std::make_pair(getPixelFunction(row, column), &result[row * width + column]));
         }
     }
 }
 
-std::function<Ray()> Camera::Next(Vector3** location) {
+std::function<Ray()> Camera::next(Vector3** location) {
     std::unique_lock<std::mutex> lock(mutex);
     if (queue.size() != 0) {
         auto pair = queue.front();
@@ -32,18 +32,18 @@ std::function<Ray()> Camera::Next(Vector3** location) {
     }
 }
 
-void Camera::Write(std::string path, double gamma, std::size_t threads) {
+void Camera::write(std::string path, double gamma, std::size_t threads) {
     std::vector<unsigned char> buffer(result.size() * 4);
 
     std::function<void(int)> charConv = [&buffer, this, gamma](int index) {
         int baseIndex = index * 4;
-        buffer[baseIndex] = ColorToChar(std::pow(result[index].x, 1/gamma));
-        buffer[++baseIndex] = ColorToChar(std::pow(result[index].y, 1/gamma));
-        buffer[++baseIndex] = ColorToChar(std::pow(result[index].z, 1/gamma));
+        buffer[baseIndex] = colorToChar(std::pow(result[index].x, 1/gamma));
+        buffer[++baseIndex] = colorToChar(std::pow(result[index].y, 1/gamma));
+        buffer[++baseIndex] = colorToChar(std::pow(result[index].z, 1/gamma));
         buffer[++baseIndex] = 255;
     };
     
-    ParallelizeLoop(threads, charConv, result.size());
+    parallelizeLoop(threads, charConv, result.size());
 
     unsigned error = lodepng::encode(path, buffer, width, height);
     if (error) {

@@ -6,6 +6,6 @@
 
 using json = nlohmann::json;
 
-Scene ParseScene(json j);
+Scene parseScene(json j);
 
 #endif

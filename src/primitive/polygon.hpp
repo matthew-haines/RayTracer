@@ -7,7 +7,7 @@ class Polygon: public Plane {
         std::vector<Vector3> *points;
     public:
         Polygon(Vector3 planeNormal, double d, Material *material, std::vector<Vector3> *points, bool oneSided=true);
-        double Intersect(Ray ray, Vector3 *intersect, Vector3 *normal);
+        double intersect(Ray ray, Vector3 *intersect, Vector3 *normal);
 };
 
 #endif

@@ -14,7 +14,7 @@ class OrthographicCamera: public Camera {
     public:
         double scale;
         OrthographicCamera(double scale, bool jitter, std::size_t width, std::size_t height, Vector3 direction = Vector3(1, 0, 0), Vector3 position = Vector3(0));
-        virtual std::function<Ray()> PixelFunction(int row, int column);
+        virtual std::function<Ray()> getPixelFunction(int row, int column);
 };
 
 #endif

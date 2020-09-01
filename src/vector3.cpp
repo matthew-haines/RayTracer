@@ -160,12 +160,12 @@ Vector3 operator*(Matrix3 a, Vector3 b) {
 }
 
 // Converts from spherical coordinates in form (length, azimuth, polar angle) to cartesian coordinates in form (x, y, z)
-Vector3 SphericalToCartesian(Vector3 vec) {
+Vector3 sphericalToCartesian(Vector3 vec) {
     return Vector3(vec.x * std::sin(vec.z) * std::cos(vec.y), vec.x * std::sin(vec.z) * std::sin(vec.y), vec.x * std::cos(vec.z));
 }
 
 // Converts from cartesian coordinates in form (x, y, z) to spherical coordinates in form (length, azimuth, polar angle)
-Vector3 CartesianToSpherical(Vector3 vec) {
+Vector3 cartesianToSpherical(Vector3 vec) {
     return Vector3(vec.length(), atan2(vec.y, vec.x), atan2(sqrt(vec.x * vec.x + vec.y * vec.y), vec.z));
 }
 

@@ -19,7 +19,7 @@ BVHIntersector::BVHIntersector(Scene* scene, int threads): Intersector(scene) {
     Vector3 min(std::numeric_limits<double>::max());
     Vector3 max(std::numeric_limits<double>::lowest());
     for (int i = 0; i < scene->primitives.size(); i++) {
-        bounds[i] = scene->primitives[i]->GetBound(); // need to implement
+        bounds[i] = scene->primitives[i]->getBound(); // need to implement
         root->primitives[i] = i;
         for (int j = 0; j < 3; j++) {
             if (bounds[i].min[j] < min[j]) {
@@ -32,7 +32,7 @@ BVHIntersector::BVHIntersector(Scene* scene, int threads): Intersector(scene) {
     }
     root->bound = Bound(min, max);
     //buildNode(root);
-    ParallelConstruct(threads);
+    parallelConstruct(threads);
 }
 
 bool BVHIntersector::getIntersect(Ray ray, Intersection& intersection) {
@@ -51,10 +51,10 @@ bool BVHIntersector::getIntersect(Ray ray, Intersection& intersection) {
 
     while (stackIndex > -1) {
         BVHNode* node = nodeStack[stackIndex];
-        if (node->bound.RayIntersect(ray, invDir, dirIsNeg)) {
+        if (node->bound.rayIntersect(ray, invDir, dirIsNeg)) {
             if (node->child1 == nullptr) {
                 for (int primIndex : node->primitives) {
-                    double distance = scene->primitives[primIndex]->Intersect(ray, &intersect, &normal);
+                    double distance = scene->primitives[primIndex]->intersect(ray, &intersect, &normal);
                     if (distance != -1 && distance < minDist) {
                         intersected = true;
                         minDist = distance;
@@ -98,7 +98,7 @@ void BVHIntersector::buildNodeRecursive(BVHNode* precursor) {
 
     Bound centroidBound;
     for (int index : precursor->primitives) {
-        centroidBound = Bound::Union(centroidBound, bounds[index].centroid);
+        centroidBound = Bound::computeUnion(centroidBound, bounds[index].centroid);
     }
     int dim = 0;
     double maxRange = std::numeric_limits<double>::lowest();
@@ -115,7 +115,7 @@ void BVHIntersector::buildNodeRecursive(BVHNode* precursor) {
     for (int index : precursor->primitives) {
         int bucket = (int)((double)bucketCount * (bounds[index].centroid[dim] - precursor->bound.min[dim]) / maxRange);
         buckets[bucket].primitives.push_back(index);
-        buckets[bucket].bound = Bound::Union(bounds[index], buckets[bucket].bound);
+        buckets[bucket].bound = Bound::computeUnion(bounds[index], buckets[bucket].bound);
     }
 
     struct PartitionCandidate {
@@ -132,17 +132,17 @@ void BVHIntersector::buildNodeRecursive(BVHNode* precursor) {
     candidates[bucketCount-2].rightBound = buckets[bucketCount-1].bound;
     candidates[bucketCount-2].rightCount = buckets[bucketCount-1].primitives.size();
     for (int i = 1; i < bucketCount-1; i++) {
-        candidates[i].leftBound = Bound::Union(buckets[i].bound, candidates[i-1].leftBound);
+        candidates[i].leftBound = Bound::computeUnion(buckets[i].bound, candidates[i-1].leftBound);
         candidates[i].leftCount = buckets[i].primitives.size() + candidates[i-1].leftCount;
         
-        candidates[bucketCount-i-2].rightBound = Bound::Union(buckets[bucketCount-i-1].bound, candidates[bucketCount-i-1].rightBound);
+        candidates[bucketCount-i-2].rightBound = Bound::computeUnion(buckets[bucketCount-i-1].bound, candidates[bucketCount-i-1].rightBound);
         candidates[bucketCount-i-2].rightCount = buckets[bucketCount-i-1].primitives.size() + candidates[bucketCount-i-1].rightCount;
     }
 
     int bestPartition = 0;
     double bestCost = std::numeric_limits<double>::max(); 
     for (int i = 0; i < bucketCount-1; i++) {
-        double cost = 0.125 + (candidates[i].leftCount * candidates[i].leftBound.SurfaceArea() + candidates[i].rightCount * candidates[i].rightBound.SurfaceArea()) / precursor->bound.SurfaceArea();
+        double cost = 0.125 + (candidates[i].leftCount * candidates[i].leftBound.surfaceArea() + candidates[i].rightCount * candidates[i].rightBound.surfaceArea()) / precursor->bound.surfaceArea();
         if (cost < bestCost) {
             bestCost = cost;
             bestPartition = i;
@@ -184,7 +184,7 @@ void BVHIntersector::buildNode(BVHNode* precursor, BVHNode** left, BVHNode** rig
     
     Bound centroidBound;
     for (int index : precursor->primitives) {
-        centroidBound = Bound::Union(centroidBound, bounds[index].centroid);
+        centroidBound = Bound::computeUnion(centroidBound, bounds[index].centroid);
     }
     int dim = 0;
     double maxCentroidRange = std::numeric_limits<double>::lowest();
@@ -205,7 +205,7 @@ void BVHIntersector::buildNode(BVHNode* precursor, BVHNode** left, BVHNode** rig
         int bucket = (int)((double)bucketCount * (bounds[index].centroid[dim] - precursor->bound.min[dim]) / maxRange);
         bucket = bucket == bucketCount ? bucket - 1 : bucket;
         buckets[bucket].primitives.push_back(index);
-        buckets[bucket].bound = Bound::Union(bounds[index], buckets[bucket].bound);
+        buckets[bucket].bound = Bound::computeUnion(bounds[index], buckets[bucket].bound);
     }
 
     struct PartitionCandidate {
@@ -222,17 +222,17 @@ void BVHIntersector::buildNode(BVHNode* precursor, BVHNode** left, BVHNode** rig
     candidates[bucketCount-2].rightBound = buckets[bucketCount-1].bound;
     candidates[bucketCount-2].rightCount = buckets[bucketCount-1].primitives.size();
     for (int i = 1; i < bucketCount-1; i++) {
-        candidates[i].leftBound = Bound::Union(buckets[i].bound, candidates[i-1].leftBound);
+        candidates[i].leftBound = Bound::computeUnion(buckets[i].bound, candidates[i-1].leftBound);
         candidates[i].leftCount = buckets[i].primitives.size() + candidates[i-1].leftCount;
         
-        candidates[bucketCount-i-2].rightBound = Bound::Union(buckets[bucketCount-i-1].bound, candidates[bucketCount-i-1].rightBound);
+        candidates[bucketCount-i-2].rightBound = Bound::computeUnion(buckets[bucketCount-i-1].bound, candidates[bucketCount-i-1].rightBound);
         candidates[bucketCount-i-2].rightCount = buckets[bucketCount-i-1].primitives.size() + candidates[bucketCount-i-1].rightCount;
     }
 
     int bestPartition = 0;
     double bestCost = std::numeric_limits<double>::max(); 
     for (int i = 0; i < bucketCount-1; i++) {
-        double cost = 0.125 + (candidates[i].leftCount * candidates[i].leftBound.SurfaceArea() + candidates[i].rightCount * candidates[i].rightBound.SurfaceArea()) / precursor->bound.SurfaceArea();
+        double cost = 0.125 + (candidates[i].leftCount * candidates[i].leftBound.surfaceArea() + candidates[i].rightCount * candidates[i].rightBound.surfaceArea()) / precursor->bound.surfaceArea();
         if (cost < bestCost) {
             bestCost = cost;
             bestPartition = i;
@@ -256,7 +256,7 @@ void BVHIntersector::buildNode(BVHNode* precursor, BVHNode** left, BVHNode** rig
     return;
 }
 
-    void BVHIntersector::WorkerFunction(ThreadSafeQueue<BVHNode*>& queue, std::atomic<int>* complete, int total) {
+    void BVHIntersector::workerFunction(ThreadSafeQueue<BVHNode*>& queue, std::atomic<int>* complete, int total) {
     while (*complete < total) {
         auto node = queue.pop();
         if (node == nullptr) {
@@ -280,14 +280,14 @@ void BVHIntersector::buildNode(BVHNode* precursor, BVHNode** left, BVHNode** rig
     }
 }
 
-void BVHIntersector::ParallelConstruct(int threads) {
+void BVHIntersector::parallelConstruct(int threads) {
     ThreadSafeQueue<BVHNode*> queue;
     queue.push(root);
     std::vector<std::thread> threadpool;
     std::atomic<int> complete = 0;
     int total = scene->primitives.size();
     for (int i = 0; i < threads; i++) {
-        auto func = std::bind(&BVHIntersector::WorkerFunction, this, std::ref(queue), &complete, total);
+        auto func = std::bind(&BVHIntersector::workerFunction, this, std::ref(queue), &complete, total);
         threadpool.emplace_back(func);
     }
 

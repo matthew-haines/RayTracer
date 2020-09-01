@@ -13,20 +13,18 @@ Bound::Bound(Vector3 min, Vector3 max): min(min), max(max) {
     centroid = (min + max) / 2;
 }
 
-double Bound::SurfaceArea() {
+double Bound::surfaceArea() {
     double length = max.x - min.x;
     double width = max.y - min.y;
     double height = max.z - min.z;
     return 2. * (length * width + length * height + width * height);
 }
 
-
-
-Bound Bound::Union(Bound a, Bound b) {
+Bound Bound::computeUnion(Bound a, Bound b) {
     return Bound(Vector3::min(a.min, b.min), Vector3::max(a.max, b.max));
 }
 
-Bound Bound::Union(Bound a, Vector3 b) {
+Bound Bound::computeUnion(Bound a, Vector3 b) {
     return Bound(Vector3::min(a.min, b), Vector3::max(a.max, b));
 }
 
@@ -37,7 +35,7 @@ Vector3& Bound::operator[](int index) {
     return max;
 }
 
-bool Bound::RayIntersect(Ray& ray, Vector3& invDir, const int dirIsNeg[3]) {
+bool Bound::rayIntersect(Ray& ray, Vector3& invDir, const int dirIsNeg[3]) {
     // Because of the strict performance requirements, I copied this from PBRT
     Bound& bound = *this;
     double tMin = (bound[dirIsNeg[0]].x - ray.origin.x) * invDir.x;

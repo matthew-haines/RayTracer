@@ -19,7 +19,7 @@ T square(T x) {
 
 double sign(double x);
 
-char ColorToChar(double color);
+char colorToChar(double color);
 
 struct UniformSampleHemisphere {
     static Vector3 sample(double u1, double u2);
@@ -46,10 +46,10 @@ struct CosineSampleHemisphere {
     static double pdf(double cosTheta);
 };
 
-void ParallelizeLoop(int threads, std::function<void(int)> func, int range, bool showProgress=false);
+void parallelizeLoop(int threads, std::function<void(int)> func, int range, bool showProgress=false);
 
-double PowerHeuristic(double a, double b);
+double powerHeuristic(double a, double b);
 
-double PositiveCharacteristic(double a);
+double positiveCharacteristic(double a);
 
 #endif

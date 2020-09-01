@@ -22,7 +22,7 @@
 #include <iostream>
 #include <stdexcept>
 
-Scene ParseScene(json j) {
+Scene parseScene(json j) {
 
     std::map<std::string, BxDF*> bxdfs;
     json bxdfs_json = j.at("bxdfs");
@@ -133,11 +133,11 @@ Scene ParseScene(json j) {
             double scale = object_json->at("scale").get<double>();
             Vector3 position = object_json->at("position").get<Vector3>();
             Vector3 rotation = object_json->at("rotation").get<Vector3>();
-            object = ParseOBJFile(filepath, material, position, rotation, scale, true);
+            object = parseObjFile(filepath, material, position, rotation, scale, true);
         } else {
             throw std::runtime_error("Object type doesn't exist");
         }
-        scene.Insert(object);
+        scene.insert(object);
     }
     return scene;
 }

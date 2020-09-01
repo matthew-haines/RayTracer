@@ -17,7 +17,7 @@ double sign(double x) {
     }
 }
 
-char ColorToChar(double color) {
+char colorToChar(double color) {
     return (char)(std::min(color, 1.0) * 255);
 }
 
@@ -36,7 +36,7 @@ double UniformSampleHemisphere::pdf(Vector3 v) {
 Vector3 UniformSampleSphere::sample(double u1, double u2) {
     double alt = M_PI * u1;
     double azi = 2. * M_PI * u2 - M_PI;
-    return SphericalToCartesian(Vector3(1.0, azi, alt));
+    return sphericalToCartesian(Vector3(1.0, azi, alt));
 }
 
 double UniformSampleSphere::pdf() {
@@ -46,7 +46,7 @@ double UniformSampleSphere::pdf() {
 Vector3 UniformSampleCone::sample(double u1, double u2, Vector3 direction, double thetaMax) {
     double alt = thetaMax * u1;
     double azi = 2 * M_PI * u2;
-    Vector3 result = SphericalToCartesian(Vector3(1., azi, alt));
+    Vector3 result = sphericalToCartesian(Vector3(1., azi, alt));
     return Matrix3::createFromNormal(direction.normalized()) * result;
 }
 
@@ -89,7 +89,7 @@ double CosineSampleHemisphere::pdf(double cosTheta) {
 }
 
 // Takes threads and function to apply at each iteration of loop, function takes index
-void ParallelizeLoop(int threads, std::function<void(int)> func, int range, bool showProgress) {
+void parallelizeLoop(int threads, std::function<void(int)> func, int range, bool showProgress) {
     std::vector<std::thread> threadpool;
 
     int blockSize = range / threads;
@@ -128,11 +128,11 @@ void ParallelizeLoop(int threads, std::function<void(int)> func, int range, bool
 }
 
 // Power heurstic weight for a
-double PowerHeuristic(double a, double b) {
+double powerHeuristic(double a, double b) {
     return square(a) / (square(a) + square(b));
 }
 
 // Returns 1 if a > 0 and 0 otherwise
-double PositiveCharacteristic(double a) {
+double positiveCharacteristic(double a) {
     return a > 0 ? 1 : 0;
 }

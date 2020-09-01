@@ -11,7 +11,7 @@ PathTracerMIS::PathTracerMIS(Intersector& intersector, int maxDepth, Vector3 amb
     dist = std::uniform_real_distribution<double>(0, 1);
 }
 
-Vector3 PathTracerMIS::Evaluate(Ray ray, int depth, Intersection& lastIntersection) {
+Vector3 PathTracerMIS::evaluate(Ray ray, int depth, Intersection& lastIntersection) {
     // Combine estimate of direct lighting by sampling different lights in scene with an indirect ray with MIS (Veach '97 power heuristic)
     //direct
     if (depth > maxDepth) {
@@ -35,23 +35,23 @@ Vector3 PathTracerMIS::Evaluate(Ray ray, int depth, Intersection& lastIntersecti
         Vector3 direction;
         double probability;
         Vector3 bxdfEval = (*material->bxdf)(ray.direction, intersection.normal, direction, probability);
-        Vector3 result = Evaluate({intersection.intersect, direction}, depth+1, intersection);
+        Vector3 result = evaluate({intersection.intersect, direction}, depth+1, intersection);
         return bxdfEval * result / probability;
     } else {
         // get random light
         Primitive* light = intersector.getRandomLight();
         Vector3 misSampled = Vector3(0.);
         {
-            Vector3 direction = light->DirectionalSample(dist(gen), dist(gen), intersection.intersect);
-            double lightProbability = light->DirectionalSamplePDF(intersection.intersect, direction);
+            Vector3 direction = light->directionalSample(dist(gen), dist(gen), intersection.intersect);
+            double lightProbability = light->directionalSamplePdf(intersection.intersect, direction);
             if (lightProbability != 0.) {
-                Vector3 bxdfEval = material->color * material->bxdf->Evaluate(ray.direction, intersection.normal, direction) * std::abs(intersection.normal.dot(direction));
+                Vector3 bxdfEval = material->color * material->bxdf->evaluate(ray.direction, intersection.normal, direction) * std::abs(intersection.normal.dot(direction));
                 if (!(bxdfEval == Vector3(0.))) {
                     double bxdfProbability = material->bxdf->pdf(ray.direction, intersection.normal, direction);
                     Intersection lightIntersection;
                     if (intersector.getIntersect({intersection.intersect + epsilon * intersection.normal, direction}, lightIntersection)) {
                         if (lightIntersection.primitive == light) {
-                            misSampled += light->material->color * light->material->emission * bxdfEval * PowerHeuristic(lightProbability, bxdfProbability) / lightProbability;
+                            misSampled += light->material->color * light->material->emission * bxdfEval * powerHeuristic(lightProbability, bxdfProbability) / lightProbability;
                         }
                     }
                 }
@@ -64,14 +64,14 @@ Vector3 PathTracerMIS::Evaluate(Ray ray, int depth, Intersection& lastIntersecti
         {
             bxdfEval = (*material->bxdf)(ray.direction, intersection.normal, direction, bxdfProbability) * std::abs(intersection.normal.dot(direction));
             if (!(bxdfEval == Vector3(0.))) {
-                double lightProbability = light->DirectionalSamplePDF(intersection.intersect, direction);
+                double lightProbability = light->directionalSamplePdf(intersection.intersect, direction);
                 Intersection lightIntersection;
                 if (intersector.getIntersect({intersection.intersect + epsilon * intersection.normal, direction}, lightIntersection)) {
                     if (lightIntersection.primitive == light) {
-                        misSampled += light->material->color * light->material->emission * bxdfEval * PowerHeuristic(bxdfProbability, lightProbability) / bxdfProbability;
+                        misSampled += light->material->color * light->material->emission * bxdfEval * powerHeuristic(bxdfProbability, lightProbability) / bxdfProbability;
                     }
                 }
-                nextRay = Evaluate({intersection.intersect + epsilon * intersection.normal, direction}, depth+1, intersection) * bxdfEval / bxdfProbability;
+                nextRay = evaluate({intersection.intersect + epsilon * intersection.normal, direction}, depth+1, intersection) * bxdfEval / bxdfProbability;
             }
         }
         return intersector.scene->lights.size() * misSampled + nextRay;

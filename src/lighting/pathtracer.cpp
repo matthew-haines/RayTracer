@@ -4,7 +4,7 @@
 
 PathTracer::PathTracer(Intersector& intersector, int maxDepth, Vector3 ambient): LightingModel(intersector, maxDepth, ambient) {}
 
-Vector3 PathTracer::Evaluate(Ray ray, int depth, Intersection& lastIntersection) {
+Vector3 PathTracer::evaluate(Ray ray, int depth, Intersection& lastIntersection) {
     Intersection intersection;
     if (!intersector.getIntersect(ray, intersection)) {
         return ambient;
@@ -16,7 +16,7 @@ Vector3 PathTracer::Evaluate(Ray ray, int depth, Intersection& lastIntersection)
         Material* material = intersection.primitive->material;
         double probability;
         Vector3 bxdf = (*material->bxdf)(ray.direction, intersection.normal, newRay.direction, probability);
-        color += material->color * bxdf * Evaluate(newRay, depth+1, intersection) / probability * intersection.normal.dot(newRay.direction);
+        color += material->color * bxdf * evaluate(newRay, depth+1, intersection) / probability * intersection.normal.dot(newRay.direction);
     }
     color += intersection.primitive->material->emission;
     return color;
