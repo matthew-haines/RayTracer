@@ -1,5 +1,6 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
+
 #include "primitive/primitive.hpp"
 #include "primitive/complex_primitive.hpp"
 #include "camera/camera.hpp"

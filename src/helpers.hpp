@@ -1,5 +1,6 @@
 #ifndef HELPERS_HPP
 #define HELPERS_HPP
+
 #include "vector2.hpp"
 #include "vector3.hpp"
 #include <functional>

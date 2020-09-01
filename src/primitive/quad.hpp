@@ -1,5 +1,6 @@
 #ifndef QUAD_HPP
 #define QUAD_HPP
+
 #include "complex_primitive.hpp"
 
 struct Quad: ComplexPrimitive {

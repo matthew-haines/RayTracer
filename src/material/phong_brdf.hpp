@@ -1,5 +1,6 @@
 #ifndef PHONG_BRDF_HPP
 #define PHONG_BRDF_HPP
+
 #include "bxdf.hpp"
 
 class PhongBRDF: public BxDF {

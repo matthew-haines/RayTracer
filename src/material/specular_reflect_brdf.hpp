@@ -1,5 +1,6 @@
 #ifndef SPECULAR_REFLECT_BRDF_HPP
 #define SPECULAR_REFLECT_BRDF_HPP
+
 #include "bxdf.hpp"
 
 class SpecularReflectBRDF: public BxDF {

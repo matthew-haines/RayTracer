@@ -1,5 +1,6 @@
 #ifndef VECTOR3_HPP
 #define VECTOR3_HPP
+
 #include "matrix3.hpp"
 #include "../lib/json/json.hpp"
 

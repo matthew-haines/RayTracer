@@ -1,5 +1,6 @@
 #ifndef ORTHOGRAPHIC_CAMERA_HPP
 #define ORTHOGRAPHIC_CAMERA_HPP
+
 #include "camera.hpp"
 #include <random>
 

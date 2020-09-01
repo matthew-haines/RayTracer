@@ -1,5 +1,6 @@
 #ifndef BOUND_HPP
 #define BOUND_HPP
+
 #include "../ray.hpp"
 
 struct Bound {

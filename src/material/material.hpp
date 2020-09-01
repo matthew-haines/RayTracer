@@ -1,5 +1,6 @@
 #ifndef MATERIAL_HPP 
 #define MATERIAL_HPP
+
 #include "bxdf.hpp"
 
 typedef struct material {

@@ -1,5 +1,6 @@
 #ifndef CAMERA_READER_HPP
 #define CAMERA_READER_HPP
+
 #include "../camera/camera.hpp"
 #include "../../lib/json/json.hpp"
 #include <string>

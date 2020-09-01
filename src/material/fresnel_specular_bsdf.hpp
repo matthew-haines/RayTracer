@@ -1,5 +1,6 @@
 #ifndef FRESNEL_SPECULAR_BSDF_HPP
 #define FRESNEL_SPECULAR_BSDF_HPP
+
 #include "bxdf.hpp"
 
 class FresnelSpecularBSDF: public BxDF {

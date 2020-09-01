@@ -1,5 +1,6 @@
 #ifndef PRIMITIVE_HPP
 #define PRIMITIVE_HPP
+
 #include "../material/material.hpp"
 #include "../intersector/bound.hpp"
 

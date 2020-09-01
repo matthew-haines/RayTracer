@@ -1,5 +1,6 @@
 #ifndef LAMBERTIAN_BRDF
 #define LAMBERTIAN_BRDF
+
 #include "bxdf.hpp"
 
 class LambertianBRDF: public BxDF {

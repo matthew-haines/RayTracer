@@ -1,5 +1,6 @@
 #ifndef ANISTROPIC_PHONG_BRDF_HPP
 #define ANISTROPIC_PHONG_BRDF_HPP
+
 #include "bxdf.hpp"
 
 // Ashikhmin, M., and P. Shirley 2002. An anisotropic Phong BRDF model. Journal of Graphics Tools 5 (2), 25–32.

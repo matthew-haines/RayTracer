@@ -1,5 +1,6 @@
 #ifndef BVH_INTERSECTOR_HPP
 #define BVH_INTERSECTOR_HPP
+
 #include "intersector.hpp"
 #include "bound.hpp"
 #include "thread_safe_queue.hpp"

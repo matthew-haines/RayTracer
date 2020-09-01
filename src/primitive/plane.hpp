@@ -1,5 +1,6 @@
 #ifndef PLANE_HPP
 #define PLANE_HPP
+
 #include "primitive.hpp"
 #include <vector>
 

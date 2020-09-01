@@ -1,5 +1,6 @@
 #ifndef INTERSECTION_HPP
 #define INTERSECTION_HPP
+
 #include "primitive/primitive.hpp"
 
 typedef struct intersection {
