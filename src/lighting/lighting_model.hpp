@@ -9,7 +9,7 @@
 class LightingModel {
     protected:
         Intersector& intersector;
-        int maxDepth;
+        const int maxDepth;
         Vector3 ambient;
     public:
         LightingModel(Intersector& intersector, int maxDepth, Vector3 ambient);

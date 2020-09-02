@@ -4,8 +4,9 @@
 #include "bxdf.hpp"
 
 class LambertianBRDF: public BxDF {
+    private:
+        const double albedo;
     public:
-        double albedo;
         LambertianBRDF(double albedo);
         Vector3 evaluate(Vector3 in, Vector3 normal, Vector3 out);
         Vector3 sample(Vector3 in, Vector3 normal);

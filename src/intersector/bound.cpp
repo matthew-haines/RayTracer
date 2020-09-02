@@ -20,11 +20,11 @@ double Bound::surfaceArea() {
     return 2. * (length * width + length * height + width * height);
 }
 
-Bound Bound::computeUnion(Bound a, Bound b) {
+Bound Bound::computeUnion(Bound& a, Bound& b) {
     return Bound(Vector3::min(a.min, b.min), Vector3::max(a.max, b.max));
 }
 
-Bound Bound::computeUnion(Bound a, Vector3 b) {
+Bound Bound::computeUnion(Bound& a, Vector3& b) {
     return Bound(Vector3::min(a.min, b), Vector3::max(a.max, b));
 }
 

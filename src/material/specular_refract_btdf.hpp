@@ -4,8 +4,9 @@
 #include "bxdf.hpp"
 
 class SpecularRefractBTDF: public BxDF {
+    private:
+        const double refractionIndex;
     public:
-        double refractionIndex;
         SpecularRefractBTDF(double refractionIndex);
         Vector3 evaluate(Vector3 in, Vector3 normal, Vector3 out);
         Vector3 sample(Vector3 in, Vector3 normal);

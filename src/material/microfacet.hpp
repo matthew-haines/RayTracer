@@ -14,8 +14,8 @@ class MicrofacetDistribution {
 
 class BeckmannDistribution: public MicrofacetDistribution {
     private:
-        double alpha;
-        double alpha2;
+        const double alpha;
+        const double alpha2;
     public:
         BeckmannDistribution(double alpha);
         double Distribution(Vector3 m, Vector3 n);
@@ -25,7 +25,7 @@ class BeckmannDistribution: public MicrofacetDistribution {
 
 class PhongDistribution: public MicrofacetDistribution {
     private:
-        double alpha;
+        const double alpha;
     public:
         PhongDistribution(double alpha);
         double Distribution(Vector3 m, Vector3 n);
@@ -35,8 +35,8 @@ class PhongDistribution: public MicrofacetDistribution {
 
 class GGXDistribution: public MicrofacetDistribution {
     private:
-        double alpha;
-        double alpha2;
+        const double alpha;
+        const double alpha2;
     public:
         GGXDistribution(double alpha);
         double Distribution(Vector3 m, Vector3 n);

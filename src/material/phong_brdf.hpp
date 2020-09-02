@@ -5,9 +5,9 @@
 
 class PhongBRDF: public BxDF {
     private:
-        double kd;
-        double ks;
-        double n;
+        const double kd;
+        const double ks;
+        const double n;
     public:
         PhongBRDF(double kd, double ks, double n);
         Vector3 evaluate(Vector3 in, Vector3 normal, Vector3 out);

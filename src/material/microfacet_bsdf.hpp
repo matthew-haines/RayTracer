@@ -7,9 +7,9 @@
 
 class MicrofacetBSDF: public BxDF {
     private:
-        double refractionIndex;
-        Fresnel* fresnelFunction;
-        MicrofacetDistribution* microfacetDistribution;
+        const double refractionIndex;
+        Fresnel* const fresnelFunction;
+        MicrofacetDistribution* const microfacetDistribution;
     public:
         MicrofacetBSDF(double refractionIndex, Fresnel* fresnelFunction, MicrofacetDistribution* microfacetDistribution);
         Vector3 evaluate(Vector3 in, Vector3 normal, Vector3 out);

@@ -22,7 +22,7 @@ class BVHIntersector: public Intersector {
         BVHIntersector(Scene* scene, int threads);
         bool getIntersect(Ray ray, Intersection& intersection);
         void buildNodeRecursive(BVHNode* precursor);
-        void buildNode(BVHNode* precursor, BVHNode** left, BVHNode** right);
+        void buildNode(BVHNode& precursor, BVHNode** left, BVHNode** right);
         void parallelConstruct(int threads);
 };  
 
