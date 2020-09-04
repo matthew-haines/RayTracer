@@ -10,11 +10,11 @@ class LightingModel {
     protected:
         Intersector& intersector;
         const int maxDepth;
-        Vector3 ambient;
+        const Vector3 ambient;
     public:
-        LightingModel(Intersector& intersector, int maxDepth, Vector3 ambient);
-        void render(Camera& camera, int threads, int samples);
-        virtual Vector3 evaluate(Ray ray, int depth, Intersection& lastIntersection)=0;
+        LightingModel(Intersector& intersector, const int maxDepth, const Vector3 ambient);
+        void render(Camera& camera, const int threads, const int samples);
+        virtual Vector3 evaluate(const Ray ray, const int depth, const Intersection& lastIntersection)=0;
 };
 
 #endif

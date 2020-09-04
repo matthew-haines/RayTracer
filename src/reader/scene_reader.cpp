@@ -15,7 +15,7 @@
 #include <iostream>
 #include <stdexcept>
 
-Scene parseScene(json j) {
+Scene parseScene(const json j) {
 
     std::map<std::string, BxDF*> bxdfs;
     json bxdfs_json = j.at("bxdfs");

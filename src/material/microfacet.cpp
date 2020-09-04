@@ -3,17 +3,17 @@
 #include <cmath>
 // http://www.cs.cornell.edu/%7Esrm/publications/EGSR07-btdf.pdf
 
-BeckmannDistribution::BeckmannDistribution(double alpha): alpha(alpha), alpha2(square(alpha)) {
+BeckmannDistribution::BeckmannDistribution(const double alpha): alpha(alpha), alpha2(square(alpha)) {
 
 }
 
-double BeckmannDistribution::Distribution(Vector3 m, Vector3 n) {
+double BeckmannDistribution::Distribution(const Vector3 m, const Vector3 n) const {
     double mdotn = m.dot(n);
     double theta = std::acos(mdotn);
     return positiveCharacteristic(mdotn) / (M_PI * alpha2 * square(square(mdotn))) * std::exp(-square(std::tan(theta))/alpha2);
 }
 
-double BeckmannDistribution::Geometry(Vector3 i, Vector3 o, Vector3 m, Vector3 n) {
+double BeckmannDistribution::Geometry(const Vector3 i, const Vector3 o, const Vector3 m, const Vector3 n) const {
     auto g1 = [this](Vector3 v, Vector3 m, Vector3 n) {
         double vdotn = v.dot(n);
         double thetav = std::acos(vdotn);
@@ -25,20 +25,20 @@ double BeckmannDistribution::Geometry(Vector3 i, Vector3 o, Vector3 m, Vector3 n
     return g1(i, m, n) * g1(o, m, n);
 }
 
-Vector3 BeckmannDistribution::Sample(double e1, double e2) {
+Vector3 BeckmannDistribution::Sample(const double e1, const double e2) const {
     return sphericalToCartesian(Vector3(1, 2 * M_PI * e1, std::atan(std::sqrt(-alpha2 * std::log(1 - e2)))));
 }
 
-PhongDistribution::PhongDistribution(double alpha): alpha(alpha) {
+PhongDistribution::PhongDistribution(const double alpha): alpha(alpha) {
 
 }
 
-double PhongDistribution::Distribution(Vector3 m, Vector3 n) {
+double PhongDistribution::Distribution(const Vector3 m, const Vector3 n) const {
     double mdotn = m.dot(n);
     return positiveCharacteristic(mdotn) * (alpha + 2) / (2 * M_PI) * std::pow(mdotn, alpha);
 }
 
-double PhongDistribution::Geometry(Vector3 i, Vector3 o, Vector3 m, Vector3 n) {
+double PhongDistribution::Geometry(const Vector3 i, const Vector3 o, const Vector3 m, const Vector3 n) const {
     auto g1 = [this](Vector3 v, Vector3 m, Vector3 n) {
         double vdotn = v.dot(n);
         double thetav = std::acos(vdotn);
@@ -50,21 +50,21 @@ double PhongDistribution::Geometry(Vector3 i, Vector3 o, Vector3 m, Vector3 n) {
     return g1(i, m, n) * g1(o, m, n);
 }
 
-Vector3 PhongDistribution::Sample(double e1, double e2) {
+Vector3 PhongDistribution::Sample(const double e1, const double e2) const {
     return sphericalToCartesian(Vector3(1, 2 * M_PI * e1, std::acos(std::pow(e2, 1 / (alpha + 2)))));
 }
 
-GGXDistribution::GGXDistribution(double alpha): alpha(alpha), alpha2(square(alpha)) {
+GGXDistribution::GGXDistribution(const double alpha): alpha(alpha), alpha2(square(alpha)) {
 
 }
 
-double GGXDistribution::Distribution(Vector3 m, Vector3 n) {
+double GGXDistribution::Distribution(const Vector3 m, const Vector3 n) const {
     double mdotn = m.dot(n);
     double theta = std::acos(mdotn);
     return alpha2 * positiveCharacteristic(mdotn) / (M_PI * square(square(mdotn)) * square(alpha2 + square(std::tan(theta))));
 }
 
-double GGXDistribution::Geometry(Vector3 i, Vector3 o, Vector3 m, Vector3 n) {
+double GGXDistribution::Geometry(const Vector3 i, const Vector3 o, const Vector3 m, const Vector3 n) const {
     auto g1 = [this](Vector3 v, Vector3 m, Vector3 n) {
         double vdotn = v.dot(n);
         double thetav = std::acos(vdotn);
@@ -73,6 +73,6 @@ double GGXDistribution::Geometry(Vector3 i, Vector3 o, Vector3 m, Vector3 n) {
     return g1(i, m, n) * g1(o, m, n);
 }
 
-Vector3 GGXDistribution::Sample(double e1, double e2) {
+Vector3 GGXDistribution::Sample(const double e1, const double e2) const {
     return sphericalToCartesian(Vector3(1, 2 * M_PI * e1, std::atan(alpha * std::sqrt(e2) / std::sqrt(1 - e2))));
 }

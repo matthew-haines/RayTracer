@@ -8,8 +8,8 @@
 
 class NaiveIntersector: public Intersector {
     public:
-        NaiveIntersector(Scene* scene);
-        bool getIntersect(Ray ray, Intersection& intersection);
+        NaiveIntersector(Scene* const scene);
+        bool getIntersect(const Ray ray, Intersection& intersection) const;
 };
 
 #endif

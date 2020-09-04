@@ -3,7 +3,7 @@
 #include "../camera/orthographic_camera.hpp"
 #include <stdexcept>
 
-Camera* parseCamera(json j, std::size_t width, std::size_t height) {
+Camera* parseCamera(const json j, const std::size_t width, const std::size_t height) {
     json camera_json = j.at("camera");
     std::string type = camera_json.at("type").get<std::string>();
     Camera* camera;

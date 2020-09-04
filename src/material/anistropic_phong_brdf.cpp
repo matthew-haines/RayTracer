@@ -3,11 +3,11 @@
 #include "specular_reflect_brdf.hpp"
 #include <cmath>
 
-AnistropicPhongBRDF::AnistropicPhongBRDF(double kd, double ks, double nu, double nv): BxDF(false), kd(kd), ks(ks), nu(nu), nv(nv) {
+AnistropicPhongBRDF::AnistropicPhongBRDF(const double kd, const double ks, const double nu, const double nv): BxDF(false), kd(kd), ks(ks), nu(nu), nv(nv) {
     rho = std::sqrt((nu + 1) * (nv + 1)) / (8 * M_PI);
 }
 
-Vector3 AnistropicPhongBRDF::evaluate(Vector3 in, Vector3 normal, Vector3 out) {
+Vector3 AnistropicPhongBRDF::evaluate(const Vector3 in, const Vector3 normal, const Vector3 out) const {
     Vector3 h = (out - in).normalized();
     Vector3 u = normal.cross(normal.z < 0.99 ? Vector3(0, 0, 1) : Vector3(1, 0, 0)).normalized();
     Vector3 v = normal.cross(u).normalized();
@@ -24,14 +24,14 @@ Vector3 AnistropicPhongBRDF::evaluate(Vector3 in, Vector3 normal, Vector3 out) {
     return specular + diffuse;
 }
 
-Vector3 AnistropicPhongBRDF::sample(Vector3 in, Vector3 normal) {
-
+Vector3 AnistropicPhongBRDF::sample(const Vector3 in, const Vector3 normal) {
+    return Vector3(0.);
 }
 
-double AnistropicPhongBRDF::pdf(Vector3 in, Vector3 normal, Vector3 out) {
-
+double AnistropicPhongBRDF::pdf(const Vector3 in, const Vector3 normal, const Vector3 out) const {
+    return 0;
 }
 
-Vector3 AnistropicPhongBRDF::operator()(Vector3 in, Vector3 normal, Vector3& out, double& probability) {
-
+Vector3 AnistropicPhongBRDF::operator()(const Vector3 in, const Vector3 normal, Vector3& out, double& probability) {
+    return Vector3(0);
 }

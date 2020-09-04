@@ -4,11 +4,10 @@
 #include "../matrix3.hpp"
 #include <cmath>
 
-Sphere::Sphere(Vector3 center, double radius, Material *material): Primitive(material), center(center), radius(radius) {
-    radius2 = radius * radius;
+Sphere::Sphere(const Vector3 center, const double radius, Material* const material): Primitive(material), center(center), radius(radius), radius2(radius * radius) {
 }
 
-double Sphere::intersect(Ray ray, Vector3 *intersect, Vector3 *normal) {
+double Sphere::intersect(const Ray ray, Vector3* const intersect, Vector3* const normal) const {
     Vector3 distance = center - ray.origin;
     double distance2 = distance.dot(distance);
     double lengthToClosest = distance.dot(ray.direction);
@@ -32,16 +31,16 @@ double Sphere::intersect(Ray ray, Vector3 *intersect, Vector3 *normal) {
     return intersectDistance;
 };
 
-Vector3 Sphere::sample(double u1, double u2) {
+Vector3 Sphere::sample(const double u1, const double u2) const {
     Vector3 sample = UniformSampleSphere::sample(u1, u2);
     return radius * sample + center;
 }
 
-double Sphere::samplePdf(Vector3 point, Vector3 direction) {
+double Sphere::samplePdf(const Vector3 point, const Vector3 direction) const {
     return UniformSampleSphere::pdf(); 
 }
 
-Vector3 Sphere::directionalSample(double u1, double u2, Vector3 point) {
+Vector3 Sphere::directionalSample(const double u1, const double u2, const Vector3 point) const {
     Vector3 direction = center - point;
     double distance2 = direction.dot(direction);
     if (distance2 < radius2) {
@@ -53,7 +52,7 @@ Vector3 Sphere::directionalSample(double u1, double u2, Vector3 point) {
     }
 }
 
-double Sphere::directionalSamplePdf(Vector3 point, Vector3 direction) {
+double Sphere::directionalSamplePdf(const Vector3 point, const Vector3 direction) const {
     Vector3 distance = center - point;
     double distance2 = distance.dot(distance);
     if (distance2 < radius2) {
@@ -67,6 +66,6 @@ double Sphere::directionalSamplePdf(Vector3 point, Vector3 direction) {
     return UniformSampleCone::pdf(cosThetaMax);
 }
 
-Bound Sphere::getBound() {
+Bound Sphere::getBound() const {
     return Bound(center - Vector3(radius), center + Vector3(radius));
 }

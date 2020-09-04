@@ -5,9 +5,9 @@
 
 class PathTracer: public LightingModel {
     public:
-        PathTracer(Intersector& intersector, int maxDepth, Vector3 ambient=Vector3(0.));
+        PathTracer(Intersector& intersector, const int maxDepth, const Vector3 ambient=Vector3(0.));
     private:
-        Vector3 evaluate(Ray ray, int depth, Intersection& lastIntersection);
+        Vector3 evaluate(const Ray ray, const int depth, const Intersection& lastIntersection);
 };
 
 #endif

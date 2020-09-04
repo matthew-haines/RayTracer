@@ -11,11 +11,11 @@ class BxDF {
     public:
         // Single method that gets view vector and normal, returns spectrum and can importance sample if required
         const bool specular;
-        BxDF(bool specular);
-        virtual Vector3 evaluate(Vector3 in, Vector3 normal, Vector3 out)=0;
-        virtual Vector3 sample(Vector3 in, Vector3 normal)=0;
-        virtual double pdf(Vector3 in, Vector3 normal, Vector3 out)=0;
-        virtual Vector3 operator()(Vector3 in, Vector3 normal, Vector3& out, double& probability)=0;
+        BxDF(const bool specular);
+        virtual Vector3 evaluate(const Vector3 in, const Vector3 normal, const Vector3 out) const=0;
+        virtual Vector3 sample(const Vector3 in, const Vector3 normal)=0;
+        virtual double pdf(const Vector3 in, const Vector3 normal, const Vector3 out) const=0;
+        virtual Vector3 operator()(const Vector3 in, const Vector3 normal, Vector3& out, double& probability)=0;
 };
 
 #endif

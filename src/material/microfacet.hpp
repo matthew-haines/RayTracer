@@ -6,10 +6,10 @@
 class MicrofacetDistribution {
     public:
         MicrofacetDistribution() {};
-        virtual double Distribution(Vector3 m, Vector3 n)=0;
-        virtual double Geometry(Vector3 i, Vector3 o, Vector3 m, Vector3 n)=0;
+        virtual double Distribution(const Vector3 m, const Vector3 n) const=0;
+        virtual double Geometry(const Vector3 i, const Vector3 o, const Vector3 m, const Vector3 n) const=0;
         // Returns in spherical coordinates
-        virtual Vector3 Sample(double e1, double e2)=0;
+        virtual Vector3 Sample(const double e1, const double e2) const=0;
 };
 
 class BeckmannDistribution: public MicrofacetDistribution {
@@ -17,20 +17,20 @@ class BeckmannDistribution: public MicrofacetDistribution {
         const double alpha;
         const double alpha2;
     public:
-        BeckmannDistribution(double alpha);
-        double Distribution(Vector3 m, Vector3 n);
-        double Geometry(Vector3 i, Vector3 o, Vector3 m, Vector3 n);
-        Vector3 Sample(double e1, double e2);
+        BeckmannDistribution(const double alpha);
+        double Distribution(const Vector3 m, const Vector3 n) const;
+        double Geometry(const Vector3 i, const Vector3 o, const Vector3 m, const Vector3 n) const;
+        Vector3 Sample(const double e1, const double e2) const;
 };
 
 class PhongDistribution: public MicrofacetDistribution {
     private:
         const double alpha;
     public:
-        PhongDistribution(double alpha);
-        double Distribution(Vector3 m, Vector3 n);
-        double Geometry(Vector3 i, Vector3 o, Vector3 m, Vector3 n);
-        Vector3 Sample(double e1, double e2);
+        PhongDistribution(const double alpha);
+        double Distribution(const Vector3 m, const Vector3 n) const;
+        double Geometry(const Vector3 i, const Vector3 o, const Vector3 m, const Vector3 n) const;
+        Vector3 Sample(const double e1, const double e2) const;
 };
 
 class GGXDistribution: public MicrofacetDistribution {
@@ -38,10 +38,10 @@ class GGXDistribution: public MicrofacetDistribution {
         const double alpha;
         const double alpha2;
     public:
-        GGXDistribution(double alpha);
-        double Distribution(Vector3 m, Vector3 n);
-        double Geometry(Vector3 i, Vector3 o, Vector3 m, Vector3 n);
-        Vector3 Sample(double e1, double e2);
+        GGXDistribution(const double alpha);
+        double Distribution(const Vector3 m, const Vector3 n) const;
+        double Geometry(const Vector3 i, const Vector3 o, const Vector3 m, const Vector3 n) const;
+        Vector3 Sample(const double e1, const double e2) const;
 };
 
 #endif

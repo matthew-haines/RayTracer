@@ -12,7 +12,7 @@ class Scene {
         std::vector<Primitive*> primitives;
         std::vector<Primitive*> lights;
         Scene();
-        void insert(std::variant<Primitive*, ComplexPrimitive*> object);
+        void insert(const std::variant<Primitive*, ComplexPrimitive*> object);
 };
 
 #endif

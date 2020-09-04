@@ -1,7 +1,7 @@
 #include "perspective_camera.hpp"
 #include <cmath>
 
-PerspectiveCamera::PerspectiveCamera(double fov, bool jitter, std::size_t width, std::size_t height, Vector3 direction, Vector3 position): Camera(width, height, direction, position), jitter(jitter), fov(fov) {
+PerspectiveCamera::PerspectiveCamera(const double fov, const bool jitter, const std::size_t width, const std::size_t height, const Vector3 direction, const Vector3 position): Camera(width, height, direction, position), jitter(jitter) {
     maxWidth = 2 * std::sqrt(1 / std::pow(std::cos(fov / 2), 2) - 1);
     gridSize = maxWidth / width;
     maxHeight = gridSize * height;
@@ -14,7 +14,7 @@ PerspectiveCamera::PerspectiveCamera(double fov, bool jitter, std::size_t width,
     buildQueue();
 }
 
-std::function<Ray()> PerspectiveCamera::getPixelFunction(int row, int column) {
+std::function<Ray()> PerspectiveCamera::getPixelFunction(const int row, const int column) {
     std::function<Ray()> func;
     if (jitter) {
         func = [this, row, column]() {

@@ -15,7 +15,7 @@ double FresnelDielectric(double ndoti, double etaT, double etaI) {
     return 0.5 * (square(rs) + square(rt));
 }
 
-double DielectricFresnel::operator()(double cosI, double etaT, double etaI) {
+double DielectricFresnel::operator()(double cosI, double etaT, double etaI) const {
     bool entering = cosI > 0;
     if (!entering) {
         std::swap(etaT, etaI);
@@ -31,14 +31,14 @@ double DielectricFresnel::operator()(double cosI, double etaT, double etaI) {
     return 0.5 * (square(rs) + square(rt));
 }
 
-double ReflectanceFresnel::operator()(double cosI, double etaT, double etaI) {
+double ReflectanceFresnel::operator()(double cosI, double etaT, double etaI) const {
     return 1;
 }
 
-double TransmittanceFresnel::operator()(double cosI, double etaT, double etaI) {
+double TransmittanceFresnel::operator()(double cosI, double etaT, double etaI) const {
     return 0;
 }
 
-double FixedFresnel::operator()(double cosI, double etaT, double etaI) {
+double FixedFresnel::operator()(double cosI, double etaT, double etaI) const {
     return ratio;
 }

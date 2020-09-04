@@ -2,9 +2,9 @@
 #include "../helpers.hpp"
 #include <functional>
 
-PathTracer::PathTracer(Intersector& intersector, int maxDepth, Vector3 ambient): LightingModel(intersector, maxDepth, ambient) {}
+PathTracer::PathTracer(Intersector& intersector, const int maxDepth, const Vector3 ambient): LightingModel(intersector, maxDepth, ambient) {}
 
-Vector3 PathTracer::evaluate(Ray ray, int depth, Intersection& lastIntersection) {
+Vector3 PathTracer::evaluate(const Ray ray, const int depth, const Intersection& lastIntersection) {
     Intersection intersection;
     if (!intersector.getIntersect(ray, intersection)) {
         return ambient;

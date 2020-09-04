@@ -12,10 +12,9 @@ class OrthographicCamera: public Camera {
         double maxWidth;
         double maxHeight;
         const bool jitter;
-        const double scale;
     public:
-        OrthographicCamera(double scale, bool jitter, std::size_t width, std::size_t height, Vector3 direction = Vector3(1, 0, 0), Vector3 position = Vector3(0));
-        std::function<Ray()> getPixelFunction(int row, int column);
+        OrthographicCamera(const double scale, const bool jitter, const std::size_t width, const std::size_t height, const Vector3 direction = Vector3(1, 0, 0), const Vector3 position = Vector3(0));
+        std::function<Ray()> getPixelFunction(const int row, const int column);
 };
 
 #endif

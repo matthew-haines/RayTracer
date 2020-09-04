@@ -5,7 +5,7 @@
 #include <thread>
 #include <vector>
 
-double sign(double x) {
+double sign(const double x) {
     if (x > 0) {
         return 1;
     } else if (x == 0) {
@@ -15,23 +15,23 @@ double sign(double x) {
     }
 }
 
-char colorToChar(double color) {
+char colorToChar(const double color) {
     return (char)(std::min(color, 1.0) * 255);
 }
 
 // Samples hemisphere around (0, 0, 1)
-Vector3 UniformSampleHemisphere::sample(double u1, double u2) {
+Vector3 UniformSampleHemisphere::sample(const double u1, const double u2) {
     double z = u1;
     double r = std::sqrt(std::max(0., 1. - z * z));
     double phi = 2 * M_PI * u2;
     return Vector3(r * std::cos(phi), r * std::sin(phi), z);
 }
 
-double UniformSampleHemisphere::pdf(Vector3 v) {
+double UniformSampleHemisphere::pdf(const Vector3 v) {
     return 0.5 / M_PI;
 }
 
-Vector3 UniformSampleSphere::sample(double u1, double u2) {
+Vector3 UniformSampleSphere::sample(const double u1, const double u2) {
     double alt = M_PI * u1;
     double azi = 2. * M_PI * u2 - M_PI;
     return sphericalToCartesian(Vector3(1.0, azi, alt));
@@ -41,14 +41,14 @@ double UniformSampleSphere::pdf() {
     return 0.25 / M_PI;
 }
 
-Vector3 UniformSampleCone::sample(double u1, double u2, Vector3 direction, double thetaMax) {
+Vector3 UniformSampleCone::sample(const double u1, const double u2, const Vector3 direction, const double thetaMax) {
     double alt = thetaMax * u1;
     double azi = 2 * M_PI * u2;
     Vector3 result = sphericalToCartesian(Vector3(1., azi, alt));
     return Matrix3::createFromNormal(direction.normalized()) * result;
 }
 
-double UniformSampleCone::pdf(double cosThetaMax) {
+double UniformSampleCone::pdf(const double cosThetaMax) {
     return 1 / (2 * M_PI * (1 - cosThetaMax));
 }
  
@@ -71,23 +71,23 @@ Vector2 ConcentricSampleDisk::sample(double u1, double u2) {
     return r * Vector2(std::cos(theta), std::sin(theta));
 }
 
-double ConcentricSampleDisk::pdf(Vector2 v) {
+double ConcentricSampleDisk::pdf() {
     return 0.5 / M_PI;
 }
 
 // Samples hemisphere around (0, 0, 1)
-Vector3 CosineSampleHemisphere::sample(double u1, double u2) {
+Vector3 CosineSampleHemisphere::sample(const double u1, const double u2) {
     Vector2 diskMapping = ConcentricSampleDisk::sample(u1, u2);
     double z = std::sqrt(std::max(0., 1. - square(diskMapping.x) - square(diskMapping.y)));
     return Vector3(diskMapping.x, diskMapping.y, z);
 }
 
-double CosineSampleHemisphere::pdf(double cosTheta) {
+double CosineSampleHemisphere::pdf(const double cosTheta) {
     return (cosTheta / M_PI);
 }
 
 // Takes threads and function to apply at each iteration of loop, function takes index
-void parallelizeLoop(int threads, std::function<void(int)> func, int range, bool showProgress) {
+void parallelizeLoop(const int threads, const std::function<void(int)> func, const int range, const bool showProgress) {
     std::vector<std::thread> threadpool;
 
     int blockSize = range / threads;
@@ -126,11 +126,11 @@ void parallelizeLoop(int threads, std::function<void(int)> func, int range, bool
 }
 
 // Power heurstic weight for a
-double powerHeuristic(double a, double b) {
+double powerHeuristic(const double a, const double b) {
     return square(a) / (square(a) + square(b));
 }
 
 // Returns 1 if a > 0 and 0 otherwise
-double positiveCharacteristic(double a) {
+double positiveCharacteristic(const double a) {
     return a > 0 ? 1 : 0;
 }

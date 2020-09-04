@@ -6,11 +6,11 @@
 class SpecularReflectBRDF: public BxDF {
     public:
         SpecularReflectBRDF();
-        Vector3 evaluate(Vector3 in, Vector3 normal, Vector3 out);
-        Vector3 sample(Vector3 in, Vector3 normal);
-        static Vector3 getReflection(Vector3 in, Vector3 normal);
-        double pdf(Vector3 in, Vector3 normal, Vector3 out);
-        Vector3 operator()(Vector3 in, Vector3 normal, Vector3& out, double& probability);
+        Vector3 evaluate(const Vector3 in, const Vector3 normal, const Vector3 out) const;
+        Vector3 sample(const Vector3 in, const Vector3 normal);
+        static Vector3 getReflection(const Vector3 in, const Vector3 normal);
+        double pdf(const Vector3 in, const Vector3 normal, const Vector3 out) const;
+        Vector3 operator()(const Vector3 in, const Vector3 normal, Vector3& out, double& probability);
 };
 
 #endif

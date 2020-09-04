@@ -7,48 +7,48 @@
 
 // Need to define these in header
 template <typename T>
-T mix(T x, T y, double a) {
+T mix(const T x, const T y, const double a) {
     return x * (1. - a) + y * a;
 }
 
 template <typename T>
-T square(T x) {
+T square(const T x) {
     return x * x;
 }
 
-double sign(double x);
+double sign(const double x);
 
-char colorToChar(double color);
+char colorToChar(const double color);
 
 struct UniformSampleHemisphere {
-    static Vector3 sample(double u1, double u2);
-    static double pdf(Vector3 v);
+    static Vector3 sample(const double u1, const double u2);
+    static double pdf(const Vector3 v);
 };
 
 struct UniformSampleSphere {
-    static Vector3 sample(double u1, double u2);
+    static Vector3 sample(const double u1, const double u2);
     static double pdf();
 };
 
 struct UniformSampleCone {
-    static Vector3 sample(double u1, double u2, Vector3 direction, double thetaMax);
-    static double pdf(double cosThetaMax);
+    static Vector3 sample(const double u1, const double u2, const Vector3 direction, const double thetaMax);
+    static double pdf(const double cosThetaMax);
 };
 
 struct ConcentricSampleDisk {
     static Vector2 sample(double u1, double u2);
-    static double pdf(Vector2 v);
+    static double pdf();
 };
 
 struct CosineSampleHemisphere {
-    static Vector3 sample(double u1, double u2);
-    static double pdf(double cosTheta);
+    static Vector3 sample(const double u1, const double u2);
+    static double pdf(const double cosTheta);
 };
 
-void parallelizeLoop(int threads, std::function<void(int)> func, int range, bool showProgress=false);
+void parallelizeLoop(const int threads, const std::function<void(int)> func, const int range, const bool showProgress=false);
 
-double powerHeuristic(double a, double b);
+double powerHeuristic(const double a, const double b);
 
-double positiveCharacteristic(double a);
+double positiveCharacteristic(const double a);
 
 #endif

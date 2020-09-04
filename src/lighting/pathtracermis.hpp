@@ -6,11 +6,11 @@
 
 class PathTracerMIS: public LightingModel {
     public:
-        PathTracerMIS(Intersector& intersector, int maxDepth, Vector3 ambient=Vector3(0.));
+        PathTracerMIS(Intersector& intersector, const int maxDepth, const Vector3 ambient=Vector3(0.));
     private:
         std::mt19937 gen;
         std::uniform_real_distribution<double> dist;
-        Vector3 evaluate(Ray ray, int depth, Intersection& lastIntersection);
+        Vector3 evaluate(const Ray ray, const int depth, const Intersection& lastIntersection);
 };
 
 #endif

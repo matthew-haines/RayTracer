@@ -3,14 +3,14 @@
 #include "../helpers.hpp"
 #include <cmath>
 
-Triangle::Triangle(Vector3 v0, Vector3 v1, Vector3 v2, Material *material, bool normals, Vector3 vn0, Vector3 vn1, Vector3 vn2): Primitive(material), v0(v0), v1(v1), v2(v2), normals(normals), vn0(vn0), vn1(vn1), vn2(vn2) {
+Triangle::Triangle(const Vector3 v0, const Vector3 v1, const Vector3 v2, Material* const material, const bool normals, const Vector3 vn0, const Vector3 vn1, const Vector3 vn2): Primitive(material), v0(v0), v1(v1), v2(v2), normals(normals), vn0(vn0), vn1(vn1), vn2(vn2) {
     e1 = (v1-v0);
     e2 = (v2-v0);
     planeNormal = e1.cross(e2).normalized();
     area = 0.5 * e1.cross(e2).length();
 }
 
-double Triangle::intersect(Ray ray, Vector3 *intersect, Vector3 *normal) {
+double Triangle::intersect(const Ray ray, Vector3* const intersect, Vector3* const normal) const {
     // Muller Trombore
     Vector3 p = ray.direction.cross(e2);
     double determinant = e1.dot(p);
@@ -45,20 +45,20 @@ double Triangle::intersect(Ray ray, Vector3 *intersect, Vector3 *normal) {
     return -1;
 }
 
-Vector3 Triangle::sample(double u1, double u2) {
+Vector3 Triangle::sample(const double u1, const double u2) const {
     double sqrtu1 = std::sqrt(u1);
     return (1 - sqrtu1) * v0 + sqrtu1 * (1 - u2) * v1 + sqrtu1 * u2 * v2;
 }
 
-double Triangle::samplePdf(Vector3 point, Vector3 direction) {
+double Triangle::samplePdf(const Vector3 point, const Vector3 direction) const {
     return 1 / area;
 }
 
-Vector3 Triangle::directionalSample(double u1, double u2, Vector3 point) {
+Vector3 Triangle::directionalSample(const double u1, const double u2, const Vector3 point) const {
     return (sample(u1, u2) - point).normalized();
 }
 
-double Triangle::directionalSamplePdf(Vector3 point, Vector3 direction) {
+double Triangle::directionalSamplePdf(const Vector3 point, const Vector3 direction) const {
     Ray ray(point, direction);
     Vector3 intersection;
     Vector3 normal;
@@ -70,7 +70,7 @@ double Triangle::directionalSamplePdf(Vector3 point, Vector3 direction) {
     }
 }
 
-Bound Triangle::getBound() {
+Bound Triangle::getBound() const {
     Vector3 min = Vector3::min(v0, Vector3::min(v1, v2));
     Vector3 max = Vector3::max(v0, Vector3::max(v1, v2));
     return Bound(min, max);

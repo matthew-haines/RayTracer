@@ -3,17 +3,18 @@
 #include "../helpers.hpp"
 #include <cmath>
 
-SpecularRefractBTDF::SpecularRefractBTDF(double refractionIndex): BxDF(true), refractionIndex(refractionIndex) {}
+SpecularRefractBTDF::SpecularRefractBTDF(const double refractionIndex): BxDF(true), refractionIndex(refractionIndex) {}
 
-Vector3 SpecularRefractBTDF::evaluate(Vector3 in, Vector3 normal, Vector3 out) {
+Vector3 SpecularRefractBTDF::evaluate(const Vector3 in, const Vector3 normal, const Vector3 out) const {
     return Vector3(1);
 }
 
-Vector3 SpecularRefractBTDF::sample(Vector3 in, Vector3 normal) {
+Vector3 SpecularRefractBTDF::sample(const Vector3 in, const Vector3 normal) {
     return getRefraction(in, normal, refractionIndex);
 }
 
-Vector3 SpecularRefractBTDF::getRefraction(Vector3 in, Vector3 normal, double refractionIndex) {
+Vector3 SpecularRefractBTDF::getRefraction(const Vector3 in, const Vector3 tempnormal, const double refractionIndex) {
+    Vector3 normal = tempnormal;
     double ndoti = normal.dot(in);
     double eta = 1 / refractionIndex;
     if (ndoti > 0) {
@@ -29,11 +30,11 @@ Vector3 SpecularRefractBTDF::getRefraction(Vector3 in, Vector3 normal, double re
     return (eta * in + (eta * ndoti - std::sqrt(ndott2)) * normal).normalized();
 }
 
-double SpecularRefractBTDF::pdf(Vector3 in, Vector3 normal, Vector3 out) {
+double SpecularRefractBTDF::pdf(const Vector3 in, const Vector3 normal, const Vector3 out) const {
     return 1.;
 }
 
-Vector3 SpecularRefractBTDF::operator()(Vector3 in, Vector3 normal, Vector3& out, double& probability) {
+Vector3 SpecularRefractBTDF::operator()(const Vector3 in, const Vector3 normal, Vector3& out, double& probability) {
     out = sample(in, normal);
     probability = pdf(in, normal, out);
     return evaluate(in, normal, out);

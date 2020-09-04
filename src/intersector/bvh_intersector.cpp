@@ -12,7 +12,7 @@ struct BVHNode {
     int dim;
 };
 
-BVHIntersector::BVHIntersector(Scene* scene, int threads): Intersector(scene) {
+BVHIntersector::BVHIntersector(Scene* const scene, const int threads): Intersector(scene) {
     bounds = std::vector<Bound>(scene->primitives.size());
     root = new BVHNode();
     root->primitives = std::vector<int>(bounds.size());
@@ -35,7 +35,7 @@ BVHIntersector::BVHIntersector(Scene* scene, int threads): Intersector(scene) {
     parallelConstruct(threads);
 }
 
-bool BVHIntersector::getIntersect(Ray ray, Intersection& intersection) {
+bool BVHIntersector::getIntersect(const Ray ray, Intersection& intersection) const {
     // Because of the strict performance requirements, I adapted this from PBRT
     Vector3 invDir = 1. / ray.direction;
     int dirIsNeg[3] = {ray.direction.x < 0., ray.direction.y < 0., ray.direction.z < 0.};
@@ -82,7 +82,7 @@ bool BVHIntersector::getIntersect(Ray ray, Intersection& intersection) {
     return intersected;
 }
 
-void BVHIntersector::buildNodeRecursive(BVHNode* precursor) {
+void BVHIntersector::buildNodeRecursive(BVHNode* const precursor) {
     if (precursor->primitives.size() == 1) {
         return;
     }
@@ -168,7 +168,7 @@ void BVHIntersector::buildNodeRecursive(BVHNode* precursor) {
     return;
 }
 
-void BVHIntersector::buildNode(BVHNode& precursor, BVHNode** left, BVHNode** right) {
+void BVHIntersector::buildNode(BVHNode& precursor, BVHNode** const left, BVHNode** const right) {
     if (precursor.primitives.size() == 1) {
         return;
     }
@@ -256,7 +256,7 @@ void BVHIntersector::buildNode(BVHNode& precursor, BVHNode** left, BVHNode** rig
     return;
 }
 
-    void BVHIntersector::workerFunction(ThreadSafeQueue<BVHNode*>& queue, std::atomic<int>* complete, int total) {
+void BVHIntersector::workerFunction(ThreadSafeQueue<BVHNode*>& queue, std::atomic<int>* complete, const int total) {
     while (*complete < total) {
         auto node = queue.pop();
         if (node == nullptr) {
@@ -280,7 +280,7 @@ void BVHIntersector::buildNode(BVHNode& precursor, BVHNode** left, BVHNode** rig
     }
 }
 
-void BVHIntersector::parallelConstruct(int threads) {
+void BVHIntersector::parallelConstruct(const int threads) {
     ThreadSafeQueue<BVHNode*> queue;
     queue.push(root);
     std::vector<std::thread> threadpool;

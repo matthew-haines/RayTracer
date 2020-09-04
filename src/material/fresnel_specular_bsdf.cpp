@@ -4,24 +4,24 @@
 #include "fresnel.hpp"
 #include "../helpers.hpp"
 
-FresnelSpecularBSDF::FresnelSpecularBSDF(double refractionIndex): BxDF(true), refractionIndex(refractionIndex) {}
+FresnelSpecularBSDF::FresnelSpecularBSDF(const double refractionIndex): BxDF(true), refractionIndex(refractionIndex) {}
 
-Vector3 FresnelSpecularBSDF::evaluate(Vector3 in, Vector3 normal, Vector3 out) {
+Vector3 FresnelSpecularBSDF::evaluate(const Vector3 in, const Vector3 normal, const Vector3 out) const {
     // not needed 
     return Vector3(0.);
 }
 
-Vector3 FresnelSpecularBSDF::sample(Vector3 in, Vector3 normal) {
+Vector3 FresnelSpecularBSDF::sample(const Vector3 in, const Vector3 normal) {
     // not needed
     return 0;
 }
 
-double FresnelSpecularBSDF::pdf(Vector3 in, Vector3 normal, Vector3 out) {
+double FresnelSpecularBSDF::pdf(const Vector3 in, const Vector3 normal, const Vector3 out) const {
     // not needed
     return 0;
 }
 
-Vector3 FresnelSpecularBSDF::operator()(Vector3 in, Vector3 normal, Vector3& out, double& probability) {
+Vector3 FresnelSpecularBSDF::operator()(const Vector3 in, const Vector3 normal, Vector3& out, double& probability) {
     double fresnel = FresnelDielectric(normal.dot(in), refractionIndex, 1);
     Vector3 f = Vector3(1);
     if (dist(gen) < fresnel) {

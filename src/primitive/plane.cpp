@@ -1,9 +1,9 @@
 #include "plane.hpp"
 #include "../constants.hpp"
 
-Plane::Plane(Vector3 planeNormal, double d, Material *material, bool oneSided): Primitive(material), planeNormal(planeNormal), d(d),  oneSided(oneSided) {};
+Plane::Plane(const Vector3 planeNormal, const double d, Material* const material, const bool oneSided): Primitive(material), planeNormal(planeNormal), d(d),  oneSided(oneSided) {};
 
-double Plane::intersect(Ray ray, Vector3 *intersect, Vector3 *normal) {
+double Plane::intersect(const Ray ray, Vector3* const intersect, Vector3* const normal) const {
    double vd = planeNormal.dot(ray.direction);
     if (vd > 0.0 && (oneSided || vd < epsilon)) {
         return -1;
@@ -18,26 +18,26 @@ double Plane::intersect(Ray ray, Vector3 *intersect, Vector3 *normal) {
     return t;
 }
 
-Vector3 Plane::sample(double u1, double u2) {
+Vector3 Plane::sample(const double u1, const double u2) const {
     // Not implemented
     return Vector3(0.);
 }
 
-double Plane::samplePdf(Vector3 point, Vector3 direction) {
+double Plane::samplePdf(const Vector3 point, const Vector3 direction) const {
     // Not implemented
     return 0.;
 }
 
-Vector3 Plane::directionalSample(double u1, double u2, Vector3 point) {
+Vector3 Plane::directionalSample(const double u1, const double u2, const Vector3 point) const {
     // Not implemented
     return Vector3(0.);
 }
 
-double Plane::directionalSamplePdf(Vector3 point, Vector3 direction) {
+double Plane::directionalSamplePdf(const Vector3 point, const Vector3 direction) const {
     // Not implemented
     return 0.;
 }
 
-Bound Plane::getBound() {
+Bound Plane::getBound() const {
     return Bound();
 }

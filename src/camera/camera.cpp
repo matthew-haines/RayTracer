@@ -4,7 +4,7 @@
 #include <cmath>
 #include <iostream>
 
-Camera::Camera(std::size_t width, std::size_t height, Vector3 direction, Vector3 position): direction(direction), position(position), width(width), height(height)  {
+Camera::Camera(const std::size_t width, const std::size_t height, const Vector3 direction, const Vector3 position): direction(direction), position(position), width(width), height(height)  {
     result = std::vector<Vector3>(width * height);
     rotation = Matrix3::createEulerRotationMatrix(0.0, std::atan(direction.z / Vector3(direction.x, direction.y, 0.0).length()), std::atan(direction.y / direction.x));
 }
@@ -32,7 +32,7 @@ std::function<Ray()> Camera::next(Vector3** location) {
     }
 }
 
-void Camera::write(std::string path, double gamma, std::size_t threads) {
+void Camera::write(const std::string path, const double gamma, const std::size_t threads) const {
     std::vector<unsigned char> buffer(result.size() * 4);
 
     std::function<void(int)> charConv = [&buffer, this, gamma](int index) {

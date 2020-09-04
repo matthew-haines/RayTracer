@@ -11,9 +11,9 @@ class Intersector {
         std::mt19937 gen;
         std::uniform_int_distribution<int> dist;
     public:
-        Scene* scene;
-        Intersector(Scene* scene);
-        virtual bool getIntersect(Ray ray, Intersection& intersection)=0;
+        Scene* const scene;
+        Intersector(Scene* const scene);
+        virtual bool getIntersect(const Ray ray, Intersection& intersection) const=0;
         Primitive* getRandomLight();
 };
 

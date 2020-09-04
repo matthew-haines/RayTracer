@@ -5,13 +5,13 @@
 #include <functional>
 #include <iostream>
 
-PathTracerMIS::PathTracerMIS(Intersector& intersector, int maxDepth, Vector3 ambient): LightingModel(intersector, maxDepth, ambient) {
+PathTracerMIS::PathTracerMIS(Intersector& intersector, const int maxDepth, const Vector3 ambient): LightingModel(intersector, maxDepth, ambient) {
     std::random_device rd;
     gen = std::mt19937(rd());
     dist = std::uniform_real_distribution<double>(0, 1);
 }
 
-Vector3 PathTracerMIS::evaluate(Ray ray, int depth, Intersection& lastIntersection) {
+Vector3 PathTracerMIS::evaluate(const Ray ray, const int depth, const Intersection& lastIntersection) {
     // Combine estimate of direct lighting by sampling different lights in scene with an indirect ray with MIS (Veach '97 power heuristic)
     //direct
     if (depth > maxDepth) {

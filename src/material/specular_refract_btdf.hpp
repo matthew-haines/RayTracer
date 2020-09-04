@@ -7,12 +7,12 @@ class SpecularRefractBTDF: public BxDF {
     private:
         const double refractionIndex;
     public:
-        SpecularRefractBTDF(double refractionIndex);
-        Vector3 evaluate(Vector3 in, Vector3 normal, Vector3 out);
-        Vector3 sample(Vector3 in, Vector3 normal);
-        static Vector3 getRefraction(Vector3 in, Vector3 normal, double refractionIndex);
-        double pdf(Vector3 in, Vector3 normal, Vector3 out);
-        Vector3 operator()(Vector3 in, Vector3 normal, Vector3& out, double& probability);
+        SpecularRefractBTDF(const double refractionIndex);
+        Vector3 evaluate(const Vector3 in, const Vector3 normal, const Vector3 out) const;
+        Vector3 sample(const Vector3 in, const Vector3 normal);
+        static Vector3 getRefraction(const Vector3 in, const Vector3 normal, const double refractionIndex);
+        double pdf(const Vector3 in, const Vector3 normal, const Vector3 out) const;
+        Vector3 operator()(const Vector3 in, const Vector3 normal, Vector3& out, double& probability);
 };
 
 #endif

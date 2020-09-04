@@ -3,9 +3,9 @@
 #include "specular_reflect_brdf.hpp"
 #include <cmath>
 
-PhongBRDF::PhongBRDF(double kd, double ks, double n): BxDF(false), kd(kd), ks(ks), n(n) {}
+PhongBRDF::PhongBRDF(const double kd, const double ks, const double n): BxDF(false), kd(kd), ks(ks), n(n) {}
 
-Vector3 PhongBRDF::evaluate(Vector3 in, Vector3 normal, Vector3 out) {
+Vector3 PhongBRDF::evaluate(const Vector3 in, const Vector3 normal, const Vector3 out) const {
     double calpha = std::clamp(SpecularReflectBRDF::getReflection(in, normal).dot(out), -1., 1.);
     if (normal.dot(out) < 0) {
         return 0;
@@ -14,7 +14,7 @@ Vector3 PhongBRDF::evaluate(Vector3 in, Vector3 normal, Vector3 out) {
     }
 }
 
-Vector3 PhongBRDF::sample(Vector3 in, Vector3 normal) {
+Vector3 PhongBRDF::sample(const Vector3 in, const Vector3 normal) {
     double u = dist(gen);
     double u1 = dist(gen);
     double u2 = dist(gen);
@@ -32,13 +32,13 @@ Vector3 PhongBRDF::sample(Vector3 in, Vector3 normal) {
         return 0;
     }
 }
-double PhongBRDF::pdf(Vector3 in, Vector3 normal, Vector3 out) {
+double PhongBRDF::pdf(const Vector3 in, const Vector3 normal, const Vector3 out) const {
     // weight probabilities
     double calpha = std::clamp(SpecularReflectBRDF::getReflection(in, normal).dot(out), -1., 1.);
     return kd * CosineSampleHemisphere::pdf(normal.dot(out)) + ks * 0.5 * M_1_PI * (n + 1) * std::pow(calpha, n);
 }
 
-Vector3 PhongBRDF::operator()(Vector3 in, Vector3 normal, Vector3& out, double& probability) {
+Vector3 PhongBRDF::operator()(const Vector3 in, const Vector3 normal, Vector3& out, double& probability) {
     double u = dist(gen);
     double u1 = dist(gen);
     double u2 = dist(gen);

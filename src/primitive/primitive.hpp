@@ -6,14 +6,14 @@
 
 class Primitive {
     public:
-        Material *material;
-        Primitive(Material *material): material(material) {};
-        virtual double intersect(Ray ray, Vector3 *intersect, Vector3 *normal)=0; // Must return -1 if no intersect
-        virtual Vector3 sample(double u1, double u2)=0;
-        virtual double samplePdf(Vector3 point, Vector3 direction)=0;
-        virtual Vector3 directionalSample(double u1, double u2, Vector3 point)=0;
-        virtual double directionalSamplePdf(Vector3 point, Vector3 direction)=0;
-        virtual Bound getBound()=0;
+        Material* const material;
+        Primitive(Material* const material): material(material) {};
+        virtual double intersect(const Ray ray, Vector3* const intersect, Vector3* const normal) const =0; // Must return -1 if no intersect
+        virtual Vector3 sample(const double u1, const double u2) const =0;
+        virtual double samplePdf(const Vector3 point, const Vector3 direction) const =0;
+        virtual Vector3 directionalSample(const double u1, const double u2, const Vector3 point) const =0;
+        virtual double directionalSamplePdf(const Vector3 point, const Vector3 direction) const =0;
+        virtual Bound getBound() const =0;
 };
 
 #endif

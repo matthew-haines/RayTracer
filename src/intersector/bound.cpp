@@ -9,7 +9,7 @@ Bound::Bound() {
     centroid = (min + max) / 2;
 }
 
-Bound::Bound(Vector3 min, Vector3 max): min(min), max(max) {
+Bound::Bound(const Vector3 min, const Vector3 max): min(min), max(max) {
     centroid = (min + max) / 2;
 }
 
@@ -20,24 +20,24 @@ double Bound::surfaceArea() {
     return 2. * (length * width + length * height + width * height);
 }
 
-Bound Bound::computeUnion(Bound& a, Bound& b) {
+Bound Bound::computeUnion(const Bound& a, const Bound& b) {
     return Bound(Vector3::min(a.min, b.min), Vector3::max(a.max, b.max));
 }
 
-Bound Bound::computeUnion(Bound& a, Vector3& b) {
+Bound Bound::computeUnion(const Bound& a, const Vector3& b) {
     return Bound(Vector3::min(a.min, b), Vector3::max(a.max, b));
 }
 
-Vector3& Bound::operator[](int index) {
+const Vector3& Bound::operator[](const int index) const {
     if (index == 0) {
         return min;
     }
     return max;
 }
 
-bool Bound::rayIntersect(Ray& ray, Vector3& invDir, const int dirIsNeg[3]) {
+bool Bound::rayIntersect(const Ray& ray, const Vector3& invDir, const int dirIsNeg[3]) const {
     // Because of the strict performance requirements, I copied this from PBRT
-    Bound& bound = *this;
+    const Bound& bound = *this;
     double tMin = (bound[dirIsNeg[0]].x - ray.origin.x) * invDir.x;
     double tMax = (bound[1-dirIsNeg[0]].x - ray.origin.x) * invDir.x;
     double tyMin = (bound[dirIsNeg[1]].y - ray.origin.y) * invDir.y;

@@ -2,9 +2,9 @@
 #include "../constants.hpp"
 #include <limits>
 
-NaiveIntersector::NaiveIntersector(Scene* scene): Intersector(scene) {};
+NaiveIntersector::NaiveIntersector(Scene* const scene): Intersector(scene) {};
 
-bool NaiveIntersector::getIntersect(Ray ray, Intersection& intersection) {
+bool NaiveIntersector::getIntersect(const Ray ray, Intersection& intersection) const {
     double closestDistance = std::numeric_limits<double>::max();
     Primitive* closestPrimitive;
     Vector3 tempIntersect, tempNormal;

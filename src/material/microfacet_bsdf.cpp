@@ -4,10 +4,10 @@
 #include "specular_refract_btdf.hpp"
 #include <cmath>
 
-MicrofacetBSDF::MicrofacetBSDF(double refractionIndex, Fresnel* fresnelFunction, MicrofacetDistribution* microfacetDistribution): BxDF(false), refractionIndex(refractionIndex), fresnelFunction(fresnelFunction), microfacetDistribution(microfacetDistribution) {}
+MicrofacetBSDF::MicrofacetBSDF(const double refractionIndex, Fresnel* const fresnelFunction, MicrofacetDistribution* const microfacetDistribution): BxDF(false), refractionIndex(refractionIndex), fresnelFunction(fresnelFunction), microfacetDistribution(microfacetDistribution) {}
 
-Vector3 MicrofacetBSDF::evaluate(Vector3 in, Vector3 normal, Vector3 out) {
-    in = -in;
+Vector3 MicrofacetBSDF::evaluate(const Vector3 negin, const Vector3 normal, const Vector3 out) const {
+    Vector3 in = -negin;
     bool reflection = positiveCharacteristic(normal.dot(in)) && positiveCharacteristic(normal.dot(out));
     Vector3 h;
     double fresnel;
@@ -32,7 +32,7 @@ Vector3 MicrofacetBSDF::evaluate(Vector3 in, Vector3 normal, Vector3 out) {
     }
 }
 
-Vector3 MicrofacetBSDF::sample(Vector3 in, Vector3 normal) {
+Vector3 MicrofacetBSDF::sample(const Vector3 in, const Vector3 normal) {
     Vector3 m = Matrix3::createFromNormal(normal) * microfacetDistribution->Sample(dist(gen), dist(gen));
     double fresnel = (*fresnelFunction)(-in.dot(m), refractionIndex, 1);
     double u = dist(gen);
@@ -45,8 +45,8 @@ Vector3 MicrofacetBSDF::sample(Vector3 in, Vector3 normal) {
     }
 }
 
-double MicrofacetBSDF::pdf(Vector3 in, Vector3 normal, Vector3 out) {
-    in = -in;
+double MicrofacetBSDF::pdf(const Vector3 negin, const Vector3 normal, const Vector3 out) const {
+    Vector3 in = -negin;
     bool reflection = positiveCharacteristic(in.dot(normal)) && positiveCharacteristic(normal.dot(out));
     double jacobian;
     Vector3 h;
@@ -72,22 +72,22 @@ double MicrofacetBSDF::pdf(Vector3 in, Vector3 normal, Vector3 out) {
     return hProbability * jacobian * fresnel;
 }
 
-Vector3 MicrofacetBSDF::operator()(Vector3 in, Vector3 normal, Vector3& out, double& probability) {
-    in = -in;
+Vector3 MicrofacetBSDF::operator()(const Vector3 negin, const Vector3 normal, Vector3& out, double& probability) {
+    Vector3 in = -negin;
     Vector3 m = Matrix3::createFromNormal(normal) * microfacetDistribution->Sample(dist(gen), dist(gen));
     double fresnel = (*fresnelFunction)(in.dot(m), refractionIndex, 1);
     double u = dist(gen); 
     double jacobian;
     if (u < fresnel) {
         // Reflect
-        out = SpecularReflectBRDF::getReflection(-in, m);
+        out = SpecularReflectBRDF::getReflection(negin, m);
         jacobian = 1 / (4 * std::abs(out.dot(m)));
         double distribution = microfacetDistribution->Distribution(m, normal);
         probability = distribution * m.dot(normal) * jacobian * fresnel;
         return distribution * microfacetDistribution->Geometry(in, out, m, normal) / (4 * std::abs(in.dot(normal) * out.dot(normal))) * fresnel;
     } else {
         // Transmit
-        out = SpecularRefractBTDF::getRefraction(-in, m, refractionIndex);
+        out = SpecularRefractBTDF::getRefraction(negin, m, refractionIndex);
         bool entering = normal.dot(in) > 0;
         if (entering) {
             jacobian = square(refractionIndex) * std::abs(out.dot(m)) / square(m.dot(in) + refractionIndex * (out.dot(m)));

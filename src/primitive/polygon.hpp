@@ -5,10 +5,10 @@
 
 class Polygon: public Plane {
     private:
-        std::vector<Vector3> *points;
+        std::vector<Vector3>* const points;
     public:
-        Polygon(Vector3 planeNormal, double d, Material *material, std::vector<Vector3> *points, bool oneSided=true);
-        double intersect(Ray ray, Vector3 *intersect, Vector3 *normal);
+        Polygon(const Vector3 planeNormal, const double d, Material* const material, std::vector<Vector3>* const points, const bool oneSided=true);
+        double intersect(const Ray ray, Vector3* const intersect, Vector3* const normal) const;
 };
 
 #endif

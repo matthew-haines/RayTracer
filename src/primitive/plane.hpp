@@ -7,17 +7,17 @@
 class Plane: public Primitive {
     protected:
         // Ax + Bx + Cx + D = 0
-        Vector3 planeNormal;
-        double d;
-        bool oneSided;
+        const Vector3 planeNormal;
+        const double d;
+        const bool oneSided;
     public:
-        Plane(Vector3 planeNormal, double d, Material *material, bool oneSided=true);
-        double intersect(Ray ray, Vector3 *intersect, Vector3 *normal);
-        Vector3 sample(double u1, double u2);
-        double samplePdf(Vector3 point, Vector3 direction);
-        Vector3 directionalSample(double u1, double u2, Vector3 point);
-        double directionalSamplePdf(Vector3 point, Vector3 direction);
-        Bound getBound();
+        Plane(const Vector3 planeNormal, const double d, Material* const material, const bool oneSided=true);
+        double intersect(const Ray ray, Vector3* const intersect, Vector3* const normal) const;
+        Vector3 sample(const double u1, const double u2) const;
+        double samplePdf(const Vector3 point, const Vector3 direction) const;
+        Vector3 directionalSample(const double u1, const double u2, const Vector3 point) const;
+        double directionalSamplePdf(const Vector3 point, const Vector3 direction) const;
+        Bound getBound() const;
 };
 
 #endif

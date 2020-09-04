@@ -1,6 +1,6 @@
 #include "orthographic_camera.hpp"
 
-OrthographicCamera::OrthographicCamera(double scale, bool jitter, std::size_t width, std::size_t height, Vector3 direction, Vector3 position): Camera(width, height, direction, position), jitter(jitter), scale(scale) {
+OrthographicCamera::OrthographicCamera(const double scale, const bool jitter, const std::size_t width, const std::size_t height, Vector3 direction, Vector3 position): Camera(width, height, direction, position), jitter(jitter) {
     maxWidth = scale/2;
     gridSize = maxWidth / width;
     maxHeight = gridSize * height;
@@ -13,7 +13,7 @@ OrthographicCamera::OrthographicCamera(double scale, bool jitter, std::size_t wi
     buildQueue();
 }
 
-std::function<Ray()> OrthographicCamera::getPixelFunction(int row, int column) {
+std::function<Ray()> OrthographicCamera::getPixelFunction(const int row, const int column) {
     std::function<Ray()> func;
     if (jitter) {
         func = [this, row, column]() {

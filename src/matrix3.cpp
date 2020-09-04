@@ -18,7 +18,7 @@ Matrix3::Matrix3(Vector3 v1, Vector3 v2, Vector3 v3) {
 }
 
 // Creates rotation matrix from Extrinsic Tait-Bryan angles in rotation order xyz
-Matrix3 Matrix3::createEulerRotationMatrix(double xRotation, double yRotation, double zRotation) {
+Matrix3 Matrix3::createEulerRotationMatrix(const double xRotation, const double yRotation, const double zRotation) {
     Matrix3 m;
     m.x11 = std::cos(yRotation) * std::cos(zRotation);
     m.x12 = std::cos(zRotation) * std::sin(yRotation) * std::sin(xRotation) - std::cos(xRotation) * std::sin(zRotation);
@@ -32,12 +32,12 @@ Matrix3 Matrix3::createEulerRotationMatrix(double xRotation, double yRotation, d
     return m;
 }
 
-Matrix3 Matrix3::createSSCrossMatrix(Vector3 v) {
+Matrix3 Matrix3::createSSCrossMatrix(const Vector3 v) {
     return Matrix3(0., -v.z, v.y, v.z, 0., -v.x, -v.y, v.x, 0.);
 }
 
 // Creates rotation matrix that rotates (0, 0, 1) to normal
-Matrix3 Matrix3::createFromNormal(Vector3 normal) {
+Matrix3 Matrix3::createFromNormal(const Vector3 normal) {
     Vector3 temp(1., 0., 0.);
     if (std::abs(normal.x) > 0.99) {
         temp = Vector3(0., 0., 1.);
@@ -48,7 +48,7 @@ Matrix3 Matrix3::createFromNormal(Vector3 normal) {
     return Matrix3(tangent, binormal, normal);
 }
 
-Matrix3& Matrix3::operator*=(Matrix3 b) {
+Matrix3& Matrix3::operator*=(const Matrix3 b) {
     x11 = x11 * b.x11 + x12 * b.x21 + x13 * b.x31;
     x12 = x11 * b.x12 + x12 * b.x22 + x13 * b.x32; 
     x13 = x11 * b.x13 + x12 * b.x23 + x13 * b.x33;
@@ -61,7 +61,7 @@ Matrix3& Matrix3::operator*=(Matrix3 b) {
     return *this;
 }
 
-Matrix3& Matrix3::operator*=(double b) {
+Matrix3& Matrix3::operator*=(const double b) {
     x11 *= b;
     x12 *= b;
     x13 *= b;
@@ -74,7 +74,7 @@ Matrix3& Matrix3::operator*=(double b) {
     return *this;
 }
 
-Matrix3& Matrix3::operator+=(Matrix3 b) {
+Matrix3& Matrix3::operator+=(const Matrix3 b) {
     x11 += b.x11;
     x12 += b.x12;
     x13 += b.x13;
@@ -87,7 +87,7 @@ Matrix3& Matrix3::operator+=(Matrix3 b) {
     return *this;
 }
 
-Matrix3& Matrix3::operator+=(double b) {
+Matrix3& Matrix3::operator+=(const double b) {
     x11 += b;
     x12 += b;
     x13 += b;
@@ -99,26 +99,30 @@ Matrix3& Matrix3::operator+=(double b) {
     x33 += b;
     return *this;
 }
-Matrix3 operator*(Matrix3 a, Matrix3 b) {
+Matrix3 operator*(const Matrix3 a, const Matrix3 b) {
     Matrix3 c = a;
     return c *= b;
 }
 
-Matrix3 operator*(Matrix3 a, double b) {
+Matrix3 operator*(const Matrix3 a, const double b) {
     Matrix3 c = a;
     return c *= b;
 }
 
-Matrix3 operator+(Matrix3 a, Matrix3 b) {
+Matrix3 operator+(const Matrix3 a, const Matrix3 b) {
     Matrix3 c = a;
     return c += b;
 }
 
-Matrix3 operator+(Matrix3 a, double b) {
+Matrix3 operator+(const Matrix3 a, const double b) {
     Matrix3 c = a;
     return c += b;
 }
 
-bool operator==(Matrix3 a, Matrix3 b) {
+bool operator==(const Matrix3 a, const Matrix3 b) {
     return (a.x11 == b.x11) && (a.x12 == b.x12) && (a.x13 == b.x13) && (a.x21 == b.x21) && (a.x22 == b.x22) && (a.x23 == b.x23) && (a.x31 == b.x31) && (a.x32 == b.x32) && (a.x33 == b.x33);
+}
+
+bool operator!=(const Matrix3 a, const Matrix3 b) {
+    return !(a == b);
 }

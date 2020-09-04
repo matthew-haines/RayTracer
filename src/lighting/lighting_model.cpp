@@ -3,9 +3,9 @@
 #include <iostream>
 #include <thread>
 
-LightingModel::LightingModel(Intersector& intersector, int maxDepth, Vector3 ambient): intersector(intersector), maxDepth(maxDepth), ambient(ambient) {};
+LightingModel::LightingModel(Intersector& intersector, const int maxDepth, const Vector3 ambient): intersector(intersector), maxDepth(maxDepth), ambient(ambient) {};
 
-void LightingModel::render(Camera& camera, int threads, int samples) {
+void LightingModel::render(Camera& camera, const int threads, const int samples) {
     int finished = 0;
     int total = camera.width * camera.height;
     auto last = std::chrono::high_resolution_clock::now();

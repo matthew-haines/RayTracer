@@ -5,17 +5,17 @@
 
 class Sphere: public Primitive {
     private:
-        Vector3 center;
-        double radius;
-        double radius2;
+        const Vector3 center;
+        const double radius;
+        const double radius2;
     public:
-        Sphere(Vector3 center, double radius, Material *material);
-        double intersect(Ray ray, Vector3 *intersect, Vector3 *normal);
-        Vector3 sample(double u1, double u2);
-        double samplePdf(Vector3 point, Vector3 direction);
-        Vector3 directionalSample(double u1, double u2, Vector3 point);
-        double directionalSamplePdf(Vector3 point, Vector3 direction);
-        Bound getBound();
+        Sphere(const Vector3 center, const double radius, Material* const material);
+        double intersect(const Ray ray, Vector3* const intersect, Vector3* const normal) const;
+        Vector3 sample(const double u1, const double u2) const;
+        double samplePdf(const Vector3 point, const Vector3 direction) const;
+        Vector3 directionalSample(const double u1, const double u2, const Vector3 point) const;
+        double directionalSamplePdf(const Vector3 point, const Vector3 direction) const;
+        Bound getBound() const;
 };
 
 #endif
