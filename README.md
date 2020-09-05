@@ -18,6 +18,7 @@ This is a path tracer written completely from scratch, only libraries used are [
   - Quad
   - Triangle
   - Sphere
+  - Polygon
   - Quadric (Not implemented yet)
 - Integrators (All multithreaded):
   - Naive path tracer

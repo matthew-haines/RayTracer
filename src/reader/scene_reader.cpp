@@ -9,6 +9,7 @@
 #include "../primitive/plane.hpp"
 #include "../primitive/triangle.hpp"
 #include "../primitive/quad.hpp"
+#include "../primitive/polygon.hpp"
 #include "obj_reader.hpp"
 #include <map>
 #include <variant>
@@ -121,6 +122,16 @@ Scene parseScene(const json j) {
             Vector3 v2 = object_json->at("v2").get<Vector3>();
             Vector3 v3 = object_json->at("v3").get<Vector3>();
             object = new Quad(v0, v1, v2, v3, material);
+        } else if (type == "Polygon") {
+            json points_json = object_json->at("points");
+            std::vector<Vector3> points;
+            for (int i = 0; i < points_json.size(); ++i) {
+                points.push_back(points_json[i].get<Vector3>());
+            }
+            object = new Polygon(points, material);
+            /*for (json::iterator point = points_json.begin(); point != points_json.end(); ++point) {
+                points.push_back(point[0].get<Vector3>());
+            }*/
         } else if (type == "OBJ") {
             std::string filepath = object_json->at("path").get<std::string>();
             double scale = object_json->at("scale").get<double>();

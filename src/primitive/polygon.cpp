@@ -1,7 +1,8 @@
 #include "polygon.hpp"
+#include "triangle.hpp"
 
-Polygon::Polygon(const Vector3 planeNormal, const double d, Material* const material, std::vector<Vector3>* const points, const bool oneSided): Plane(planeNormal, d, material, oneSided), points(points) {}
-
-double Polygon::intersect(const Ray ray, Vector3* const intersect, Vector3* const normal) const {
-    return 0.;
+Polygon::Polygon(std::vector<Vector3>& points, Material* const material) {
+    for (int i = 1; i < points.size() - 1; i++) {
+        primitives.push_back(new Triangle(points[0], points[i], points[i+1], material));
+    }
 }

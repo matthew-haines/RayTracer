@@ -3,7 +3,7 @@
 
 #include "complex_primitive.hpp"
 
-struct Quad: ComplexPrimitive {
+struct Quad: public ComplexPrimitive {
     Quad(const Vector3 v0, const Vector3 v1, const Vector3 v2, const Vector3 v3, Material* const material);
 };
 
