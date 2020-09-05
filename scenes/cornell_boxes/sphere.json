@@ -1,6 +1,9 @@
 {
     "camera": {
-        "type": "PerspectiveCamera"
+        "type": "PerspectiveCamera",
+        "focalDistance": 2,
+        "lenseRadius": 0.1,
+        "position": [0, 0, 0]
     },
     "bxdfs": [
         {

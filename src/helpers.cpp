@@ -52,8 +52,8 @@ double UniformSampleCone::pdf(const double cosThetaMax) {
     return 1 / (2 * M_PI * (1 - cosThetaMax));
 }
  
+// Samples point on unit disk given args in [0, 1]
 Vector2 ConcentricSampleDisk::sample(double u1, double u2) {
-    // args are uniform on [0, 1]
     u1 = 2 * u1 - 1;
     u2 = 2 * u2 - 1;
     if (u1 == 0 && u2 == 0) {
