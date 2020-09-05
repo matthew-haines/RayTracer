@@ -1,7 +1,7 @@
 #include "orthographic_camera.hpp"
 
 OrthographicCamera::OrthographicCamera(const double scale, const bool jitter, const std::size_t width, const std::size_t height, Vector3 direction, Vector3 position): Camera(width, height, direction, position), jitter(jitter) {
-    maxWidth = scale/2;
+    maxWidth = scale;
     gridSize = maxWidth / width;
     maxHeight = gridSize * height;
     
@@ -20,12 +20,12 @@ std::function<Ray()> OrthographicCamera::getPixelFunction(const int row, const i
             double jitter_y = dist(gen);
             double jitter_z = dist(gen);
             Vector3 deltaposition = rotation * Vector3(0.0, (maxWidth - gridSize) / 2 - column * gridSize + jitter_y, (maxHeight - gridSize) / 2 - row * gridSize + jitter_z);
-            return Ray((position + deltaposition).normalized(), direction);
+            return Ray(position+deltaposition, direction);
         };
     } else {
         func = [this, row, column]() {
             Vector3 deltaPosition = rotation * Vector3(0, (maxWidth - gridSize) / 2 - column * gridSize, (maxHeight - gridSize) / 2 - row * gridSize);
-            return Ray((position+deltaPosition).normalized(), direction);
+            return Ray(position+deltaPosition, direction);
         };
     }
     return func;

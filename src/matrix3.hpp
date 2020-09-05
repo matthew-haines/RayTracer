@@ -12,6 +12,7 @@ class Matrix3 {
         static Matrix3 createEulerRotationMatrix(const double xRotation, const double yRotation, const double zRotation);
         static Matrix3 createSSCrossMatrix(const Vector3 v);
         static Matrix3 createFromNormal(const Vector3 normal);
+        static Matrix3 createFromDirection(const Vector3 direction);
         Matrix3& operator*=(const Matrix3 b);
         Matrix3& operator*=(const double b);
         Matrix3& operator+=(const Matrix3 b);

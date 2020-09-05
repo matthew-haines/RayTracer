@@ -48,6 +48,19 @@ Matrix3 Matrix3::createFromNormal(const Vector3 normal) {
     return Matrix3(tangent, binormal, normal);
 }
 
+
+// Creates rotation matrix that rotates (1, 0, 0) to direction
+Matrix3 Matrix3::createFromDirection(const Vector3 direction) {
+    Vector3 temp(0., 0., 1.);
+    if (std::abs(direction.z) > 0.99) {
+        temp = Vector3(0., 1., 0.);
+    }
+
+    Vector3 binormal = temp.cross(direction).normalized();
+    Vector3 normal = direction.cross(binormal).normalized();
+    return Matrix3(direction, binormal, normal);
+}
+
 Matrix3& Matrix3::operator*=(const Matrix3 b) {
     x11 = x11 * b.x11 + x12 * b.x21 + x13 * b.x31;
     x12 = x11 * b.x12 + x12 * b.x22 + x13 * b.x32; 
