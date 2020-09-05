@@ -25,7 +25,7 @@ This is a path tracer written completely from scratch, only libraries used are [
   - Multiple importance sampling based path tracer
   - Bidirectional path tracer (Not implemented yet)
 - Cameras:
-  - Perspective Camera
+  - Perspective Camera with Simulated Depth of Field
   - Orthographic Camera
 - Intersectors:
   - Multithreaded Bounding Volume Hierarchy Acceleration Structure (Surface Area Heuristic)
