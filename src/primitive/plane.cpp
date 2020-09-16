@@ -39,5 +39,11 @@ double Plane::directionalSamplePdf(const Vector3 point, const Vector3 direction)
 }
 
 Bound Plane::getBound() const {
+    // Not implemented
     return Bound();
+}
+
+Vector2 getUVAtPoint(const Vector3& point) const {
+    // Not implemented
+    return Vector2();
 }

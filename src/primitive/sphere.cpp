@@ -69,3 +69,10 @@ double Sphere::directionalSamplePdf(const Vector3 point, const Vector3 direction
 Bound Sphere::getBound() const {
     return Bound(center - Vector3(radius), center + Vector3(radius));
 }
+
+Vector2 Sphere::getUVAtPoint(const Vector3& point) const {
+    Vector3 distance = point - center;
+    double u = 0.5 + std::atan2(distance.x, distance.z) / (2 * M_PI);
+    double v = 0.5 - std::asin(distance.y) / M_PI;
+    return Vector2(u, v);
+}

@@ -3,6 +3,7 @@
 
 #include "../material/material.hpp"
 #include "../intersector/bound.hpp"
+#include "../vector2.hpp"
 
 class Primitive {
     public:
@@ -14,6 +15,7 @@ class Primitive {
         virtual Vector3 directionalSample(const double u1, const double u2, const Vector3 point) const =0;
         virtual double directionalSamplePdf(const Vector3 point, const Vector3 direction) const =0;
         virtual Bound getBound() const =0;
+        virtual Vector2 getUVAtPoint(const Vector3& point) const =0;
 };
 
 #endif

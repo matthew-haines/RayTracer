@@ -19,6 +19,10 @@ char colorToChar(const double color) {
     return (char)(std::min(color, 1.0) * 255);
 }
 
+double charToColor(const char color) {
+    return (double)color / 255;
+}
+
 // Samples hemisphere around (0, 0, 1)
 Vector3 UniformSampleHemisphere::sample(const double u1, const double u2) {
     double z = u1;

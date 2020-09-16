@@ -20,6 +20,8 @@ double sign(const double x);
 
 char colorToChar(const double color);
 
+double charToColor(const char color);
+
 struct UniformSampleHemisphere {
     static Vector3 sample(const double u1, const double u2);
     static double pdf(const Vector3 v);

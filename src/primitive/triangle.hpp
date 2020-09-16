@@ -18,6 +18,7 @@ class Triangle: public Primitive {
         Vector3 directionalSample(const double u1, const double u2, const Vector3 point) const;
         double directionalSamplePdf(const Vector3 point, const Vector3 direction) const;
         Bound getBound() const;
+        Vector2 getUVAtPoint(const Vector3& point) const;
 };
 
 #endif

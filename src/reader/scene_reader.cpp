@@ -11,6 +11,7 @@
 #include "../primitive/quad.hpp"
 #include "../primitive/polygon.hpp"
 #include "obj_reader.hpp"
+#include "texture_reader.hpp"
 #include <map>
 #include <variant>
 #include <iostream>
@@ -91,6 +92,7 @@ Scene parseScene(const json j) {
             material->color = material_json->at("color").get<Vector3>();
             material->emission = material_json->at("emission").get<double>();
             material->bxdf = bxdfs[material_json->at("bxdf").get<std::string>()];
+            *material->texture = parseTextureFile(material_json->at("texture").get<std::string>());
             materials[name] = material;
         } catch (const char* error) {
             throw std::runtime_error("Error parsing material");

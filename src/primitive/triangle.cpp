@@ -75,3 +75,14 @@ Bound Triangle::getBound() const {
     Vector3 max = Vector3::max(v0, Vector3::max(v1, v2));
     return Bound(min, max);
 }
+
+Vector2 Triangle::getUVAtPoint(const Vector3& point) const {
+    Vector3 p = point;
+    double determinant = e1.dot(p);
+    double invDeterminant = 1 / determinant;
+    Vector3 origin = point - v0;
+    double u = invDeterminant * origin.dot(p);// barycentric
+    Vector3 q = origin.cross(e1);
+    double v = point.dot(q) * invDeterminant;
+    return Vector2(u, v); // this might work
+}
