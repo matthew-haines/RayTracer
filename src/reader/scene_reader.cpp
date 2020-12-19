@@ -18,7 +18,6 @@
 #include <stdexcept>
 
 Scene parseScene(const json j) {
-
     std::map<std::string, BxDF*> bxdfs;
     json bxdfs_json = j.at("bxdfs");
     if (!bxdfs_json.is_array()) {
@@ -80,6 +79,20 @@ Scene parseScene(const json j) {
         bxdfs[name] = bxdf;
     }
 
+    std::map<std::string, Texture*> textures;
+    json textures_json = j.at("textures");
+    if (!textures_json.is_array()) {
+        throw std::runtime_error("Bad texture list");
+    }
+    for (json::iterator texture_json = textures_json.begin(); texture_json != textures_json.end(); ++texture_json) {
+        try {
+            std::string name = texture_json->at("name").get<std::string>();
+            textures[name] = parseTexture(texture_json.value());
+        } catch (const char* error) {
+            throw std::runtime_error("Error parsing texture");
+        }
+    }
+
     std::map<std::string, Material*> materials;
     json materials_json = j.at("materials");
     if (!materials_json.is_array()) {
@@ -88,11 +101,11 @@ Scene parseScene(const json j) {
     for (json::iterator material_json = materials_json.begin(); material_json != materials_json.end(); ++material_json) {
         try {
             std::string name = material_json->at("name").get<std::string>();
-            Material *material = new Material;
+            Material* material = new Material;
             material->color = material_json->at("color").get<Vector3>();
             material->emission = material_json->at("emission").get<double>();
             material->bxdf = bxdfs[material_json->at("bxdf").get<std::string>()];
-            *material->texture = parseTextureFile(material_json->at("texture").get<std::string>());
+            material->texture = textures[material_json->at("texture").get<std::string>()];
             materials[name] = material;
         } catch (const char* error) {
             throw std::runtime_error("Error parsing material");
@@ -131,9 +144,6 @@ Scene parseScene(const json j) {
                 points.push_back(points_json[i].get<Vector3>());
             }
             object = new Polygon(points, material);
-            /*for (json::iterator point = points_json.begin(); point != points_json.end(); ++point) {
-                points.push_back(point[0].get<Vector3>());
-            }*/
         } else if (type == "OBJ") {
             std::string filepath = object_json->at("path").get<std::string>();
             double scale = object_json->at("scale").get<double>();

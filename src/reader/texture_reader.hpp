@@ -1,10 +1,12 @@
 #ifndef TEXTURE_READER_HPP
 #define TEXTURE_READER_HPP
 
-#include "../../lib/lodepng/lodepng.h"
 #include "../material/texture.hpp"
+#include "../../lib/json/json.hpp"
 #include <vector>
 
-Texture parseTextureFile(const std::string filepath);
+using json = nlohmann::json;
+
+Texture* parseTexture(const json j);
 
 #endif

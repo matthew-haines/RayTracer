@@ -4,12 +4,12 @@
 #include "bxdf.hpp"
 #include "texture.hpp"
 
-typedef struct material {
+struct Material {
     double emission;
     BxDF* bxdf;
     Texture* texture;
     Vector3 color;
-    material(): emission(0.0) {};
-} Material;
+    Material(): emission(0.0) {};
+};
 
 #endif

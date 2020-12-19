@@ -16,7 +16,7 @@ Vector3 PathTracer::evaluate(const Ray ray, const int depth, const Intersection&
         Material* material = intersection.primitive->material;
         double probability;
         Vector3 bxdf = (*material->bxdf)(ray.direction, intersection.normal, newRay.direction, probability);
-        color += material->color * bxdf * evaluate(newRay, depth+1, intersection) / probability * intersection.normal.dot(newRay.direction);
+        color += intersection.primitive->color(intersection.intersect) * bxdf * evaluate(newRay, depth+1, intersection) / probability * intersection.normal.dot(newRay.direction);
     }
     color += intersection.primitive->material->emission;
     return color;

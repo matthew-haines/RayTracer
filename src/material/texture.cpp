@@ -1,0 +1,43 @@
+#include "texture.hpp"
+
+TextureMap::TextureMap() {
+
+}
+
+SimpleTextureMap::SimpleTextureMap(const Vector2 scale, const Vector2 offset): TextureMap(), scale(scale), offset(offset) {
+
+};
+
+Vector2 SimpleTextureMap::mapPoint(const Vector2& point) const {
+    return point * scale + offset;
+}
+
+Texture::Texture() {
+
+}
+
+ImageTexture::ImageTexture(std::vector<Vector3>* const color, const std::size_t width, const std::size_t height): Texture(), color(color), width(width), height(height) {
+
+}
+
+Vector3 ImageTexture::getColorAtUV(const Vector2& point) const {
+    std::size_t column = width * point.x;
+    std::size_t row = height * point.y;
+    return color->at(row * width + column);
+}
+
+CheckerboardTexture::CheckerboardTexture(const Vector3 colorA, const Vector3 colorB): Texture(), colorA(colorA), colorB(colorB) {
+
+}
+
+Vector3 CheckerboardTexture::getColorAtUV(const Vector2& point) const {
+    int u = std::floor(std::fmod(point.x, 2));
+    int v = std::floor(std::fmod(point.y, 2));
+    return Vector3(u == v ? colorA : colorB);
+}
+
+ConstantTexture::ConstantTexture(const Vector3 color): Texture(), color(color) {}
+
+Vector3 ConstantTexture::getColorAtUV(const Vector2& point) const {
+    return color;
+}
