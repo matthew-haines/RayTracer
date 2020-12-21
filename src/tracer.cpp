@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
                 std::cout << "  -w, --width       width of output image" << std::endl;
                 std::cout << "  -h, --height      height of output image" << std::endl;
                 std::cout << "  -s, --size        can be used instead of width/height to specify square size of output image" << std::endl;
-                std::cout << "  -s, --size        can be used instead of width/height to specify square size of output image" << std::endl;
+                std::cout << "  -s, --size         can be used instead of width/height to specify square size of output image" << std::endl;
                 std::cout << "  -c, --count       number of samples taken per pixel" << std::endl;
                 std::cout << "  --help            help" << std::endl;
                 return 0;

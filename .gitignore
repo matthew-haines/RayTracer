@@ -4,6 +4,5 @@ obj/*
 .DS_Store
 a.out
 *.swp
-*.txt
 old
 /*.png
