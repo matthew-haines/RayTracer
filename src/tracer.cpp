@@ -28,6 +28,7 @@ std::string infilename;
 std::string outfilename("out.png");
 
 static struct option long_options[] = {
+    {"help", no_argument, 0, 'H'},
     {"input", required_argument, 0, 'i'},
     {"threads", required_argument, 0, 't'},
     {"width", required_argument, 0, 'w'},
@@ -44,6 +45,19 @@ int main(int argc, char *argv[]) {
         int c = getopt_long(argc, argv, "i:t:w:h:s:c:", long_options, &index);
         if (c == -1) break;
         switch (c) {
+            case 'H':
+                std::cout << "Usage: tracer [OPTION]... [IMAGE]" << std::endl << std::endl;
+                std::cout << "Arguments:" << std::endl;
+                std::cout << "  -i, --input       path to json scene file" << std::endl;
+                std::cout << "  -t, --threads     number of threads used by tracer" << std::endl;
+                std::cout << "  -w, --width       width of output image" << std::endl;
+                std::cout << "  -h, --height      height of output image" << std::endl;
+                std::cout << "  -s, --size        can be used instead of width/height to specify square size of output image" << std::endl;
+                std::cout << "  -s, --size        can be used instead of width/height to specify square size of output image" << std::endl;
+                std::cout << "  -c, --count       number of samples taken per pixel" << std::endl;
+                std::cout << "  --help            help" << std::endl;
+                return 0;
+
             case 'i':
                 infilename = optarg;
                 break;
