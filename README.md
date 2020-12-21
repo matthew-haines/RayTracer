@@ -50,4 +50,6 @@ Arguments:
   -c, --count       number of samples taken per pixel
 ```
 ### Pretty Pictures
-Gallery coming soon but check out images/
+![Refraction Demonstration](images/dec21/refraction-1280-720-500c.png)
+
+Check out `images/`!

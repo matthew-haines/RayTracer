@@ -76,6 +76,7 @@ Bound Triangle::getBound() const {
     return Bound(min, max);
 }
 
+/* Possible implementation, more of a pain to work with when making scenes.
 Vector2 Triangle::getUVAtPoint(const Vector3& point) const {
     Vector3 p = point;
     double determinant = e1.dot(p);
@@ -85,4 +86,12 @@ Vector2 Triangle::getUVAtPoint(const Vector3& point) const {
     Vector3 q = origin.cross(e1);
     double v = point.dot(q) * invDeterminant;
     return Vector2(u, v); // this might work
+}
+*/
+Vector2 Triangle::getUVAtPoint(const Vector3& point) const {
+    // point = u * up + v * e1
+    Vector3 up = planeNormal.cross(e1).normalized();
+    up *= e1.length(); 
+    Vector3 offset = point - v0;
+    return Vector2(up.dot(offset), e1.dot(offset));
 }

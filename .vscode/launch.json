@@ -30,7 +30,7 @@
             "type": "lldb",
             "request": "launch",
             "program": "${workspaceFolder}/bin/tracer",
-            "args": ["--input=scenes/textures/spheretexture.json", "--threads=1", "--size=100", "--count=20"],
+            "args": ["--input=scenes/textures/refraction_demonstration.json", "--threads=1", "--size=100", "--count=20"],
             "cwd": "${workspaceFolder}",
             "preLaunchTask": "build",
         }

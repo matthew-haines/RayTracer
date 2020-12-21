@@ -1,0 +1,142 @@
+{
+    "camera": {
+        "type": "PerspectiveCamera"
+    },
+    "bxdfs": [
+        {
+            "name": "Lambertian",
+            "type": "LambertianBRDF",
+            "params": {
+                "albedo": 0.7
+            }
+        },
+        {
+            "name": "a",
+            "type": "FresnelSpecularBSDF",
+            "params": {
+                "refractionIndex": 1.1
+            }
+        },
+        {
+            "name": "b",
+            "type": "FresnelSpecularBSDF",
+            "params": {
+                "refractionIndex": 1.33
+            }
+        },
+        {
+            "name": "c",
+            "type": "FresnelSpecularBSDF",
+            "params": {
+                "refractionIndex": 1.9
+            }
+        },
+        {
+            "name": "d",
+            "type": "FresnelSpecularBSDF",
+            "params": {
+                "refractionIndex": 2.5
+            }
+        }
+    ],
+    "textures": [
+        {
+            "name": "constant",
+            "type": "ConstantTexture"
+        },
+        {
+            "name": "checker",
+            "type": "CheckerboardTexture"
+        }
+    ],
+    "materials": [
+        {
+            "name": "Light",
+            "emission": 5,
+            "bxdf": "Lambertian"
+        },
+        {
+            "name": "surface",
+            "emission": 0,
+            "bxdf": "Lambertian"
+        },
+        {
+            "name": "a",
+            "emission": 0.0, 
+            "bxdf": "a"
+        },
+        {
+            "name": "b",
+            "emission": 0.0, 
+            "bxdf": "b"
+        },
+        {
+            "name": "c",
+            "emission": 0.0, 
+            "bxdf": "c"
+        },
+        {
+            "name": "d",
+            "emission": 0.0, 
+            "bxdf": "d"
+        }
+    ],
+    "objects": [
+        {
+            "type": "Triangle",
+            "material": "surface",
+            "textureMap": {
+                "texture": "checker",
+                "scale": [0.04, 0.04]
+            },
+            "v0": [6, -20, -20],
+            "v1": [6, 20, -20],
+            "v2": [6, 0, 20]
+        },
+        {
+            "type": "Sphere",
+            "material": "Light",
+            "textureMap": {
+                "texture": "constant"
+            },
+            "center": [-10, 0, 0],
+            "radius": 5
+        },
+        {
+            "type": "Sphere",
+            "material": "a",
+            "textureMap": {
+                "texture": "constant"
+            },
+            "center": [3, -2.1, 0],
+            "radius": 0.5
+        },
+        {
+            "type": "Sphere",
+            "material": "b",
+            "textureMap": {
+                "texture": "constant"
+            },
+            "center": [3, -0.7, 0],
+            "radius": 0.5
+        },
+        {
+            "type": "Sphere",
+            "material": "c",
+            "textureMap": {
+                "texture": "constant"
+            },
+            "center": [3, 0.7, 0],
+            "radius": 0.5
+        },
+        {
+            "type": "Sphere",
+            "material": "d",
+            "textureMap": {
+                "texture": "constant"
+            },
+            "center": [3, 2.1, 0],
+            "radius": 0.5
+        }
+    ]
+}

@@ -3,6 +3,7 @@
 
 #include "vector2.hpp"
 #include "vector3.hpp"
+#include "matrix3.hpp"
 #include <functional>
 
 // Need to define these in header
