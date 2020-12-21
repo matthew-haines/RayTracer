@@ -5,34 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(gdb) launch ",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/bin/tracer",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "gdb",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
-            "preLaunchTask": "build",
-            "miDebuggerPath": "/usr/bin/gdb"
-        },
-        {
             "name": "(lldb) launch ",
             "type": "lldb",
             "request": "launch",
-            "program": "${workspaceFolder}/bin/tracer",
+            "program": "build/tracer",
             "args": ["--input=scenes/textures/refraction_demonstration.json", "--threads=1", "--size=100", "--count=20"],
-            "cwd": "${workspaceFolder}",
-            "preLaunchTask": "build",
+            "stopOnEntry": false,
+            "cwd": "${workspaceFolder}"
         }
     ]
 }

@@ -35,7 +35,8 @@ This is a path tracer written completely from scratch, only libraries used are [
 
 ### Building
 - Tested on macOS and Linux using latest clang/apple clang.
-- Builds to bin/tracer
+- CMake is configured for Release and Debug modes.
+- Builds to build/tracer
 - Debugging support for VSCode using LLDB with [CodeLLDB extension](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb)
 
 ### Syntax
