@@ -102,7 +102,6 @@ Scene parseScene(const json j) {
         try {
             std::string name = material_json->at("name").get<std::string>();
             Material* material = new Material;
-            material->color = material_json->at("color").get<Vector3>();
             material->emission = material_json->at("emission").get<double>();
             material->bxdf = bxdfs[material_json->at("bxdf").get<std::string>()];
             materials[name] = material;
@@ -124,12 +123,12 @@ Scene parseScene(const json j) {
 
         TextureMap* texture_map;
         if (texture_map_type == "simple") {
-            Vector2 scale = texture_map_json.contains("scale") ? texture_map_json.at("scale").get<Vector2>() : Vector2(0);
+            Vector2 scale = texture_map_json.contains("scale") ? texture_map_json.at("scale").get<Vector2>() : Vector2(1);
             Vector2 offset = texture_map_json.contains("offset") ? texture_map_json.at("offset").get<Vector2>() : Vector2(0);
             texture_map = new SimpleTextureMap(scale, offset, texture);
         } else {
             // Temp default
-            Vector2 scale = texture_map_json.contains("scale") ? texture_map_json.at("scale").get<Vector2>() : Vector2(0);
+            Vector2 scale = texture_map_json.contains("scale") ? texture_map_json.at("scale").get<Vector2>() : Vector2(1);
             Vector2 offset = texture_map_json.contains("offset") ? texture_map_json.at("offset").get<Vector2>() : Vector2(0);
             texture_map = new SimpleTextureMap(scale, offset, texture);
         }

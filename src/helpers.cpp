@@ -19,8 +19,8 @@ char colorToChar(const double color) {
     return (char)(std::min(color, 1.0) * 255);
 }
 
-double charToColor(const char color) {
-    return (double)color / 255;
+double charToColor(const unsigned char color) {
+    return (double)color / 255.0;
 }
 
 // Samples hemisphere around (0, 0, 1)

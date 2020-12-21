@@ -1,0 +1,69 @@
+{
+    "camera": {
+        "type": "PerspectiveCamera"
+    },
+    "bxdfs": [
+        {
+            "name": "Lambertian",
+            "type": "LambertianBRDF",
+            "params": {
+                "albedo": 0.7
+            }
+        },
+        {
+            "name": "Phong",
+            "type": "PhongBRDF",
+            "params": {
+                "kd": 0.5,
+                "ks": 0.5,
+                "n": 255
+            }
+        }
+    ],
+    "textures": [
+        {
+            "name": "constant",
+            "type": "ConstantTexture",
+            "color": [1, 1, 1]
+        },
+        {
+            "name": "testing",
+            "type": "ImageTexture",
+            "path": "scenes/textures/earth.png"
+        }
+    ],
+    "materials": [
+        {
+            "name": "Light",
+            "emission": 10,
+            "bxdf": "Lambertian"
+        },
+        {
+            "name": "phong",
+            "emission": 0.0, 
+            "bxdf": "Lambertian"
+        }
+    ],
+    "objects": [
+        {
+            "type": "Sphere",
+            "material": "phong",
+            "textureMap": {
+                "texture": "testing",
+                "scale": [1, 1],
+                "offset": [0.8, -0.1]
+            },
+            "center": [2, 0, 0],
+            "radius": 1
+        },
+        {
+            "type": "Sphere",
+            "material": "Light",
+            "textureMap": {
+                "texture": "constant"
+            },
+            "center": [-2, 0, 3],
+            "radius": 1
+        }
+    ]
+}
