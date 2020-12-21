@@ -1,6 +1,8 @@
 #ifndef VECTOR2_HPP
 #define VECTOR2_HPP
 
+#include "../lib/json/json.hpp"
+
 class Vector2 {
     public:
         double x, y;
@@ -32,5 +34,7 @@ Vector2 operator/(const Vector2 a, const double b);
 Vector2 operator-(const Vector2& v);
 bool operator==(const Vector2 a, const Vector2 b);
 bool operator!=(const Vector2 a, const Vector2 b);
+
+void from_json(const nlohmann::json& j, Vector2& v);
 
 #endif

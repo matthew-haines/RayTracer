@@ -1,9 +1,9 @@
 #include "primitive.hpp"
 
-Primitive::Primitive(Material* const material, TextureMap* const textureMap): material(material), textureMap(textureMap) {
+Primitive::Primitive(Material* const material): material(material) {
 
 };
 
 Vector3 Primitive::color(const Vector3& point) const {
-    return material->texture->getColorAtUV(textureMap->mapPoint(getUVAtPoint(point)));
+    return material->textureMap->mapPoint(getUVAtPoint(point));
 }

@@ -43,7 +43,7 @@ Bound Plane::getBound() const {
     return Bound();
 }
 
-Vector2 getUVAtPoint(const Vector3& point) const {
+Vector2 Plane::getUVAtPoint(const Vector3& point) const {
     // Not implemented
     return Vector2();
 }

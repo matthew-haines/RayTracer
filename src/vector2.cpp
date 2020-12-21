@@ -123,3 +123,8 @@ bool operator==(const Vector2 a, const Vector2 b) {
 bool operator!=(const Vector2 a, const Vector2 b) {
     return !(a == b);
 }
+
+void from_json(const nlohmann::json& j, Vector2& v) {
+    j.at(0).get_to(v.x);
+    j.at(1).get_to(v.y);
+}

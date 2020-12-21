@@ -105,7 +105,6 @@ Scene parseScene(const json j) {
             material->color = material_json->at("color").get<Vector3>();
             material->emission = material_json->at("emission").get<double>();
             material->bxdf = bxdfs[material_json->at("bxdf").get<std::string>()];
-            material->texture = textures[material_json->at("texture").get<std::string>()];
             materials[name] = material;
         } catch (const char* error) {
             throw std::runtime_error("Error parsing material");
@@ -118,6 +117,24 @@ Scene parseScene(const json j) {
         std::variant<Primitive*, ComplexPrimitive*> object;
         std::string type = object_json->at("type").get<std::string>();
         Material* material = materials.at(object_json->at("material").get<std::string>());
+
+        json texture_map_json = object_json->at("textureMap");
+        Texture* texture = textures[texture_map_json.at("texture").get<std::string>()];
+        std::string texture_map_type = texture_map_json.contains("type") ? texture_map_json.at("type").get<std::string>() : "simple";
+
+        TextureMap* texture_map;
+        if (texture_map_type == "simple") {
+            Vector2 scale = texture_map_json.contains("scale") ? texture_map_json.at("scale").get<Vector2>() : Vector2(0);
+            Vector2 offset = texture_map_json.contains("offset") ? texture_map_json.at("offset").get<Vector2>() : Vector2(0);
+            texture_map = new SimpleTextureMap(scale, offset, texture);
+        } else {
+            // Temp default
+            Vector2 scale = texture_map_json.contains("scale") ? texture_map_json.at("scale").get<Vector2>() : Vector2(0);
+            Vector2 offset = texture_map_json.contains("offset") ? texture_map_json.at("offset").get<Vector2>() : Vector2(0);
+            texture_map = new SimpleTextureMap(scale, offset, texture);
+        }
+        material->textureMap = texture_map;
+
         if (type == "Sphere") {
             Vector3 center = object_json->at("center").get<Vector3>();
             double radius = object_json->at("radius").get<double>();

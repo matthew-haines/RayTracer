@@ -1,17 +1,5 @@
 #include "texture.hpp"
 
-TextureMap::TextureMap() {
-
-}
-
-SimpleTextureMap::SimpleTextureMap(const Vector2 scale, const Vector2 offset): TextureMap(), scale(scale), offset(offset) {
-
-};
-
-Vector2 SimpleTextureMap::mapPoint(const Vector2& point) const {
-    return point * scale + offset;
-}
-
 Texture::Texture() {
 
 }
@@ -40,4 +28,16 @@ ConstantTexture::ConstantTexture(const Vector3 color): Texture(), color(color) {
 
 Vector3 ConstantTexture::getColorAtUV(const Vector2& point) const {
     return color;
+}
+
+TextureMap::TextureMap(Texture* const texture): texture(texture) {
+    
+}
+
+SimpleTextureMap::SimpleTextureMap(const Vector2 scale, const Vector2 offset, Texture* const texture): TextureMap(texture), scale(scale), offset(offset) {
+
+};
+
+Vector3 SimpleTextureMap::mapPoint(const Vector2& point) const {
+    return texture->getColorAtUV(point * scale + offset);
 }

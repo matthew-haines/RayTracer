@@ -2,15 +2,14 @@
 #define PRIMITIVE_HPP
 
 #include "../material/material.hpp"
+#include "../material/texture.hpp"
 #include "../intersector/bound.hpp"
 #include "../vector2.hpp"
 
 class Primitive {
-    private:
-        TextureMap* const textureMap;
     public:
         Material* const material;
-        Primitive(Material* const material, TextureMap* const textureMap);
+        Primitive(Material* const material);
         virtual double intersect(const Ray ray, Vector3* const intersect, Vector3* const normal) const =0; // Must return -1 if no intersect
         virtual Vector3 sample(const double u1, const double u2) const =0;
         virtual double samplePdf(const Vector3 point, const Vector3 direction) const =0;

@@ -7,8 +7,8 @@
 struct Material {
     double emission;
     BxDF* bxdf;
-    Texture* texture;
     Vector3 color;
+    TextureMap* textureMap;
     Material(): emission(0.0) {};
 };
 
