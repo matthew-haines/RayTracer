@@ -13,7 +13,7 @@ Camera::Camera(const std::size_t width, const std::size_t height, const int samp
 void Camera::buildQueue() {
     for (int row = 0; row < height; row++) {
         for (int column = 0; column < width; column++) {
-            queue.push(std::make_pair(getPixelFunction(row, column), &result[row * width + column]));
+            queue.push(std::make_pair(std::function([this, row, column](){return getPixelFunction(row, column);}), &result[row * width + column]));
         }
     }
 }
@@ -25,7 +25,7 @@ std::function<Ray()> Camera::next(Vector3** location) {
         queue.pop();
         lock.unlock(); 
         *location = pair.second;
-        return pair.first;
+        return pair.first();
     } else {
         lock.unlock();
         *location = nullptr;

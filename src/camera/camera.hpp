@@ -12,7 +12,7 @@
 class Camera {
     private:
         std::mutex mutex;
-        std::queue<std::pair<std::function<Ray()>, Vector3*>> queue;
+        std::queue<std::pair<std::function<std::function<Ray()>()>, Vector3*> > queue;
         virtual std::function<Ray()> getPixelFunction(const int row, const int column)=0;
     protected:
         std::vector<Vector3> result;
