@@ -6,3 +6,4 @@ a.out
 *.swp
 old
 /*.png
+.clangd
