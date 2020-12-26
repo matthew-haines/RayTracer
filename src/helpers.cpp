@@ -1,4 +1,5 @@
 #include "helpers.hpp"
+#include <algorithm>
 #include <cmath>
 #include <chrono>
 #include <iostream>
@@ -137,4 +138,40 @@ double powerHeuristic(const double a, const double b) {
 // Returns 1 if a > 0 and 0 otherwise
 double positiveCharacteristic(const double a) {
     return a > 0 ? 1 : 0;
+}
+
+double* SobolSample(const uint32_t* C, uint32_t n, uint32_t scramble, std::mt19937 gen) {
+    // Fast sampling algorithm taken from PBR Book
+    uint32_t v = scramble; 
+    double* out = new double[n];
+    for (uint32_t i = 0; i < n; ++i) {
+        out[i] = std::min((double)(v * 0x1p-32f), 1.);
+        v ^= C[__builtin_ctz(i+1)]; // __builtin_ctz: count trailing zeros
+    }
+    std::shuffle(out, out + n, gen);
+    return out;
+}
+
+Sobol::Sobol(int n, std::mt19937 gen, std::uniform_int_distribution<uint32_t> dist) {
+    // Sampling Matrix taken from PBR Book
+    const uint32_t CSobol[2][32] = {
+        {0x80000000, 0x40000000, 0x20000000, 0x10000000, 0x8000000, 0x4000000,
+         0x2000000, 0x1000000, 0x800000, 0x400000, 0x200000, 0x100000, 0x80000,
+         0x40000, 0x20000, 0x10000, 0x8000, 0x4000, 0x2000, 0x1000, 0x800,
+         0x400, 0x200, 0x100, 0x80, 0x40, 0x20, 0x10, 0x8, 0x4, 0x2, 0x1},
+        {0x80000000, 0xc0000000, 0xa0000000, 0xf0000000, 0x88000000, 0xcc000000,
+         0xaa000000, 0xff000000, 0x80800000, 0xc0c00000, 0xa0a00000, 0xf0f00000,
+         0x88880000, 0xcccc0000, 0xaaaa0000, 0xffff0000, 0x80008000, 0xc000c000,
+         0xa000a000, 0xf000f000, 0x88008800, 0xcc00cc00, 0xaa00aa00, 0xff00ff00,
+         0x80808080, 0xc0c0c0c0, 0xa0a0a0a0, 0xf0f0f0f0, 0x88888888, 0xcccccccc,
+         0xaaaaaaaa, 0xffffffff}}; 
+    x = SobolSample(CSobol[0], n, dist(gen), gen);
+    y = SobolSample(CSobol[1], n, dist(gen), gen);
+    i = 0; 
+}
+
+Vector2 Sobol::next() {
+    Vector2 r(x[i], y[i]);
+    i++;
+    return r;
 }

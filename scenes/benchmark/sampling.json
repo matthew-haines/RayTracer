@@ -1,0 +1,76 @@
+{
+    "camera": {
+        "type": "PerspectiveCamera",
+        "focalDistance": 1,
+        "lenseRadius": 0.2
+    },
+    "bxdfs": [
+        {
+            "name": "Lambertian",
+            "type": "LambertianBRDF",
+            "params": {
+                "albedo": 1
+            }
+        }
+    ],
+    "textures": [
+        {
+            "name": "white",
+            "type": "ConstantTexture",
+            "color": [1, 1, 1]
+        },
+        {
+            "name": "purple",
+            "type": "ConstantTexture",
+            "color": [0.83, 0.26, 0.77]
+        }
+    ],
+    "materials": [
+        {
+            "name": "Light",
+            "emission": 10,
+            "bxdf": "Lambertian"
+        },
+        {
+            "name": "surface",
+            "emission": 0,
+            "bxdf": "Lambertian"
+        },
+        {
+            "name": "purple",
+            "emission": 0,
+            "bxdf": "Lambertian"
+        }
+    ],
+    "objects": [
+        {
+            "type": "Triangle",
+            "material": "surface",
+            "textureMap": {
+                "texture": "white",
+                "scale": [0.04, 0.04]
+            },
+            "v0": [6, -20, -20],
+            "v1": [6, 20, -20],
+            "v2": [6, 0, 20]
+        },
+        {
+            "type": "Sphere",
+            "material": "Light",
+            "textureMap": {
+                "texture": "white"
+            },
+            "center": [-10, 0, 0],
+            "radius": 5
+        },
+        {
+            "type": "Sphere",
+            "material": "purple",
+            "textureMap": {
+                "texture": "purple"
+            },
+            "center": [4, 0, 0],
+            "radius": 2
+        }
+    ]
+}

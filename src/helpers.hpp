@@ -5,6 +5,8 @@
 #include "vector3.hpp"
 #include "matrix3.hpp"
 #include <functional>
+#include <stdint.h>
+#include <random>
 
 // Need to define these in header
 template <typename T>
@@ -53,5 +55,17 @@ void parallelizeLoop(const int threads, const std::function<void(int)> func, con
 double powerHeuristic(const double a, const double b);
 
 double positiveCharacteristic(const double a);
+
+double* SobolSample(const uint32_t* C, uint32_t n, uint32_t scramble, std::mt19937 gen);
+
+class Sobol {
+    private:
+        double* x;
+        double* y;
+        int i;
+    public:
+        Sobol(int n, std::mt19937 gen, std::uniform_int_distribution<uint32_t> dist);
+        Vector2 next();
+};
 
 #endif

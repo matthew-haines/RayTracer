@@ -4,6 +4,7 @@ project(RayTracer CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
+set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 add_compile_options(-Wall)
 if (CMAKE_BUILD_TYPE MATCHES Debug)
     add_compile_options(-g)
