@@ -2,19 +2,22 @@
 #include "thread_safe_queue.hpp"
 #include <functional>
 #include <iostream>
+#include <memory>
 #include <thread>
+#include <tuple>
+#include <type_traits>
 
 struct BVHNode {
     Bound bound;
-    BVHNode* child1=nullptr;
-    BVHNode* child2=nullptr;
+    std::shared_ptr<BVHNode> child1=nullptr;
+    std::shared_ptr<BVHNode> child2=nullptr;
     std::vector<int> primitives;
     int dim;
 };
 
 BVHIntersector::BVHIntersector(Scene* const scene, const int threads): Intersector(scene) {
     bounds = std::vector<Bound>(scene->primitives.size());
-    root = new BVHNode();
+    root = std::make_shared<BVHNode>();
     root->primitives = std::vector<int>(bounds.size());
     Vector3 min(std::numeric_limits<double>::max());
     Vector3 max(std::numeric_limits<double>::lowest());
@@ -40,7 +43,7 @@ bool BVHIntersector::getIntersect(const Ray ray, Intersection& intersection) con
     Vector3 invDir = 1. / ray.direction;
     int dirIsNeg[3] = {ray.direction.x < 0., ray.direction.y < 0., ray.direction.z < 0.};
 
-    BVHNode* nodeStack[64];
+    std::shared_ptr<BVHNode> nodeStack[64];
     int stackIndex = 0;
     nodeStack[0] = root;
     Vector3 normal;
@@ -50,7 +53,7 @@ bool BVHIntersector::getIntersect(const Ray ray, Intersection& intersection) con
     double minDist = std::numeric_limits<double>::max();
 
     while (stackIndex > -1) {
-        BVHNode* node = nodeStack[stackIndex];
+        std::shared_ptr<BVHNode> node = nodeStack[stackIndex];
         if (node->bound.rayIntersect(ray, invDir, dirIsNeg)) {
             if (node->child1 == nullptr) {
                 for (int primIndex : node->primitives) {
@@ -82,7 +85,7 @@ bool BVHIntersector::getIntersect(const Ray ray, Intersection& intersection) con
     return intersected;
 }
 
-void BVHIntersector::buildNodeRecursive(BVHNode* const precursor) {
+void BVHIntersector::buildNodeRecursive(std::shared_ptr<BVHNode> const precursor) {
     if (precursor->primitives.size() == 1) {
         return;
     }
@@ -150,8 +153,8 @@ void BVHIntersector::buildNodeRecursive(BVHNode* const precursor) {
     }
 
     if (bestCost < precursor->primitives.size()) {
-        BVHNode* left = new BVHNode();
-        BVHNode* right = new BVHNode();
+        auto left = std::make_shared<BVHNode>();
+        auto right = std::make_shared<BVHNode>();
         left->bound = candidates[bestPartition].leftBound;
         for (int i = 0; i <= bestPartition; i++) {
             left->primitives.insert(left->primitives.end(), buckets[i].primitives.begin(), buckets[i].primitives.end());
@@ -168,7 +171,7 @@ void BVHIntersector::buildNodeRecursive(BVHNode* const precursor) {
     return;
 }
 
-void BVHIntersector::buildNode(BVHNode& precursor, BVHNode** const left, BVHNode** const right) {
+void BVHIntersector::buildNode(BVHNode& precursor, std::shared_ptr<BVHNode>* const left, std::shared_ptr<BVHNode>* const right) {
     if (precursor.primitives.size() == 1) {
         return;
     }
@@ -179,7 +182,7 @@ void BVHIntersector::buildNode(BVHNode& precursor, BVHNode** const left, BVHNode
         Bucket(): primitives(std::vector<int>()), bound(Bound()) {};
     };
 
-    const int bucketCount = 12; // yay magic number
+    const int bucketCount = 12; // magic number
     Bucket buckets[bucketCount];
     
     Bound centroidBound;
@@ -240,8 +243,8 @@ void BVHIntersector::buildNode(BVHNode& precursor, BVHNode** const left, BVHNode
     }
 
     if (bestCost < precursor.primitives.size()) {
-        *left = new BVHNode();
-        *right = new BVHNode();
+        *left = std::make_shared<BVHNode>(); 
+        *right = std::make_shared<BVHNode>(); 
         (**left).bound = candidates[bestPartition].leftBound;
         for (int i = 0; i <= bestPartition; i++) {
             (**left).primitives.insert((**left).primitives.end(), buckets[i].primitives.begin(), buckets[i].primitives.end());
@@ -256,15 +259,15 @@ void BVHIntersector::buildNode(BVHNode& precursor, BVHNode** const left, BVHNode
     return;
 }
 
-void BVHIntersector::workerFunction(ThreadSafeQueue<BVHNode*>& queue, std::atomic<int>* complete, const int total) {
+void BVHIntersector::workerFunction(ThreadSafeQueue<std::shared_ptr<BVHNode> >& queue, std::atomic<int>* complete, const int total) {
     while (*complete < total) {
         auto node = queue.pop();
         if (node == nullptr) {
             queue.push(nullptr);
             break;
         }
-        BVHNode* left = nullptr;
-        BVHNode* right = nullptr;
+        std::shared_ptr<BVHNode> left(nullptr);
+        std::shared_ptr<BVHNode> right(nullptr);
         buildNode(*node, &left, &right);
         if (left != nullptr) { // not leaf
             added++;
@@ -281,7 +284,7 @@ void BVHIntersector::workerFunction(ThreadSafeQueue<BVHNode*>& queue, std::atomi
 }
 
 void BVHIntersector::parallelConstruct(const int threads) {
-    ThreadSafeQueue<BVHNode*> queue;
+    ThreadSafeQueue<std::shared_ptr<BVHNode> > queue;
     queue.push(root);
     std::vector<std::thread> threadpool;
     std::atomic<int> complete = 0;
