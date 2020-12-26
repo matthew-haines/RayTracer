@@ -19,7 +19,7 @@ Vector3 AnistropicPhongBRDF::evaluate(const Vector3 in, const Vector3 normal, co
     double specular = rho * std::pow(ndoth, (nu * square(h.dot(u)) + nv * square(h.dot(v)))/(1-square(ndoth))) / (ndoti * std::max(normal.dot(k2), normal.dot(k1))) * fresnel;
 
     double dt1 = 1 - 0.5 * normal.dot(k1);
-    double dt2 = 1 - 0.5 * normal.dot(k2);
+    //double dt2 = 1 - 0.5 * normal.dot(k2);
     double diffuse = 28 * kd / (23 * M_PI) * (1 - ks) * (1 - square(square(dt1)) * dt1) * (1 - square(square(dt1)) * dt1);
     return specular + diffuse;
 }

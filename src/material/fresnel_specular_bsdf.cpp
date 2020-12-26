@@ -23,7 +23,6 @@ double FresnelSpecularBSDF::pdf(const Vector3 in, const Vector3 normal, const Ve
 
 Vector3 FresnelSpecularBSDF::operator()(const Vector3 in, const Vector3 normal, Vector3& out, double& probability) {
     double fresnel = FresnelDielectric(normal.dot(in), refractionIndex, 1);
-    Vector3 f = Vector3(1);
     if (dist(gen) < fresnel) {
         out = SpecularReflectBRDF::getReflection(in, normal);
     } else {
