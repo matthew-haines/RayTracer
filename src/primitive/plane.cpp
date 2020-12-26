@@ -1,5 +1,5 @@
 #include "plane.hpp"
-#include "../constants.hpp"
+#include "constants.hpp"
 
 Plane::Plane(const Vector3 planeNormal, const double d, Material* const material, const bool oneSided): Primitive(material), planeNormal(planeNormal), d(d),  oneSided(oneSided) {};
 

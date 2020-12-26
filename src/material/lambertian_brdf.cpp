@@ -1,6 +1,6 @@
 #include "lambertian_brdf.hpp"
-#include "../matrix3.hpp"
-#include "../helpers.hpp"
+#include "matrix3.hpp"
+#include "helpers.hpp"
 
 LambertianBRDF::LambertianBRDF(const double albedo): BxDF(false), albedo(albedo) {}
 

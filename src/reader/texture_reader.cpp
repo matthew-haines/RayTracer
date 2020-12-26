@@ -1,6 +1,6 @@
 #include "texture_reader.hpp"
-#include "../helpers.hpp"
-#include "../../lib/lodepng/lodepng.h"
+#include "helpers.hpp"
+#include "lodepng.h"
 #include <iostream>
 #include <stdexcept>
 

@@ -1,5 +1,5 @@
 #include "pathtracer.hpp"
-#include "../helpers.hpp"
+#include "helpers.hpp"
 #include <functional>
 
 PathTracer::PathTracer(Intersector& intersector, const int maxDepth, const Vector3 ambient): LightingModel(intersector, maxDepth, ambient) {}

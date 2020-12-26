@@ -1,7 +1,7 @@
 #ifndef TEXTURE_HPP
 #define TEXTURE_HPP
-#include "../vector3.hpp"
-#include "../vector2.hpp"
+#include "vector3.hpp"
+#include "vector2.hpp"
 #include <vector>
 
 class Texture {

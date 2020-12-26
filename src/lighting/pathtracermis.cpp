@@ -1,7 +1,7 @@
 #include "pathtracermis.hpp"
-#include "../primitive/primitive.hpp"
-#include "../helpers.hpp"
-#include "../constants.hpp"
+#include "primitive.hpp"
+#include "helpers.hpp"
+#include "constants.hpp"
 #include <functional>
 #include <iostream>
 

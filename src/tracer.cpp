@@ -1,13 +1,13 @@
 #include "vector3.hpp"
-#include "camera/perspective_camera.hpp"
+#include "perspective_camera.hpp"
 #include "scene.hpp"
-#include "lighting/pathtracer.hpp"
-#include "lighting/pathtracermis.hpp"
-#include "intersector/naive_intersector.hpp"
-#include "intersector/bvh_intersector.hpp"
-#include "../lib/json/json.hpp"
-#include "reader/camera_reader.hpp"
-#include "reader/scene_reader.hpp"
+#include "pathtracer.hpp"
+#include "pathtracermis.hpp"
+#include "naive_intersector.hpp"
+#include "bvh_intersector.hpp"
+#include "json.hpp"
+#include "camera_reader.hpp"
+#include "scene_reader.hpp"
 #include <cmath>
 #include <fstream>
 #include <iostream>
@@ -19,7 +19,7 @@
 #include <getopt.h>
 
 Vector3 ambient(0.0);
-int samples = 100;
+int samples = 128;
 int threads = 0;
 int width = 100, height = 100;
 int totalPixels;
@@ -83,6 +83,9 @@ int main(int argc, char *argv[]) {
                 samples = atoi(optarg);
                 break;
         }
+    }
+    if ((samples & (samples - 1)) != 0) {
+        std::cout << "WARNING: Sample count is not a power of 2, Sobol sampling will be suboptimal." << std::endl;
     }
 
     if (infilename.empty()) {

@@ -1,5 +1,5 @@
 #include "microfacet.hpp"
-#include "../helpers.hpp"
+#include "helpers.hpp"
 #include <cmath>
 // http://www.cs.cornell.edu/%7Esrm/publications/EGSR07-btdf.pdf
 

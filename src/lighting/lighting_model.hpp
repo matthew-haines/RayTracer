@@ -1,9 +1,9 @@
 #ifndef LIGHTING_MODEL_HPP
 #define LIGHTING_MODEL_HPP
 
-#include "../ray.hpp"
-#include "../intersector/intersector.hpp"
-#include "../camera/camera.hpp"
+#include "ray.hpp"
+#include "intersector.hpp"
+#include "camera.hpp"
 #include <vector>
 
 class LightingModel {

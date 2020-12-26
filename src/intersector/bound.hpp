@@ -1,7 +1,7 @@
 #ifndef BOUND_HPP
 #define BOUND_HPP
 
-#include "../ray.hpp"
+#include "ray.hpp"
 
 struct Bound {
     Vector3 min;

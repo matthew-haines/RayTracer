@@ -1,10 +1,10 @@
 #ifndef PRIMITIVE_HPP
 #define PRIMITIVE_HPP
 
-#include "../material/material.hpp"
-#include "../material/texture.hpp"
-#include "../intersector/bound.hpp"
-#include "../vector2.hpp"
+#include "material.hpp"
+#include "texture.hpp"
+#include "bound.hpp"
+#include "vector2.hpp"
 
 class Primitive {
     public:

@@ -1,7 +1,7 @@
 #ifndef BXDF_HPP
 #define BXDF_HPP
 
-#include "../vector3.hpp"
+#include "vector3.hpp"
 #include <random>
 
 class BxDF {

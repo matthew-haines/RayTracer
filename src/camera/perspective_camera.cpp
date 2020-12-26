@@ -1,5 +1,5 @@
 #include "perspective_camera.hpp"
-#include "../helpers.hpp"
+#include "helpers.hpp"
 #include <cmath>
 #include <random>
 

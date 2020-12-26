@@ -1,5 +1,5 @@
 #include "fresnel.hpp"
-#include "../helpers.hpp"
+#include "helpers.hpp"
 #include <cmath>
 
 double FresnelDielectric(double ndoti, double etaT, double etaI) {

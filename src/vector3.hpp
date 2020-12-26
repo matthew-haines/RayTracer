@@ -2,7 +2,7 @@
 #define VECTOR3_HPP
 
 #include "matrix3.hpp"
-#include "../lib/json/json.hpp"
+#include "json.hpp"
 
 class Vector3 {
     public:

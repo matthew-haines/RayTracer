@@ -1,7 +1,7 @@
 #ifndef VECTOR2_HPP
 #define VECTOR2_HPP
 
-#include "../lib/json/json.hpp"
+#include "json.hpp"
 
 class Vector2 {
     public:

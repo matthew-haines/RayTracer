@@ -1,5 +1,5 @@
 #include "phong_brdf.hpp"
-#include "../helpers.hpp"
+#include "helpers.hpp"
 #include "specular_reflect_brdf.hpp"
 #include <cmath>
 

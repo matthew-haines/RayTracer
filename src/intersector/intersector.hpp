@@ -1,8 +1,8 @@
 #ifndef INTERSECTOR_HPP
 #define INTERSECTOR_HPP
 
-#include "../intersection.hpp"
-#include "../scene.hpp"
+#include "intersection.hpp"
+#include "scene.hpp"
 #include <random>
 #include <vector>
 

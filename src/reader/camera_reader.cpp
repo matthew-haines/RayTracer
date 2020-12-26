@@ -1,6 +1,6 @@
 #include "camera_reader.hpp"
-#include "../camera/perspective_camera.hpp"
-#include "../camera/orthographic_camera.hpp"
+#include "perspective_camera.hpp"
+#include "orthographic_camera.hpp"
 #include <stdexcept>
 
 Camera* parseCamera(const json j, const std::size_t width, const std::size_t height, const int samples) {

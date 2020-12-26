@@ -1,8 +1,8 @@
 #ifndef CAMERA_READER_HPP
 #define CAMERA_READER_HPP
 
-#include "../camera/camera.hpp"
-#include "../../lib/json/json.hpp"
+#include "camera.hpp"
+#include "json.hpp"
 #include <string>
 
 using json = nlohmann::json;

@@ -1,5 +1,5 @@
 #include "microfacet_bsdf.hpp"
-#include "../helpers.hpp"
+#include "helpers.hpp"
 #include "specular_reflect_brdf.hpp"
 #include "specular_refract_btdf.hpp"
 #include <cmath>

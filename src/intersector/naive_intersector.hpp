@@ -2,7 +2,7 @@
 #define NAIVE_INTERSECTOR_HPP
 
 #include "intersector.hpp"
-#include "../scene.hpp"
+#include "scene.hpp"
 #include <random>
 #include <vector>
 

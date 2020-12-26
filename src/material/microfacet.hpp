@@ -1,7 +1,7 @@
 #ifndef MICROFACET_HPP
 #define MICROFACET_HPP
 
-#include "../vector3.hpp"
+#include "vector3.hpp"
 
 class MicrofacetDistribution {
     public:

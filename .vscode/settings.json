@@ -88,5 +88,6 @@
         "set": "cpp",
         "cfenv": "cpp",
         "typeindex": "cpp"
-    }
+    },
+    "clangd.arguments": ["--compile-commands-dir=build", "--query-driver=/usr/bin/clang++"]
 }

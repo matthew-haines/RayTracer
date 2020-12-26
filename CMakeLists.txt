@@ -12,11 +12,9 @@ else()
     add_compile_options(-O)
 endif()
 
-add_library(
-    lodepng
-    lib/lodepng/lodepng.h
-    lib/lodepng/lodepng.cpp
-    )
+add_library(lodepng lib/lodepng/lodepng.cpp)
+
+target_include_directories(lodepng PUBLIC lib/lodepng)
 
 set(
     SOURCES
@@ -107,4 +105,4 @@ set(
 add_executable(tracer src/tracer.cpp ${SOURCES} ${HEADERS})
 
 target_include_directories(tracer PUBLIC src src/camera src/intersector src/lighting src/material src/primitive src/reader lib/json)
-target_link_libraries(tracer PUBLIC lodepng pthread m)
+target_link_libraries(tracer lodepng pthread m)

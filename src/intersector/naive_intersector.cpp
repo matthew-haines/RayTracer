@@ -1,5 +1,5 @@
 #include "naive_intersector.hpp"
-#include "../constants.hpp"
+#include "constants.hpp"
 #include <limits>
 
 NaiveIntersector::NaiveIntersector(Scene* const scene): Intersector(scene) {};

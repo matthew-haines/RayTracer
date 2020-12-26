@@ -1,7 +1,7 @@
 #ifndef INTERSECTION_HPP
 #define INTERSECTION_HPP
 
-#include "primitive/primitive.hpp"
+#include "primitive.hpp"
 
 typedef struct intersection {
     Vector3 intersect;

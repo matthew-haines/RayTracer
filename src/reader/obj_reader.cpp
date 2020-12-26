@@ -1,6 +1,6 @@
 #include "obj_reader.hpp"
-#include "../primitive/triangle.hpp"
-#include "../matrix3.hpp"
+#include "triangle.hpp"
+#include "matrix3.hpp"
 #include <fstream>
 
 ComplexPrimitive* parseObjFile(const std::string filepath, Material* const material, const Vector3 position, const Vector3 rotation, const double scale, const bool normal) {
