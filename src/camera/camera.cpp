@@ -4,7 +4,7 @@
 #include <cmath>
 #include <iostream>
 
-Camera::Camera(const std::size_t width, const std::size_t height, const Vector3 direction, const Vector3 position): direction(direction), position(position), width(width), height(height)  {
+Camera::Camera(const std::size_t width, const std::size_t height, const int samples, const Vector3 direction, const Vector3 position): direction(direction), position(position), width(width), height(height), samples(samples) {
     result = std::vector<Vector3>(width * height);
     rotation = Matrix3::createFromDirection(direction.normalized());
     //rotation = Matrix3::createEulerRotationMatrix(0.0, std::atan(direction.z / Vector3(direction.x, direction.y, 0.0).length()), std::atan(direction.y / direction.x));

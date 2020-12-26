@@ -19,11 +19,12 @@ class Camera {
         Matrix3 rotation;
         const Vector3 direction;
         const Vector3 position;
+        const int samples;
         void buildQueue();
     public:
         const std::size_t width;
         const std::size_t height;
-        Camera(const std::size_t width, const std::size_t height, const Vector3 direction, const Vector3 position);
+        Camera(const std::size_t width, const std::size_t height, const int samples, const Vector3 direction, const Vector3 position);
         void write(const std::string path, const double gamma = 2.2, const std::size_t threads = 1) const;
         std::function<Ray()> next(Vector3** location);
 };

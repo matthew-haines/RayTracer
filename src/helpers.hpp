@@ -62,9 +62,11 @@ class Sobol {
     private:
         double* x;
         double* y;
+        double min;
+        double max;
         int i;
     public:
-        Sobol(int n, std::mt19937 gen, std::uniform_int_distribution<uint32_t> dist);
+        Sobol(int n, double min, double max, std::mt19937 gen, std::uniform_int_distribution<uint32_t> dist);
         Vector2 next();
 };
 

@@ -13,7 +13,7 @@ class OrthographicCamera: public Camera {
         double maxHeight;
         const bool jitter;
     public:
-        OrthographicCamera(const double scale, const bool jitter, const std::size_t width, const std::size_t height, const Vector3 direction = Vector3(1, 0, 0), const Vector3 position = Vector3(0));
+        OrthographicCamera(const double scale, const bool jitter, const std::size_t width, const std::size_t height, const int samples, const Vector3 direction = Vector3(1, 0, 0), const Vector3 position = Vector3(0));
         std::function<Ray()> getPixelFunction(const int row, const int column);
 };
 

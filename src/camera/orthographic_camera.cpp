@@ -1,6 +1,6 @@
 #include "orthographic_camera.hpp"
 
-OrthographicCamera::OrthographicCamera(const double scale, const bool jitter, const std::size_t width, const std::size_t height, Vector3 direction, Vector3 position): Camera(width, height, direction, position), jitter(jitter) {
+OrthographicCamera::OrthographicCamera(const double scale, const bool jitter, const std::size_t width, const std::size_t height, const int samples, Vector3 direction, Vector3 position): Camera(width, height, samples, direction, position), jitter(jitter) {
     maxWidth = scale;
     gridSize = maxWidth / width;
     maxHeight = gridSize * height;

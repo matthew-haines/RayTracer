@@ -105,7 +105,7 @@ int main(int argc, char *argv[]) {
     std::ifstream f(infilename);
     json j;
     f >> j;
-    Camera* camera = parseCamera(j, width, height);
+    Camera* camera = parseCamera(j, width, height, samples);
     Scene scene = parseScene(j);
     
     BVHIntersector intersector(&scene, threads);

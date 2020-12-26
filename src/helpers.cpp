@@ -152,7 +152,7 @@ double* SobolSample(const uint32_t* C, uint32_t n, uint32_t scramble, std::mt199
     return out;
 }
 
-Sobol::Sobol(int n, std::mt19937 gen, std::uniform_int_distribution<uint32_t> dist) {
+Sobol::Sobol(int n, double min, double max, std::mt19937 gen, std::uniform_int_distribution<uint32_t> dist): min(min), max(max) {
     // Sampling Matrix taken from PBR Book
     const uint32_t CSobol[2][32] = {
         {0x80000000, 0x40000000, 0x20000000, 0x10000000, 0x8000000, 0x4000000,
@@ -173,5 +173,5 @@ Sobol::Sobol(int n, std::mt19937 gen, std::uniform_int_distribution<uint32_t> di
 Vector2 Sobol::next() {
     Vector2 r(x[i], y[i]);
     i++;
-    return r;
+    return (r * (max - min)) + min;
 }
