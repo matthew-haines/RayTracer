@@ -3,6 +3,8 @@
 #include "specular_refract_btdf.hpp"
 #include "fresnel.hpp"
 #include "../helpers.hpp"
+#include <cmath>
+#include <iostream>
 
 FresnelSpecularBSDF::FresnelSpecularBSDF(const double refractionIndex): BxDF(true), refractionIndex(refractionIndex) {}
 
@@ -22,7 +24,7 @@ double FresnelSpecularBSDF::pdf(const Vector3 in, const Vector3 normal, const Ve
 }
 
 Vector3 FresnelSpecularBSDF::operator()(const Vector3 in, const Vector3 normal, Vector3& out, double& probability) {
-    double fresnel = FresnelDielectric(normal.dot(in), refractionIndex, 1);
+    double fresnel = FresnelDielectric(normal.dot(-in), refractionIndex, 1);
     if (dist(gen) < fresnel) {
         out = SpecularReflectBRDF::getReflection(in, normal);
     } else {
