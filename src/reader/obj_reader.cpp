@@ -3,7 +3,7 @@
 #include "matrix3.hpp"
 #include <fstream>
 
-ComplexPrimitive* parseObjFile(const std::string filepath, Material* const material, const Vector3 position, const Vector3 rotation, const double scale, const bool normal) {
+ComplexPrimitive* parseObjFile(const std::string filepath, const Material material, const Vector3 position, const Vector3 rotation, const double scale, const bool normal) {
     // only handles faces and vertices for now
     std::vector<Vector3> vertices;
     std::vector<Vector3> normals;

@@ -1,9 +1,10 @@
 #include "triangle.hpp"
 #include "constants.hpp"
 #include "helpers.hpp"
+#include "material.hpp"
 #include <cmath>
 
-Triangle::Triangle(const Vector3 v0, const Vector3 v1, const Vector3 v2, Material* const material, const bool normals, const Vector3 vn0, const Vector3 vn1, const Vector3 vn2): Primitive(material), v0(v0), v1(v1), v2(v2), normals(normals), vn0(vn0), vn1(vn1), vn2(vn2) {
+Triangle::Triangle(const Vector3 v0, const Vector3 v1, const Vector3 v2, const Material material, const bool normals, const Vector3 vn0, const Vector3 vn1, const Vector3 vn2): Primitive(material), v0(v0), v1(v1), v2(v2), normals(normals), vn0(vn0), vn1(vn1), vn2(vn2) {
     e1 = (v1-v0);
     e2 = (v2-v0);
     planeNormal = e1.cross(e2).normalized();

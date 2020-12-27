@@ -4,7 +4,7 @@
 #include "matrix3.hpp"
 #include <cmath>
 
-Sphere::Sphere(const Vector3 center, const double radius, Material* const material): Primitive(material), center(center), radius(radius), radius2(radius * radius) {
+Sphere::Sphere(const Vector3 center, const double radius, const Material material): Primitive(material), center(center), radius(radius), radius2(radius * radius) {
 }
 
 double Sphere::intersect(const Ray ray, Vector3* const intersect, Vector3* const normal) const {

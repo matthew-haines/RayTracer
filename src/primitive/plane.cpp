@@ -1,7 +1,8 @@
 #include "plane.hpp"
 #include "constants.hpp"
+#include "material.hpp"
 
-Plane::Plane(const Vector3 planeNormal, const double d, Material* const material, const bool oneSided): Primitive(material), planeNormal(planeNormal), d(d),  oneSided(oneSided) {};
+Plane::Plane(const Vector3 planeNormal, const double d, const Material material, const bool oneSided): Primitive(material), planeNormal(planeNormal), d(d),  oneSided(oneSided) {};
 
 double Plane::intersect(const Ray ray, Vector3* const intersect, Vector3* const normal) const {
    double vd = planeNormal.dot(ray.direction);

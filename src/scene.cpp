@@ -9,7 +9,7 @@ Scene::Scene() {
 void Scene::insert(const std::variant<Primitive*, ComplexPrimitive*> object) {    
     if (std::holds_alternative<Primitive*>(object)) {
         Primitive* primitive = std::get<Primitive*>(object);
-        if (primitive->material->emission != 0.) {
+        if (primitive->material.emission != 0.) {
             lights.push_back(primitive);
         }
         primitives.push_back(primitive);
@@ -17,7 +17,7 @@ void Scene::insert(const std::variant<Primitive*, ComplexPrimitive*> object) {
         ComplexPrimitive* complexPrimitive = std::get<ComplexPrimitive*>(object);
         primitives.insert(primitives.end(), complexPrimitive->primitives.begin(), complexPrimitive->primitives.end());
         for (Primitive* primitive : complexPrimitive->primitives) {
-            if (primitive->material->emission != 0.) {
+            if (primitive->material.emission != 0.) {
                 lights.push_back(primitive);
             }
         }

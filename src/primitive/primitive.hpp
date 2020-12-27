@@ -9,8 +9,8 @@
 // Base class for any primitive implemented.
 class Primitive {
     public:
-        Material* const material;
-        Primitive(Material* const material);
+        const Material material;
+        Primitive(const Material material);
         // Intersection test. Takes ray and returns distance (-1 if no intersect). 
         // Updates intersect/normal with information when required.
         virtual double intersect(const Ray ray, Vector3* const intersect, Vector3* const normal) const =0; // Must return -1 if no intersect

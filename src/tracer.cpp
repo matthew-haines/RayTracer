@@ -24,6 +24,7 @@ int threads = 0;
 int width = 100, height = 100;
 int totalPixels;
 int completedPixels = 0;
+int depth = 4;
 std::string infilename;
 std::string outfilename("out.png");
 
@@ -112,7 +113,7 @@ int main(int argc, char *argv[]) {
     Scene scene = parseScene(j);
     
     BVHIntersector intersector(&scene, threads);
-    PathTracerMIS model(intersector, 4, Vector3(0.));
+    PathTracerMIS model(intersector, depth, Vector3(0.));
 
     std::cout << "Rendering" << std::endl;
     auto start = std::chrono::high_resolution_clock::now();

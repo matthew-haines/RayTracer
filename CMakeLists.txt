@@ -8,8 +8,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 add_compile_options(-Wall)
 if (CMAKE_BUILD_TYPE MATCHES Debug)
     add_compile_options(-g)
-else()
-    add_compile_options(-O)
 endif()
 
 add_library(lodepng lib/lodepng/lodepng.cpp)

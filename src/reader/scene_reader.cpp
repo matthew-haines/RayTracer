@@ -27,18 +27,22 @@ Scene parseScene(const json j) {
         std::string name = bxdf_json->at("name").get<std::string>();
         BxDF *bxdf;
         std::string type = bxdf_json->at("type").get<std::string>();
-        auto params = bxdf_json->at("params");
         if (type == "LambertianBRDF") {
+            auto params = bxdf_json->at("params");
             bxdf = new LambertianBRDF(params.at("albedo").get<double>());
         } else if (type == "SpecularReflectBRDF") {
             bxdf = new SpecularReflectBRDF();
         } else if (type == "SpecularRefractBTDF") {
+            auto params = bxdf_json->at("params");
             bxdf = new SpecularRefractBTDF(params.at("refractionIndex").get<double>());
         } else if (type == "FresnelSpecularBSDF") {
+            auto params = bxdf_json->at("params");
             bxdf = new FresnelSpecularBSDF(params.at("refractionIndex").get<double>());
         } else if (type == "PhongBRDF") {
+            auto params = bxdf_json->at("params");
             bxdf = new PhongBRDF(params.at("kd").get<double>(), params.at("ks").get<double>(), params.at("n").get<double>());
         } else if (type == "MicrofacetBSDF") {
+            auto params = bxdf_json->at("params");
             double refractionIndex = params.contains("refractionIndex") ? params["refractionIndex"].get<double>() : 2;
             MicrofacetDistribution* distribution;
             {
@@ -93,7 +97,7 @@ Scene parseScene(const json j) {
         }
     }
 
-    std::map<std::string, Material*> materials;
+    std::map<std::string, Material> materials;
     json materials_json = j.at("materials");
     if (!materials_json.is_array()) {
         throw std::runtime_error("Bad material list");
@@ -101,9 +105,9 @@ Scene parseScene(const json j) {
     for (json::iterator material_json = materials_json.begin(); material_json != materials_json.end(); ++material_json) {
         try {
             std::string name = material_json->at("name").get<std::string>();
-            Material* material = new Material;
-            material->emission = material_json->at("emission").get<double>();
-            material->bxdf = bxdfs[material_json->at("bxdf").get<std::string>()];
+            Material material;
+            material.emission = material_json->at("emission").get<double>();
+            material.bxdf = bxdfs[material_json->at("bxdf").get<std::string>()];
             materials[name] = material;
         } catch (const char* error) {
             throw std::runtime_error("Error parsing material");
@@ -115,7 +119,7 @@ Scene parseScene(const json j) {
     for (json::iterator object_json = objects_json.begin(); object_json != objects_json.end(); ++object_json) {
         std::variant<Primitive*, ComplexPrimitive*> object;
         std::string type = object_json->at("type").get<std::string>();
-        Material* material = materials.at(object_json->at("material").get<std::string>());
+        Material material = materials.at(object_json->at("material").get<std::string>());
 
         json texture_map_json = object_json->at("textureMap");
         Texture* texture = textures[texture_map_json.at("texture").get<std::string>()];
@@ -132,7 +136,7 @@ Scene parseScene(const json j) {
             Vector2 offset = texture_map_json.contains("offset") ? texture_map_json.at("offset").get<Vector2>() : Vector2(0);
             texture_map = new SimpleTextureMap(scale, offset, texture);
         }
-        material->textureMap = texture_map;
+        material.textureMap = texture_map;
 
         if (type == "Sphere") {
             Vector3 center = object_json->at("center").get<Vector3>();

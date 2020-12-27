@@ -1,0 +1,162 @@
+{
+    "camera": {
+        "type": "PerspectiveCamera",
+        "position": [-1.99, 0, 0],
+        "direction": [5.5, -2.2, -3],
+        "fov": 0.6
+    },
+    "bxdfs": [
+        {
+            "name": "Lambertian",
+            "type": "LambertianBRDF",
+            "params": {
+                "albedo": 1
+            }
+        },
+        {
+            "name": "Mirror",
+            "type": "SpecularReflectBRDF"
+        },
+        {
+            "name": "Glass",
+            "type": "FresnelSpecularBSDF",
+            "params": {
+                "refractionIndex": 1.5
+            }
+        }
+    ],
+    "textures": [
+        {
+            "name": "white",
+            "type": "ConstantTexture",
+            "color": [1, 1, 1]
+        },
+        {
+            "name": "red",
+            "type": "ConstantTexture",
+            "color": [1, 0, 0]
+        },
+        {
+            "name": "green",
+            "type": "ConstantTexture",
+            "color": [0, 1, 0]
+        }
+    ],
+    "materials": [
+        {
+            "name": "Light",
+            "emission": 5,
+            "bxdf": "Lambertian"
+        },
+        {
+            "name": "lambertian",
+            "emission": 0,
+            "bxdf": "Lambertian"
+        },
+        {
+            "name": "Mirror",
+            "emission": 0,
+            "bxdf": "Mirror"
+        },
+        {
+            "name": "Glass",
+            "emission": 0,
+            "bxdf": "Glass"
+        }
+    ],
+    "objects": [
+        {
+            "type": "Sphere",
+            "material": "Light",
+            "textureMap": {
+                "texture": "white"
+            },
+            "center": [4.25, 0, 4],
+            "radius": 1
+        },
+        {
+            "type": "Sphere",
+            "material": "Mirror",
+            "textureMap": {
+                "texture": "white"
+            },
+            "center": [4, 2.5, -3],
+            "radius": 1.2
+        },
+        {
+            "type": "Sphere",
+            "material": "Glass",
+            "textureMap": {
+                "texture": "white"
+            },
+            "center": [3.5, -2.2, -3],
+            "radius": 1.2
+        },
+        {
+            "type": "Quad",
+            "material": "lambertian",
+            "textureMap": {
+                "texture": "white"
+            },
+            "v0": [6, 4, 4],
+            "v1": [6, -4, 4],
+            "v2": [6, -4, -4],
+            "v3": [6, 4, -4]
+        },
+        {
+            "type": "Quad",
+            "material": "lambertian",
+            "textureMap": {
+                "texture": "white"
+            },
+            "v0": [-2, 4, 4],
+            "v1": [-2, -4, 4],
+            "v2": [-2, -4, -4],
+            "v3": [-2, 4, -4]
+        },
+        {
+            "type": "Quad",
+            "material": "lambertian",
+            "textureMap": {
+                "texture": "white"
+            },
+            "v0": [6, 4, 4],
+            "v1": [6, -4, 4],
+            "v2": [-2, -4, 4],
+            "v3": [-2, 4, 4]
+        },
+        {
+            "type": "Quad",
+            "material": "lambertian",
+            "textureMap": {
+                "texture": "white"
+            },
+            "v0": [6, 4, -4],
+            "v1": [6, -4, -4],
+            "v2": [-2, -4, -4],
+            "v3": [-2, 4, -4]
+        },
+        {
+            "type": "Quad",
+            "material": "lambertian",
+            "textureMap": {
+                "texture": "red"
+            },
+            "v0": [6, 4, 4],
+            "v1": [6, 4, -4],
+            "v2": [-2, 4, -4],
+            "v3": [-2, 4, 4]
+        },
+        {
+            "type": "Quad",
+            "material": "lambertian",
+            "textureMap": {
+                "texture": "green"
+            },
+            "v0": [6, -4, 4],
+            "v1": [6, -4, -4],
+            "v2": [-2, -4, -4],
+            "v3": [-2, -4, 4]
+        }
+    ]
+}
