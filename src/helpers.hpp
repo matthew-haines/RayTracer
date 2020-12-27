@@ -67,14 +67,14 @@ double powerHeuristic(const double a, const double b);
 double positiveCharacteristic(const double a);
 
 // Fast sampling algorithm taken from PBR Book using Gray codes.
-double* SobolSample(const uint32_t* C, uint32_t n, uint32_t scramble, std::mt19937 gen);
+std::vector<double> SobolSample(const uint32_t* C, uint32_t n, uint32_t scramble, std::mt19937 gen);
 
 // 2D Sobol sampling class, builds n samples on contruction and provides 
 // them with next().
 class Sobol {
     private:
-        double* x;
-        double* y;
+        std::vector<double> x;
+        std::vector<double> y;
         double min;
         double max;
         int i;

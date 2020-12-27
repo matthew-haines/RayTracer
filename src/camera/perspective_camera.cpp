@@ -1,6 +1,7 @@
 #include "perspective_camera.hpp"
 #include "helpers.hpp"
 #include <cmath>
+#include <memory>
 #include <random>
 
 PerspectiveCamera::PerspectiveCamera(const double fov, const bool jitter, const double focalDistance, const double lenseRadius, const std::size_t width, const std::size_t height, const int samples, const Vector3 direction, const Vector3 position): Camera(width, height, samples, direction, position), jitter(jitter), focalDistance(focalDistance), lenseRadius(lenseRadius) {
@@ -25,7 +26,7 @@ PerspectiveCamera::PerspectiveCamera(const double fov, const bool jitter, const 
 std::function<Ray()> PerspectiveCamera::getPixelFunction(const int row, const int column) {
     std::function<Ray()> func;
     if (lenseRadius != 0.) {
-        Sobol* sampler = new Sobol(samples, -gridSize/2, gridSize/2, gen, uintdist);
+        auto sampler = std::make_shared<Sobol>(samples, -gridSize/2, gridSize/2, gen, uintdist);
         func = [this, row, column, sampler]() {
             Vector2 jitter_vec = sampler->next();
 
@@ -36,7 +37,7 @@ std::function<Ray()> PerspectiveCamera::getPixelFunction(const int row, const in
             return Ray(origin + position, direction.normalized() + position);
         };
     } else if (jitter) {
-        Sobol* sampler = new Sobol(samples, -gridSize/2, gridSize/2, gen, uintdist);
+        auto sampler = std::make_shared<Sobol>(samples, -gridSize/2, gridSize/2, gen, uintdist);
         func = [this, row, column, sampler]() {
             Vector2 jitter_vec = sampler->next();
 

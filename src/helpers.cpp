@@ -134,14 +134,14 @@ double positiveCharacteristic(const double a) {
     return a > 0 ? 1 : 0;
 }
 
-double* SobolSample(const uint32_t* C, uint32_t n, uint32_t scramble, std::mt19937 gen) {
+std::vector<double> SobolSample(const uint32_t* C, uint32_t n, uint32_t scramble, std::mt19937 gen) {
     uint32_t v = scramble; 
-    double* out = new double[n];
+    std::vector<double> out(n);
     for (uint32_t i = 0; i < n; ++i) {
         out[i] = std::min((double)(v * 0x1p-32f), 1.);
         v ^= C[__builtin_ctz(i+1)]; // __builtin_ctz: count trailing zeros
     }
-    std::shuffle(out, out + n, gen);
+    std::shuffle(out.begin(), out.end(), gen);
     return out;
 }
 
