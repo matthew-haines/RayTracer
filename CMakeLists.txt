@@ -11,8 +11,14 @@ if (CMAKE_BUILD_TYPE MATCHES Debug)
 endif()
 
 add_library(lodepng lib/lodepng/lodepng.cpp)
-
 target_include_directories(lodepng PUBLIC lib/lodepng)
+
+add_library(json INTERFACE)
+target_include_directories(json INTERFACE lib/json)
+
+# Catch2
+add_library(Catch2 INTERFACE)
+target_include_directories(Catch2 INTERFACE lib/catch2)
 
 set(
     SOURCES
@@ -100,7 +106,12 @@ set(
     src/scene.hpp
     )
 
-add_executable(tracer src/tracer.cpp ${SOURCES} ${HEADERS})
+add_library(common STATIC ${SOURCES} ${HEADERS})
+target_include_directories(common PUBLIC src src/camera src/intersector src/lighting src/material src/primitive src/reader)
+target_link_libraries(common lodepng json pthread m)
 
-target_include_directories(tracer PUBLIC src src/camera src/intersector src/lighting src/material src/primitive src/reader lib/json)
-target_link_libraries(tracer lodepng pthread m)
+add_executable(tracer src/tracer.cpp)
+target_link_libraries(tracer common)
+
+add_executable(tests tests/tests.cpp)
+target_link_libraries(tests common Catch2)
