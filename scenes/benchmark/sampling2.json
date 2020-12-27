@@ -42,17 +42,6 @@
     ],
     "objects": [
         {
-            "type": "Triangle",
-            "material": "surface",
-            "textureMap": {
-                "texture": "white",
-                "scale": [0.04, 0.04]
-            },
-            "v0": [6, -20, -20],
-            "v1": [6, 20, -20],
-            "v2": [6, 0, 20]
-        },
-        {
             "type": "Sphere",
             "material": "Light",
             "textureMap": {

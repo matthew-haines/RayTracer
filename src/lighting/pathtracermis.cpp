@@ -63,7 +63,7 @@ Vector3 PathTracerMIS::evaluate(const Ray ray, const int depth, const Intersecti
         Vector3 bxdfEval;
         Vector3 nextRay = Vector3(0.);
         {
-            bxdfEval = (*material.bxdf)(ray.direction, intersection.normal, direction, bxdfProbability) * std::abs(intersection.normal.dot(direction));
+            bxdfEval = primitiveColor * (*material.bxdf)(ray.direction, intersection.normal, direction, bxdfProbability) * std::abs(intersection.normal.dot(direction));
             if (!(bxdfEval == Vector3(0.))) {
                 double lightProbability = light->directionalSamplePdf(intersection.intersect, direction);
                 Intersection lightIntersection;

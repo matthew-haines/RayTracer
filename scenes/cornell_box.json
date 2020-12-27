@@ -45,7 +45,7 @@
     "materials": [
         {
             "name": "Light",
-            "emission": 5,
+            "emission": 8,
             "bxdf": "Lambertian"
         },
         {
