@@ -24,7 +24,6 @@ double charToColor(const unsigned char color) {
     return (double)color / 255.0;
 }
 
-// Samples hemisphere around (0, 0, 1)
 Vector3 UniformSampleHemisphere::sample(const double u1, const double u2) {
     double z = u1;
     double r = std::sqrt(std::max(0., 1. - z * z));
@@ -46,7 +45,6 @@ double UniformSampleSphere::pdf() {
     return 0.25 / M_PI;
 }
 
-// Samples cone of directions given a maximum angle from a direction.
 Vector3 UniformSampleCone::sample(const double u1, const double u2, const Vector3 direction, const double thetaMax) {
     double alt = thetaMax * u1;
     double azi = 2 * M_PI * u2;
@@ -58,7 +56,6 @@ double UniformSampleCone::pdf(const double cosThetaMax) {
     return 1 / (2 * M_PI * (1 - cosThetaMax));
 }
  
-// Samples point on unit disk given args in [0, 1)
 Vector2 ConcentricSampleDisk::sample(double u1, double u2) {
     u1 = 2 * u1 - 1;
     u2 = 2 * u2 - 1;
@@ -81,7 +78,6 @@ double ConcentricSampleDisk::pdf() {
     return 0.5 / M_PI;
 }
 
-// Samples hemisphere around (0, 0, 1) with cosine weighting.
 Vector3 CosineSampleHemisphere::sample(const double u1, const double u2) {
     Vector2 diskMapping = ConcentricSampleDisk::sample(u1, u2);
     double z = std::sqrt(std::max(0., 1. - square(diskMapping.x) - square(diskMapping.y)));
@@ -92,7 +88,6 @@ double CosineSampleHemisphere::pdf(const double cosTheta) {
     return (cosTheta / M_PI);
 }
 
-// Takes threads and function to apply at each iteration of loop, function takes index
 void parallelizeLoop(const int threads, const std::function<void(int)> func, const int range, const bool showProgress) {
     std::vector<std::thread> threadpool;
 
@@ -131,18 +126,15 @@ void parallelizeLoop(const int threads, const std::function<void(int)> func, con
     }
 }
 
-// Power heurstic weighting for a.
 double powerHeuristic(const double a, const double b) {
     return square(a) / (square(a) + square(b));
 }
 
-// Returns 1 if a > 0 and 0 otherwise
 double positiveCharacteristic(const double a) {
     return a > 0 ? 1 : 0;
 }
 
 double* SobolSample(const uint32_t* C, uint32_t n, uint32_t scramble, std::mt19937 gen) {
-    // Fast sampling algorithm taken from PBR Book using Gray codes.
     uint32_t v = scramble; 
     double* out = new double[n];
     for (uint32_t i = 0; i < n; ++i) {
