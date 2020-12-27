@@ -6,6 +6,7 @@
 #include <random>
 #include <vector>
 
+// Trivial naive Intersector. Checks ray against every primitive in the scene.
 class NaiveIntersector: public Intersector {
     public:
         NaiveIntersector(Scene* const scene);

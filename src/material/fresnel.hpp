@@ -1,6 +1,7 @@
 #ifndef FRESNEL_HPP
 #define FRESNEL_HPP
 
+// Base class for the different Fresnel implementations.
 class Fresnel {
     public:
         Fresnel() {};

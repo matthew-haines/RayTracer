@@ -3,6 +3,7 @@
 
 #include "bxdf.hpp"
 
+// Implementation of the Phong shading model as a BRDF.
 class PhongBRDF: public BxDF {
     private:
         const double kd;

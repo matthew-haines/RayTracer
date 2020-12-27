@@ -6,6 +6,7 @@
 #include "camera.hpp"
 #include <vector>
 
+// Base class for any lighting integrator, handles most of the rendering.
 class LightingModel {
     protected:
         Intersector& intersector;
@@ -14,6 +15,7 @@ class LightingModel {
     public:
         LightingModel(Intersector& intersector, const int maxDepth, const Vector3 ambient);
         void render(Camera& camera, const int threads, const int samples);
+        // Recursive function defined by any derived class, evaluates the contribution of a given ray to the scene. 
         virtual Vector3 evaluate(const Ray ray, const int depth, const Intersection& lastIntersection)=0;
 };
 

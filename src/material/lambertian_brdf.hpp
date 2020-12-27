@@ -3,6 +3,7 @@
 
 #include "bxdf.hpp"
 
+// Lambertian BRDF, has fixed albedo.
 class LambertianBRDF: public BxDF {
     private:
         const double albedo;

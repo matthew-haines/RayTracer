@@ -5,6 +5,7 @@
 #include "fresnel.hpp"
 #include "microfacet.hpp"
 
+// Base class for any microfacet BSDF, fresnel and the microfacet distribution can be mixed and matched.
 class MicrofacetBSDF: public BxDF {
     private:
         const double refractionIndex;

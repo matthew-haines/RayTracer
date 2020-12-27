@@ -3,6 +3,7 @@
 
 #include "bxdf.hpp"
 
+// Simple reflection BRDF, no fresnel effect.
 class SpecularReflectBRDF: public BxDF {
     public:
         SpecularReflectBRDF();

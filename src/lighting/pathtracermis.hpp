@@ -4,6 +4,7 @@
 #include "lighting_model.hpp"
 #include <random>
 
+// More advanced path tracer, includes multiple importance sampling of scene lighting.
 class PathTracerMIS: public LightingModel {
     public:
         PathTracerMIS(Intersector& intersector, const int maxDepth, const Vector3 ambient=Vector3(0.));

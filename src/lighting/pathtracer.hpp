@@ -3,6 +3,7 @@
 
 #include "lighting_model.hpp"
 
+// Naive path tracer, includes simple importance sampling.
 class PathTracer: public LightingModel {
     public:
         PathTracer(Intersector& intersector, const int maxDepth, const Vector3 ambient=Vector3(0.));

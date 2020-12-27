@@ -4,6 +4,7 @@
 #include "primitive.hpp"
 #include <vector>
 
+// DEPRECATED: Infinite plane with given normal and offset. Limits efficiency of BVH.
 class Plane: public Primitive {
     protected:
         // Ax + Bx + Cx + D = 0

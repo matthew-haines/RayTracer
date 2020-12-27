@@ -3,6 +3,7 @@
 
 #include "bxdf.hpp"
 
+// BSDF that takes into account the Fresnel Equations for refraction/reflection.
 class FresnelSpecularBSDF: public BxDF {
     private:
         const double refractionIndex;

@@ -25,9 +25,9 @@ PerspectiveCamera::PerspectiveCamera(const double fov, const bool jitter, const 
 std::function<Ray()> PerspectiveCamera::getPixelFunction(const int row, const int column) {
     std::function<Ray()> func;
     if (lenseRadius != 0.) {
-        auto sampler = new Sobol(samples, -gridSize/2, gridSize/2, gen, uintdist);
+        Sobol* sampler = new Sobol(samples, -gridSize/2, gridSize/2, gen, uintdist);
         func = [this, row, column, sampler]() {
-            auto jitter_vec = sampler->next();
+            Vector2 jitter_vec = sampler->next();
 
             Vector3 normalPoint = rotation * Vector3(focalDistance, (maxWidth - gridSize) / 2 - column * gridSize + jitter_vec.x, (maxHeight - gridSize) / 2 - row * gridSize + jitter_vec.y);
             Vector2 point = lenseRadius * ConcentricSampleDisk::sample(dofDist(gen), dofDist(gen));
@@ -36,9 +36,9 @@ std::function<Ray()> PerspectiveCamera::getPixelFunction(const int row, const in
             return Ray(origin + position, direction.normalized() + position);
         };
     } else if (jitter) {
-        auto sampler = new Sobol(samples, -gridSize/2, gridSize/2, gen, uintdist);
+        Sobol* sampler = new Sobol(samples, -gridSize/2, gridSize/2, gen, uintdist);
         func = [this, row, column, sampler]() {
-            auto jitter_vec = sampler->next();
+            Vector2 jitter_vec = sampler->next();
 
             Vector3 rayDirection = rotation * Vector3(1.0, (maxWidth - gridSize) / 2 - column * gridSize + jitter_vec.x, (maxHeight - gridSize) / 2 - row * gridSize + jitter_vec.y).normalized();
             return Ray(position, rayDirection);

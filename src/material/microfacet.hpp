@@ -8,7 +8,7 @@ class MicrofacetDistribution {
         MicrofacetDistribution() {};
         virtual double Distribution(const Vector3 m, const Vector3 n) const=0;
         virtual double Geometry(const Vector3 i, const Vector3 o, const Vector3 m, const Vector3 n) const=0;
-        // Returns in spherical coordinates
+        // Samples a out vector, returns in spherical coordinates
         virtual Vector3 Sample(const double e1, const double e2) const=0;
 };
 

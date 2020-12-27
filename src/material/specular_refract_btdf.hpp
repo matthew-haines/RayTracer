@@ -3,6 +3,7 @@
 
 #include "bxdf.hpp"
 
+// Simple refraction BTDF, no fresnel.
 class SpecularRefractBTDF: public BxDF {
     private:
         const double refractionIndex;

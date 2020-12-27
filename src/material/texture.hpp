@@ -4,9 +4,11 @@
 #include "vector2.hpp"
 #include <vector>
 
+// Texture base class.
 class Texture {
     public:
         Texture();
+        // Needs to return a colour for a given point in real^2.
         virtual Vector3 getColorAtUV(const Vector2& point) const =0;
 };
 
@@ -35,6 +37,8 @@ class ConstantTexture: public Texture {
         Vector3 getColorAtUV(const Vector2& point) const;
 };
 
+// TextureMap base class, abstracts some of the more advanced mapping 
+// away from the texture it wraps.
 class TextureMap {
     protected:
         Texture* const texture;
@@ -43,6 +47,8 @@ class TextureMap {
         virtual Vector3 mapPoint(const Vector2& point) const =0;
 };
 
+// TextureMap, scales a given point by given factors in both directions 
+// and then adds an offset.
 class SimpleTextureMap: public TextureMap {
     private:
         const Vector2 scale, offset;
