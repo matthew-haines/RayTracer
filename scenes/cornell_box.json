@@ -2,15 +2,14 @@
     "camera": {
         "type": "PerspectiveCamera",
         "position": [-1.99, 0, 0],
-        "direction": [5.5, -2.2, -3],
-        "fov": 0.6
+        "fov": 1.5
     },
     "bxdfs": [
         {
             "name": "Lambertian",
             "type": "LambertianBRDF",
             "params": {
-                "albedo": 1
+                "albedo": 0.9
             }
         },
         {
@@ -103,17 +102,7 @@
             "v2": [6, -4, -4],
             "v3": [6, 4, -4]
         },
-        {
-            "type": "Quad",
-            "material": "lambertian",
-            "textureMap": {
-                "texture": "white"
-            },
-            "v0": [-2, 4, 4],
-            "v1": [-2, -4, 4],
-            "v2": [-2, -4, -4],
-            "v3": [-2, 4, -4]
-        },
+
         {
             "type": "Quad",
             "material": "lambertian",

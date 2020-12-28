@@ -52,5 +52,6 @@ Arguments:
 ```
 ### Pretty Pictures
 ![Refraction Demonstration](images/dec21/refraction-1280-720-500c.png)
+![Glass Dragon](images/dec27/glass-dragon-720-512c.png)
 
 Check out `images/`!

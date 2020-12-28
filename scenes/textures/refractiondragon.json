@@ -1,0 +1,86 @@
+{
+    "camera": {
+        "type": "PerspectiveCamera",
+        "direction": [0.5, 0, -0.4],
+        "position": [-2.5, 0.5, -1.8],
+        "fov": 0.8
+    },
+    "bxdfs": [
+        {
+            "name": "Lambertian",
+            "type": "LambertianBRDF",
+            "params": {
+                "albedo": 0.7
+            }
+        },
+        {
+            "name": "glass",
+            "type": "FresnelSpecularBSDF",
+            "params": {
+                "refractionIndex": 1.5
+            }
+        }
+    ],
+    "textures": [
+        {
+            "name": "constant",
+            "type": "ConstantTexture"
+        },
+        {
+            "name": "checker",
+            "type": "CheckerboardTexture",
+            "colorA": [0.1, 0.1, 0.8],
+            "colorB": [0.8, 0.1, 0.1]
+        }
+    ],
+    "materials": [
+        {
+            "name": "Light",
+            "emission": 2,
+            "bxdf": "Lambertian"
+        },
+        {
+            "name": "surface",
+            "emission": 0,
+            "bxdf": "Lambertian"
+        },
+        {
+            "name": "glass",
+            "emission": 0.0, 
+            "bxdf": "glass"
+        }
+    ],
+    "objects": [
+        {
+            "type": "Triangle",
+            "material": "surface",
+            "textureMap": {
+                "texture": "checker",
+                "scale": [0.02, 0.02]
+            },
+            "v0": [-15, 0, -6.5],
+            "v1": [15, 15, -6.5],
+            "v2": [15, -15, -6.5]
+        },
+        {
+            "type": "Sphere",
+            "material": "Light",
+            "textureMap": {
+                "texture": "constant"
+            },
+            "center": [-2, 0, 15],
+            "radius": 10
+        },
+        {
+            "type": "OBJ",
+            "material": "glass",
+            "textureMap": {
+                "texture": "constant"
+            },
+            "path": "scenes/obj/dragon.obj",
+            "position": [-0.7, 1.5, -4],
+            "scale": 0.4,
+            "rotation": [1.570796327, 0, -0.5]
+        }
+    ]
+}

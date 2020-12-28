@@ -35,6 +35,7 @@ static struct option long_options[] = {
     {"width", required_argument, 0, 'w'},
     {"height", required_argument, 0, 'h'},
     {"size", required_argument, 0, 's'},
+    {"depth", required_argument, 0, 'd'},
     {"count", required_argument, 0, 'c'}
 };
 
@@ -43,19 +44,20 @@ using json = nlohmann::json;
 int main(int argc, char *argv[]) {
     while (true) {
         int index;
-        int c = getopt_long(argc, argv, "i:t:w:h:s:c:", long_options, &index);
+        int c = getopt_long(argc, argv, "i:t:w:h:s:d:c:", long_options, &index);
         if (c == -1) break;
         switch (c) {
             case 'H':
                 std::cout << "Usage: tracer [OPTION]... [IMAGE]" << std::endl << std::endl;
                 std::cout << "Arguments:" << std::endl;
                 std::cout << "  -i, --input       path to json scene file" << std::endl;
-                std::cout << "  -t, --threads     number of threads used by tracer" << std::endl;
-                std::cout << "  -w, --width       width of output image" << std::endl;
-                std::cout << "  -h, --height      height of output image" << std::endl;
+                std::cout << "  -t, --threads     number of threads used by tracer (default: max)" << std::endl;
+                std::cout << "  -w, --width       width of output image (default: 100)" << std::endl;
+                std::cout << "  -h, --height      height of output image (defualt: 100)" << std::endl;
                 std::cout << "  -s, --size        can be used instead of width/height to specify square size of output image" << std::endl;
                 std::cout << "  -s, --size        can be used instead of width/height to specify square size of output image" << std::endl;
-                std::cout << "  -c, --count       number of samples taken per pixel" << std::endl;
+                std::cout << "  -d, --depth       specifies maximum ray depth (default: 4)" << std::endl;
+                std::cout << "  -c, --count       number of samples taken per pixel (default: 128)" << std::endl;
                 std::cout << "  --help            help" << std::endl;
                 return 0;
 
@@ -80,6 +82,10 @@ int main(int argc, char *argv[]) {
                 height = width;
                 break;
             
+            case 'd': 
+                depth = atoi(optarg);
+                break;
+
             case 'c':
                 samples = atoi(optarg);
                 break;
