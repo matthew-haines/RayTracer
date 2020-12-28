@@ -1,0 +1,179 @@
+{
+    "camera": {
+        "type": "PerspectiveCamera",
+        "position": [-1.99, 0, 0],
+        "fov": 1.5
+    },
+    "bxdfs": [
+        {
+            "name": "Lambertian",
+            "type": "LambertianBRDF",
+            "params": {
+                "albedo": 0.9
+            }
+        },
+        {
+            "name": "Mirror",
+            "type": "MicrofacetBSDF",
+            "params": {
+                "distribution": {
+                    "alpha": 1.2,
+                    "type": "GGX"
+                },
+                "fresnel": {
+                    "type": "Reflectance"
+                }
+            }
+        },
+        {
+            "name": "Glass",
+            "type": "MicrofacetBSDF",
+            "params": {
+                "distribution": {
+                    "alpha": 1.2,
+                    "type": "Beckmann"
+                },
+                "fresnel": {
+                    "type": "Reflectance"
+                }
+            }
+        }
+    ],
+    "textures": [
+        {
+            "name": "white",
+            "type": "ConstantTexture",
+            "color": [1, 1, 1]
+        },
+        {
+            "name": "red",
+            "type": "ConstantTexture",
+            "color": [1, 0, 0]
+        },
+        {
+            "name": "green",
+            "type": "ConstantTexture",
+            "color": [0, 1, 0]
+        },
+        {
+            "name": "earth",
+            "type": "ImageTexture",
+            "path": "scenes/textures/earth.png"
+        },
+        {
+            "name": "gold",
+            "type": "ConstantTexture",
+            "color": [1, 0.83, 0]
+        }
+    ],
+    "materials": [
+        {
+            "name": "Light",
+            "emission": 8,
+            "bxdf": "Lambertian"
+        },
+        {
+            "name": "lambertian",
+            "emission": 0,
+            "bxdf": "Lambertian"
+        },
+        {
+            "name": "Mirror",
+            "emission": 0,
+            "bxdf": "Mirror"
+        },
+        {
+            "name": "Glass",
+            "emission": 0,
+            "bxdf": "Glass"
+        }
+    ],
+    "objects": [
+        {
+            "type": "Sphere",
+            "material": "Light",
+            "textureMap": {
+                "texture": "white"
+            },
+            "center": [4.25, 0, 4],
+            "radius": 1
+        },
+        {
+            "type": "Sphere",
+            "material": "Mirror",
+            "textureMap": {
+                "texture": "earth",
+                "offset": [0, 0]
+            },
+            "center": [4, 2.5, -3],
+            "radius": 1.2
+        },
+        {
+            "type": "OBJ",
+            "path": "scenes/obj/tetrahedron.obj",
+            "material": "Glass",
+            "textureMap": {
+                "texture": "gold"
+            },
+            "position": [3.5, -1.5, -3],
+            "scale": 2,
+            "rotation": [0.5, -0.5, 0]
+        },
+        {
+            "type": "Quad",
+            "material": "lambertian",
+            "textureMap": {
+                "texture": "white"
+            },
+            "v0": [6, 4, 4],
+            "v1": [6, -4, 4],
+            "v2": [6, -4, -4],
+            "v3": [6, 4, -4]
+        },
+
+        {
+            "type": "Quad",
+            "material": "lambertian",
+            "textureMap": {
+                "texture": "white"
+            },
+            "v0": [6, 4, 4],
+            "v1": [6, -4, 4],
+            "v2": [-2, -4, 4],
+            "v3": [-2, 4, 4]
+        },
+        {
+            "type": "Quad",
+            "material": "lambertian",
+            "textureMap": {
+                "texture": "white"
+            },
+            "v0": [6, 4, -4],
+            "v1": [6, -4, -4],
+            "v2": [-2, -4, -4],
+            "v3": [-2, 4, -4]
+        },
+        {
+            "type": "Quad",
+            "material": "lambertian",
+            "textureMap": {
+                "texture": "red"
+            },
+            "v0": [6, 4, 4],
+            "v1": [6, 4, -4],
+            "v2": [-2, 4, -4],
+            "v3": [-2, 4, 4]
+        },
+        {
+            "type": "Quad",
+            "material": "lambertian",
+            "textureMap": {
+                "texture": "green"
+            },
+            "v0": [6, -4, 4],
+            "v1": [6, -4, -4],
+            "v2": [-2, -4, -4],
+            "v3": [-2, -4, 4]
+        }
+    ]
+}

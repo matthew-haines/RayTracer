@@ -51,7 +51,10 @@ Arguments:
   -c, --count       number of samples taken per pixel
 ```
 ### Pretty Pictures
+Check out `images/`! Right now, these images are relatively low resolution and have lower sample counts than desired. I'll render some nicer ones when I rent a high core count server.
 ![Refraction Demonstration](images/dec21/refraction-1280-720-500c.png)
 ![Glass Dragon](images/dec27/glass-dragon-720-512c.png)
+![Cornell Box](images/dec28/cornell_box_tetrahedron-400s-1024c.png)
+![Cornell Box](images/dec28/cornell_box_tetrahedron-400s-1024c.png)
+![Cornell Box2](images/dec27/cornellbox-400-256c.png)
 
-Check out `images/`!
