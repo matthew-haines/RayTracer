@@ -55,6 +55,5 @@ Check out `images/`! Right now, these images are relatively low resolution and h
 ![Refraction Demonstration](images/dec21/refraction-1280-720-500c.png)
 ![Glass Dragon](images/dec27/glass-dragon-720-512c.png)
 ![Cornell Box](images/dec28/cornell_box_tetrahedron-400s-1024c.png)
-![Cornell Box](images/dec28/cornell_box_tetrahedron-400s-1024c.png)
 ![Cornell Box2](images/dec27/cornellbox-400-256c.png)
 
