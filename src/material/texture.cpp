@@ -9,8 +9,8 @@ ImageTexture::ImageTexture(std::vector<Vector3>* const color, const std::size_t 
 }
 
 Vector3 ImageTexture::getColorAtUV(const Vector2& point) const {
-    std::size_t column = width * std::fmod(point.x, 1);
-    std::size_t row = height * std::fmod(point.y, 1);
+    std::size_t column = (double)width * (point.x - std::floor(point.x));
+    std::size_t row = (double)height * (point.y - std::floor(point.y));
     return color->at(row * width + column);
 }
 

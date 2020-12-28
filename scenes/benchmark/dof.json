@@ -1,0 +1,123 @@
+{
+    "camera": {
+        "type": "PerspectiveCamera",
+        "fov": 2,
+        "focalDistance": 2,
+        "lenseRadius": 0.3,
+        "position": [0, 0, 0]
+    },
+    "bxdfs": [
+        {
+            "name": "Lambertian",
+            "type": "LambertianBRDF",
+            "params": {
+                "albedo": 1
+            }
+        }
+    ],
+    "textures": [
+        {
+            "name": "white",
+            "type": "ConstantTexture",
+            "color": [1, 1, 1]
+        },
+        {
+            "name": "purple",
+            "type": "ConstantTexture",
+            "color": [0.83, 0.26, 0.77]
+        },
+        {
+            "name": "yellow",
+            "type": "ConstantTexture",
+            "color": [1, 1, 0.1]
+        },
+        {
+            "name": "green",
+            "type": "ConstantTexture",
+            "color": [0.28, 1, 0.38]
+        },
+        {
+            "name": "red",
+            "type": "ConstantTexture",
+            "color": [1, 0.4, 0.4]
+        },
+        {
+            "name": "sky",
+            "type": "ImageTexture",
+            "path": "scenes/benchmark/skybox.png"
+        }
+    ],
+    "materials": [
+        {
+            "name": "Light",
+            "emission": 1,
+            "bxdf": "Lambertian"
+        },
+        {
+            "name": "surface",
+            "emission": 0,
+            "bxdf": "Lambertian"
+        },
+        {
+            "name": "bunny",
+            "emission": 0,
+            "bxdf": "Lambertian"
+        }
+    ],
+    "objects": [
+        {
+            "type": "Sphere",
+            "material": "Light",
+            "textureMap": {
+                "texture": "sky",
+                "offset": [0.5, 0]
+            },
+            "center": [0, 0, 0],
+            "radius": 5
+        },
+        {
+            "type": "OBJ",
+            "material": "bunny",
+            "textureMap": {
+                "texture": "purple"
+            },
+            "path": "scenes/obj/bunny.obj",
+            "position": [4, -0.5, -0.5],
+            "scale": 0.5,
+            "rotation": [1.57079632679, 0, 1]
+        },
+        {
+            "type": "OBJ",
+            "material": "bunny",
+            "textureMap": {
+                "texture": "yellow"
+            },
+            "path": "scenes/obj/bunny.obj",
+            "position": [2.2, 1.5, -1],
+            "scale": 0.5,
+            "rotation": [1.57079632679, 0, -1]
+        },
+        {
+            "type": "OBJ",
+            "material": "bunny",
+            "textureMap": {
+                "texture": "green"
+            },
+            "path": "scenes/obj/bunny.obj",
+            "position": [2, -2, -0.5],
+            "scale": 0.5,
+            "rotation": [1.57079632679, 0, -2.4]
+        },
+        {
+            "type": "OBJ",
+            "material": "bunny",
+            "textureMap": {
+                "texture": "red"
+            },
+            "path": "scenes/obj/bunny.obj",
+            "position": [3, 1, 0.5],
+            "scale": 0.5,
+            "rotation": [1.57079632679, 0, -0.4]
+        }
+    ]
+}
