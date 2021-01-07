@@ -36,19 +36,21 @@ This is a path tracer written completely from scratch, only libraries used are [
 ### Building
 - Tested on macOS and Linux using latest clang/apple clang.
 - CMake is configured for Release and Debug modes.
-- Builds to build/tracer
+- Builds to build/tracer and build/tests.
 - Debugging support for VSCode using LLDB with [CodeLLDB extension](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb)
 
 ### Syntax
 ```
-bin/tracer [OPTION]... [IMAGE]
+build/tracer [OPTION]... [OUTPUT IMAGE]
 Arguments:
   -i, --input       path to json scene file
   -t, --threads     number of threads used by tracer
   -w, --width       width of output image
   -h, --height      height of output image
   -s, --size        can be used instead of width/height to specify square size of output image
+  -d, --depth       specifies maximum ray depth
   -c, --count       number of samples taken per pixel
+  --help            help
 ```
 ### Pretty Pictures
 Check out `images/`! Right now, these images are relatively low resolution and have lower sample counts than desired. I'll render some nicer ones when I rent a high core count server.
