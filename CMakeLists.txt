@@ -106,6 +106,11 @@ set(
     src/scene.hpp
     )
 
+set(
+    TEST_SOURCES
+    tests/material_tests.cpp
+)
+
 add_library(common STATIC ${SOURCES} ${HEADERS})
 target_include_directories(common PUBLIC src src/camera src/intersector src/lighting src/material src/primitive src/reader)
 target_link_libraries(common lodepng json pthread m)
@@ -113,5 +118,5 @@ target_link_libraries(common lodepng json pthread m)
 add_executable(tracer src/tracer.cpp)
 target_link_libraries(tracer common)
 
-add_executable(tests tests/tests.cpp)
+add_executable(tests tests/test_main.cpp ${TEST_SOURCES})
 target_link_libraries(tests common Catch2)
