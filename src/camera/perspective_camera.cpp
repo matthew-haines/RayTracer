@@ -34,7 +34,7 @@ std::function<Ray()> PerspectiveCamera::getPixelFunction(const int row, const in
             Vector2 point = lenseRadius * ConcentricSampleDisk::sample(dofDist(gen), dofDist(gen));
             Vector3 origin = rotation * Vector3(0, point.x, point.y);
             Vector3 direction = normalPoint - origin;
-            return Ray(origin + position, direction.normalized() + position);
+            return Ray(origin + position, direction.normalized());
         };
     } else if (jitter) {
         auto sampler = std::make_shared<Sobol>(samples, -gridSize/2, gridSize/2, gen, uintdist);

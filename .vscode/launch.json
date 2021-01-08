@@ -9,7 +9,7 @@
             "type": "lldb",
             "request": "launch",
             "program": "build/tracer",
-            "args": ["--input=scenes/textures/refractiondragon.json", "--threads=1", "--size=20", "--count=16"],
+            "args": ["--input=scenes/textures/refractiondragon.json", "--size=20", "--count=16"],
             "stopOnEntry": false,
             "cwd": "${workspaceFolder}"
         }

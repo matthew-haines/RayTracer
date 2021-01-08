@@ -3,7 +3,9 @@
         "type": "PerspectiveCamera",
         "direction": [0.5, 0, -0.4],
         "position": [-2.5, 0.5, -1.8],
-        "fov": 0.8
+        "fov": 0.8,
+        "focalDistance": 5,
+        "lenseRadius": 0.2
     },
     "_camera": {
         "type": "OrthographicCamera",
@@ -100,7 +102,7 @@
             "textureMap": {
                 "texture": "constant"
             },
-            "center": [0, 0, -37.8],
+            "center": [0, 0, -37.89],
             "radius": 0.1,
             "README": "The Surface Area Heuristic doesn't perfectly handle large objects and many small because of the fixed width buckets. With an object positioned here, it puts the large flat triangle on the second highest level, and increases performance substantially"
         },
@@ -111,7 +113,7 @@
                 "texture": "blue"
             },
             "path": "scenes/obj/dragon.obj",
-            "position": [-0.7, 1.5, -4.4],
+            "position": [-0.7, 1.5, -4.5],
             "scale": 0.4,
             "rotation": [1.570796327, 0, -0.5]
         }
