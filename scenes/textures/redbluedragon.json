@@ -33,24 +33,21 @@
             "type": "ConstantTexture"
         },
         {
-            "name": "blue",
-            "type": "ConstantTexture",
-            "color": [0.06, 0.20, 0.65]
-        },
-        {
             "name": "checker",
-            "type": "CheckerboardTexture"
+            "type": "CheckerboardTexture",
+            "colorA": [0.1, 0.1, 0.8],
+            "colorB": [0.8, 0.1, 0.1]
         }
     ],
     "materials": [
         {
             "name": "Light",
-            "emission": 8,
+            "emission": 2,
             "bxdf": "Lambertian"
         },
         {
             "name": "BrightLight",
-            "emission": 100,
+            "emission": 10,
             "bxdf": "Lambertian"
         },
         {
@@ -108,7 +105,7 @@
             "type": "OBJ",
             "material": "glass",
             "textureMap": {
-                "texture": "blue"
+                "texture": "constant"
             },
             "path": "scenes/obj/dragon.obj",
             "position": [-0.7, 1.5, -4.4],

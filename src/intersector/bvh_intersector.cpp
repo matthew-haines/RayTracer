@@ -122,7 +122,6 @@ void BVHIntersector::buildNodeRecursive(std::shared_ptr<BVHNode> const precursor
     }
 
     struct PartitionCandidate {
-        int cost=0;
         Bound leftBound;
         Bound rightBound;
         int leftCount=0;
@@ -212,7 +211,6 @@ void BVHIntersector::buildNode(BVHNode& precursor, std::shared_ptr<BVHNode>* con
     }
 
     struct PartitionCandidate {
-        int cost=0;
         Bound leftBound;
         Bound rightBound;
         int leftCount=0;
