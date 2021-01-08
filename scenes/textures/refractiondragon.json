@@ -4,8 +4,8 @@
         "direction": [0.5, 0, -0.4],
         "position": [-2.5, 0.5, -1.8],
         "fov": 0.8,
-        "focalDistance": 5,
-        "lenseRadius": 0.2
+        "focalDistance": 4.5,
+        "lenseRadius": 0.1
     },
     "_camera": {
         "type": "OrthographicCamera",
@@ -37,7 +37,7 @@
         {
             "name": "blue",
             "type": "ConstantTexture",
-            "color": [0.06, 0.20, 0.65]
+            "color": [0.26, 0.40, 0.85]
         },
         {
             "name": "checker",
