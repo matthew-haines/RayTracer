@@ -56,6 +56,8 @@ Arguments:
 Check out `images/`! Right now, most of these images are relatively low resolution and have lower sample counts than desired. I'll render some more nice ones when I rent a high core count server.
 ###### 4096 samples per pixel. Notice the visible caustics from the tetrahedron in the sphere's reflection!
 ![Cornell Box](images/jan8/cornell_box_tetrahedron-2000s-4096c.png)
+###### 4096 samples per pixel.
+![Dragon](images/jan10/blurreddragon-2000s-4096c.png)
 ###### 500 samples per pixel.
 ![Refraction Demonstration](images/dec21/refraction-1280-720-500c.png)
 ###### 512 samples per pixel.
