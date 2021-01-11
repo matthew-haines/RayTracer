@@ -74,24 +74,24 @@
             "radius": 1
         },
         {
-            "type": "Sphere",
+            "type": "OBJ",
+            "path": "scenes/obj/cube.obj",
             "material": "Mirror",
             "textureMap": {
                 "texture": "white"
             },
-            "center": [4, 2.5, -3],
-            "radius": 1.2
+            "position": [3, 1.2, -1.5],
+            "scale": 2,
+            "rotation": [1, 0, 1.0]
         },
         {
-            "type": "OBJ",
-            "path": "scenes/obj/tetrahedron.obj",
+            "type": "Sphere",
             "material": "Glass",
             "textureMap": {
                 "texture": "white"
             },
-            "position": [3.5, -1.5, -3],
-            "scale": 2,
-            "rotation": [0.5, -0.5, 0]
+            "center": [3.5, -2.2, -3],
+            "radius": 1.2
         },
         {
             "type": "Quad",
