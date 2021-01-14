@@ -35,9 +35,15 @@ This is a path tracer written completely from scratch, only libraries used are [
 
 ### Building
 - Tested on macOS and Linux using latest clang/apple clang.
-- CMake is configured for Release and Debug modes.
-- Builds to build/tracer and build/tests.
-- Debugging support for VSCode using LLDB with [CodeLLDB extension](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb)
+- To build for the first time:
+```
+git clone https://github.com/matthew-haines/RayTracer.git
+cd RayTracer
+mkdir build && cd build
+cmake ..
+make
+```
+- Debugging support is availble for VSCode using LLDB with [CodeLLDB extension](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb)
 
 ### Syntax
 ```
@@ -53,11 +59,13 @@ Arguments:
   --help            help
 ```
 ### Pretty Pictures
-Check out `images/`! Right now, most of these images are relatively low resolution and have lower sample counts than desired. I'll render some more nice ones when I rent a high core count server.
+Check out `images/`! Right now, some of these images are relatively low resolution and have lower sample counts than desired. I'll render some more nice ones when I rent a high core count server.
 ###### 4096 samples per pixel. Notice the visible caustics from the tetrahedron in the sphere's reflection!
 ![Cornell Box](images/jan8/cornell_box_tetrahedron-2000s-4096c.png)
 ###### 4096 samples per pixel.
 ![Dragon](images/jan10/blurreddragon-2000s-4096c.png)
+###### 4096 samples per pixel.
+![Cube](images/jan14/cornell_box_cube-2000s-4096c.png)
 ###### 500 samples per pixel.
 ![Refraction Demonstration](images/dec21/refraction-1280-720-500c.png)
 ###### 512 samples per pixel.
