@@ -41,7 +41,7 @@ git clone https://github.com/matthew-haines/RayTracer.git
 cd RayTracer
 mkdir build && cd build
 cmake ..
-make
+make (or ninja)
 ```
 - Debugging support is availble for VSCode using LLDB with [CodeLLDB extension](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb)
 
