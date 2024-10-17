@@ -1,0 +1,3 @@
+[submodule "cuda-renderer"]
+	path = cuda-renderer
+	url = https://github.com/matthew-haines/cuda-renderer

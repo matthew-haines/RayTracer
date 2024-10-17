@@ -3,6 +3,8 @@
 
 This is a path tracer written completely from scratch, only libraries used are [lodepng](https://github.com/lvandeve/lodepng) for image writing and [json](https://github.com/nlohmann/json) for parsing scene files. (And STL of course)
 
+An interactive CUDA path tracer is available [here](https://github.com/matthew-haines/cuda-renderer).
+
 ### Features
 - Highly Modular with base classes defined for most features
 - BxDFs:
